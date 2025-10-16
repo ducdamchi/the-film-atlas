@@ -19,9 +19,18 @@ module.exports = (sequelize, DataTypes) => {
   Users.associate = (models) => {
     Users.belongsToMany(models.Films, {
       through: models.Likes,
+      as: "likedFilms",
+      foreignKey: "userId",
+      otherKey: "filmId",
+    })
+    // Each User can have many "Save" instances
+    Users.belongsToMany(models.Films, {
+      through: models.Saves,
+      as: "savedFilms",
       foreignKey: "userId",
       otherKey: "filmId",
     })
   }
+
   return Users
 }

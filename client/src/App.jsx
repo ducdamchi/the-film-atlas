@@ -4,7 +4,8 @@ import { HashRouter, Route, Routes } from "react-router-dom"
 import "./App.css"
 import LoadingPage from "./Components/Shared/LoadingPage"
 import Home from "./Components/Home"
-import FilmLanding from "./Components/Shared/FilmLanding"
+import Watchlist from "./Components/Watchlist"
+import FilmLanding from "./Components/FilmLanding"
 import Register from "./Components/Register"
 import LogIn from "./Components/Login"
 import axios from "axios"
@@ -62,6 +63,7 @@ function App() {
         <HashRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/watchlist" element={<Watchlist />} />
             <Route path="/films/:tmdbId" element={<FilmLanding />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LogIn />} />

@@ -12,7 +12,12 @@ export default function NavBar() {
     const resolvedPath = useResolvedPath(to)
     const isActive = useMatch({ path: resolvedPath.pathname, end: true })
     return (
-      <div className={isActive ? "active" : ""}>
+      <div
+        className={
+          isActive
+            ? "underline decoration-solid decoration-2 underline-offset-4"
+            : ""
+        }>
         <Link to={to} {...props}>
           {children}
         </Link>
@@ -27,18 +32,20 @@ export default function NavBar() {
 
   return (
     <div>
-      <ul className="flex gap-5 p-2 border-1">
+      <ul className="flex gap-7 p-2 border-1">
         {/* <CustomLink to="/">Search</CustomLink> */}
 
         {!authState.status ? (
           <>
-            <CustomLink to="/login">Log In</CustomLink>
-            <CustomLink to="/register">Register</CustomLink>
+            <CustomLink to="/">HOME</CustomLink>
+            <CustomLink to="/login">LOG IN</CustomLink>
+            <CustomLink to="/register">REGISTER</CustomLink>
           </>
         ) : (
           <>
-            <CustomLink to="/">Home</CustomLink>
-            <button onClick={logOut}>Log Out</button>
+            <CustomLink to="/">HOME</CustomLink>
+            <CustomLink to="/watchlist">WATCHLIST</CustomLink>
+            <button onClick={logOut}>LOG OUT</button>
           </>
         )}
       </ul>

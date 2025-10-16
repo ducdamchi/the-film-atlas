@@ -1,20 +1,26 @@
+/* Libraries */
 import { React, useEffect, useState, useContext, useRef } from "react"
 import { useLocation, useParams, Link } from "react-router-dom"
 import axios from "axios"
 
-import { AuthContext } from "../../Utils/authContext"
+/* Custom functions */
 import {
   getCountryName,
   getReleaseYear,
   fetchFilmFromTMDB,
   checkLikeStatus,
-} from "../../Utils/helperFunctions"
-import useCommandK from "../../Utils/useCommandK"
+  checkSaveStatus,
+} from "../Utils/helperFunctions"
+import { AuthContext } from "../Utils/authContext"
+import useCommandK from "../Utils/useCommandK"
 
-import { RiHeartLine, RiHeartFill } from "react-icons/ri"
+/* Components */
+import NavBar from "./Shared/NavBar"
+import LoadingPage from "./Shared/LoadingPage"
+import QuickSearchModal from "./Shared/QuickSearchModal"
 
-import LoadingPage from "./LoadingPage"
-import QuickSearchModal from "./QuickSearchModal"
+/* Icons */
+import { BiListPlus, BiListCheck, BiHeart, BiSolidHeart } from "react-icons/bi"
 
 export default function FilmLanding() {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
@@ -24,10 +30,13 @@ export default function FilmLanding() {
   const [dops, setDops] = useState([]) //director of photography
   const [mainCast, setMainCast] = useState([]) //top 5 cast
   const [isLiked, setIsLiked] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
   const [searchModalOpen, setSearchModalOpen] = useState(false)
+  const [returnToPage, setReturnToPage] = useState("/")
 
   const { authState, loading } = useContext(AuthContext)
   const { tmdbId } = useParams()
+  const location = useLocation()
 
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
@@ -94,6 +103,27 @@ export default function FilmLanding() {
       })
   }
 
+  /* Make API call to App's DB when user 'like' a film */
+  function saveFilm() {
+    const req = createReqBody()
+    axios
+      .post(`http://localhost:3002/profile/me/watchlist`, req, {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          console.log("Server: ", response.data.error)
+        } else {
+          setIsSaved(true)
+        }
+      })
+      .catch((err) => {
+        console.error("Client: Error liking film", err)
+      })
+  }
+
   /* Handle user Like/Unlike interaction */
   function handleLike() {
     /* If user is logged in, they can like/unlike. */
@@ -111,9 +141,50 @@ export default function FilmLanding() {
     }
   }
 
+  /* Make API call to App's DB when user 'unlike' a film */
+  function unsaveFilm() {
+    axios
+      .delete(`http://localhost:3002/profile/me/watchlist`, {
+        data: {
+          tmdbId: movieDetails.id,
+        },
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          console.log("Server: ", response.data.error)
+          console.log(authState)
+        } else {
+          setIsSaved(false)
+        }
+      })
+      .catch((err) => {
+        console.error("Client: Error unliking film", err)
+      })
+  }
+
+  function handleSave() {
+    /* If user is logged in, they can like/unlike. */
+    if (authState.status) {
+      /* If film has not been liked */
+      if (!isSaved) {
+        saveFilm()
+        /* If film has already been liked */
+      } else {
+        unsaveFilm()
+      }
+      /* If user not logged in, alert */
+    } else {
+      alert("Sign In to Like Movies!")
+    }
+  }
+
   /* Fetch film info for Landing Page */
   useEffect(() => {
     if (tmdbId) {
+      setSearchModalOpen(false)
       fetchFilmFromTMDB(
         tmdbId,
         setMovieDetails,
@@ -122,8 +193,22 @@ export default function FilmLanding() {
         setMainCast
       )
       checkLikeStatus(tmdbId, setIsLiked)
+      checkSaveStatus(tmdbId, setIsSaved)
     }
   }, [tmdbId])
+
+  useEffect(() => {
+    if (location.state) {
+      const { fromPage } = location.state || {}
+      console.log("Location.state:", location.state)
+      console.log("From Page:", fromPage)
+      if (fromPage === "liked-films") {
+        setReturnToPage("/")
+      } else {
+        setReturnToPage("/watchlist")
+      }
+    }
+  }, [location.state])
 
   if (!movieDetails) {
     return <div>Error loading film. Please try again.</div>
@@ -140,6 +225,7 @@ export default function FilmLanding() {
         <QuickSearchModal
           searchModalOpen={searchModalOpen}
           setSearchModalOpen={setSearchModalOpen}
+          returnToPage={returnToPage}
         />
       )}
 
@@ -157,14 +243,7 @@ export default function FilmLanding() {
           />
         </div>
         <div className="border-2 border-red-500 w-[100%] h-[90%] top-[5%] bg-zinc-50 text-black">
-          <button className="font-bold border-1 hover:text-blue-800 uppercase transition-all duration-200 ease-out">
-            <Link
-              to="/"
-              // state={{ prevSearchInput: currentSearchInput }}
-              className="">
-              BACK
-            </Link>
-          </button>
+          <NavBar />
 
           <img
             className="w-[20rem] min-w-[20rem] aspect-2/3 object-cover transition-all duration-300 ease-out border-2 border-blue-500"
@@ -176,13 +255,42 @@ export default function FilmLanding() {
             alt=""
           />
 
-          <button
-            alt="Add to feed"
-            title="Add to feed"
-            className="text-3xl border-1 hover:text-blue-800 uppercase transition-all duration-200 ease-out"
-            onClick={handleLike}>
-            {isLiked ? <RiHeartFill /> : <RiHeartLine />}
-          </button>
+          <div className="flex items-center gap-5">
+            <button
+              alt="Add to feed"
+              title="Add to feed"
+              className="hover:text-blue-800 transition-all duration-200 ease-out hover:bg-zinc-200 p-3"
+              onClick={handleLike}>
+              {isLiked ? (
+                <div className="flex items-center gap-1">
+                  <BiSolidHeart className="text-red-800 text-3xl" />
+                  <span className="text-red-800 text-xl">Watched</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <BiHeart className="text-3xl" />
+                  <span className="text-xl">Watched</span>
+                </div>
+              )}
+            </button>
+            <button
+              alt="Add to watchlist"
+              title="Add to watchlist"
+              className="hover:text-blue-800 transition-all duration-200 ease-out"
+              onClick={handleSave}>
+              {isSaved ? (
+                <div className="flex items-center gap-1">
+                  <BiListCheck className="text-green-800 text-5xl" />
+                  <span className="text-green-800 text-xl">Watchlist</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <BiListPlus className="text-5xl" />
+                  <span className=" text-xl">Watchlist</span>
+                </div>
+              )}
+            </button>
+          </div>
 
           {movieDetails.overview && (
             <div className="border-1">

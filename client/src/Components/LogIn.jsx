@@ -1,9 +1,11 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import { Formik, Form, Field, ErrorMessage } from "formik"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import * as Yup from "yup"
 import axios from "axios"
+
 import NavBar from "./Shared/NavBar"
+
 import { AuthContext } from "../Utils/authContext"
 
 export default function LogIn() {

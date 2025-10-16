@@ -8,11 +8,14 @@ app.use(express.json())
 app.use(cors())
 
 const authRouter = require("./routes/Auth.js")
-const usersRouter = require("./routes/User.js")
+const userLikesRouter = require("./routes/UserLikes.js")
+const userSavesRouter = require("./routes/UserSaves.js")
+
 const filmsRouter = require("./routes/Film.js")
 
 app.use("/auth", authRouter)
-app.use("/profile", usersRouter)
+app.use("/profile/me/liked-films", userLikesRouter)
+app.use("/profile/me/watchlist", userSavesRouter)
 app.use("/film", filmsRouter)
 
 /* Notes:

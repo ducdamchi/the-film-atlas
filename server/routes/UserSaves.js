@@ -4,14 +4,15 @@ const { Users } = require("../models")
 const { Films } = require("../models")
 const { validateToken } = require("../middlewares/AuthMiddleware")
 
-/* GET: Fetch all films liked by a user */
-router.get("/me/liked-films", validateToken, async (req, res) => {
+/* GET: Fetch all films added to watchlist by a user */
+router.get("/", validateToken, async (req, res) => {
   try {
     const jwtUserId = req.user.id //UserId in signed JWT
-    const userWithLikedFilms = await Users.findByPk(jwtUserId, {
+    const userWithSavedFilms = await Users.findByPk(jwtUserId, {
       include: [
         {
           model: Films,
+          as: "savedFilms",
           attributes: [
             "id",
             "title",
@@ -25,10 +26,10 @@ router.get("/me/liked-films", validateToken, async (req, res) => {
         },
       ],
     })
-    if (!userWithLikedFilms) {
+    if (!userWithSavedFilms) {
       return res.status(404).json({ error: "User Not Found" })
     } else {
-      return res.status(200).json(userWithLikedFilms.Films)
+      return res.status(200).json(userWithSavedFilms.savedFilms)
     }
   } catch (err) {
     console.error(err)
@@ -36,8 +37,8 @@ router.get("/me/liked-films", validateToken, async (req, res) => {
   }
 })
 
-/* GET: Check if a film is liked by a user */
-router.get("/me/liked-films/:tmdbId", validateToken, async (req, res) => {
+/* GET: Check if a film is added to watchlist by a user */
+router.get("/:tmdbId", validateToken, async (req, res) => {
   try {
     const tmdbId = req.params.tmdbId //tmdbId used in URL
     const jwtUserId = req.user.id //UserId in signed JWT
@@ -55,16 +56,16 @@ router.get("/me/liked-films/:tmdbId", validateToken, async (req, res) => {
       return res.status(404).json({ error: "User Not Found" })
     }
 
-    const liked = await user.hasFilm(film)
-    return res.status(200).json({ liked: liked })
+    const saved = await user.hasSavedFilm(film)
+    return res.status(200).json({ saved: saved })
   } catch (err) {
     console.error(err)
-    return res.status(500).json({ error: "Error Checking Like Status" })
+    return res.status(500).json({ error: "Error Checking Watchlist Status" })
   }
 })
 
-/* POST: Add a film liked by User to junction table */
-router.post("/me/liked-films", validateToken, async (req, res) => {
+/* POST: Add a film to watchlist junction table */
+router.post("/", validateToken, async (req, res) => {
   try {
     const jwtUserId = req.user.id //UserId in signed JWT
     const likeData = req.body
@@ -90,7 +91,7 @@ router.post("/me/liked-films", validateToken, async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User Not Found" })
     } else {
-      await user.addFilm(film)
+      await user.addSavedFilm(film)
       return res.status(200).json("Success")
     }
   } catch (err) {
@@ -99,8 +100,8 @@ router.post("/me/liked-films", validateToken, async (req, res) => {
   }
 })
 
-/* DELETE: Removed a film unliked by User from junction table */
-router.delete("/me/liked-films", validateToken, async (req, res) => {
+/* DELETE: Removed a film 'unsaved' by User from watchlist junction table */
+router.delete("/", validateToken, async (req, res) => {
   try {
     const jwtUserId = req.user.id //UserId in signed JWT
     const tmdbId = req.body.tmdbId
@@ -117,7 +118,7 @@ router.delete("/me/liked-films", validateToken, async (req, res) => {
       return res.status(404).json({ error: "User Not Found" })
     }
 
-    await user.removeFilm(film)
+    await user.removeSavedFilm(film)
     return res.status(200).json("Success")
   } catch (err) {
     console.error(err)

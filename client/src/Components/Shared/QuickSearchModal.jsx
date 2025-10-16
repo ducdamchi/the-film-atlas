@@ -11,6 +11,7 @@ import { BiSearchAlt2 } from "react-icons/bi"
 export default function QuickSearchModal({
   searchModalOpen,
   setSearchModalOpen,
+  returnToPage,
 }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
   const [searchInput, setSearchInput] = useState("")
@@ -102,11 +103,11 @@ export default function QuickSearchModal({
   return (
     <div className="absolute top-[30%] left-0 border-green-700 w-screen h-auto z-10 flex justify-center">
       <div
-        className="relative w-[60%] h-auto min-w-[20rem]  bg-stone-900/80 text-white backdrop-blur-sm border-1 border-stone-500/80"
+        className="relative w-[60%] h-auto min-w-[20rem] max-w-[45rem] bg-stone-900/80 text-white backdrop-blur-sm border-1 border-stone-500/80"
         ref={modalRef}>
         {/* Search bar */}
-        <div className="flex items-center justify-center w-full h-auto border-b-1 border-stone-500/80">
-          <div className="relative w-full min-w-[10rem] max-w-[40rem] h-[4rem] p-2 flex items-center gap-3 ">
+        <div className="relative flex justify-start h-auto border-b-1 border-stone-500/80">
+          <div className="relative w-full min-w-[10rem] h-[3.5rem] p-2 flex items-center gap-3 ">
             <BiSearchAlt2 className="border-white text-2xl ml-3 mt-1" />
             <input
               ref={searchModalRef}
@@ -122,7 +123,7 @@ export default function QuickSearchModal({
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
                   const inputValue = event.target.value
-                  navigate("/", {
+                  navigate(`${returnToPage}`, {
                     state: { searchInputFromQuickSearch: inputValue },
                   })
                 }

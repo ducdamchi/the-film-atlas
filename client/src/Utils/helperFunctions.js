@@ -144,3 +144,31 @@ export function checkLikeStatus(tmdbId, setIsLiked) {
       console.error("Client: Error checking like status", err)
     })
 }
+
+/* Check the Saved status of a film for logged in users from App's DB
+@params:
+- tmdbId: unique TMDB id assigned to film
+- setLike: useState() method that updates the like status in the calling component
+*/
+export function checkSaveStatus(tmdbId, setIsSaved) {
+  axios
+    .get(`http://localhost:3002/profile/me/watchlist/${tmdbId}`, {
+      headers: {
+        accessToken: localStorage.getItem("accessToken"),
+      },
+    })
+    .then((response) => {
+      if (response.data.error) {
+        console.log("Server: ", response.data.error)
+      } else {
+        if (response.data.saved) {
+          setIsSaved(true)
+        } else {
+          setIsSaved(false)
+        }
+      }
+    })
+    .catch((err) => {
+      console.error("Client: Error checking like status", err)
+    })
+}
