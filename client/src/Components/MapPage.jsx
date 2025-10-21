@@ -196,7 +196,7 @@ export default function MapPage() {
   }, [onData])
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen flex flex-col items-center">
       <NavBar />
       <Map
         ref={mapRef}

@@ -44,8 +44,8 @@ export default function NavBar() {
         ) : (
           <>
             <CustomLink to="/">HOME</CustomLink>
-            <CustomLink to="/watchlist">WATCHLIST</CustomLink>
             <CustomLink to="/map">MAP</CustomLink>
+            <CustomLink to="/watchlist">WATCHLIST</CustomLink>
 
             <button onClick={logOut}>LOG OUT</button>
           </>

@@ -189,6 +189,7 @@ export default function UserFilmsTemplate({ queryString }) {
             <FilmGalleryDisplay
               listOfFilmObjects={userFilmList}
               queryString={queryString}
+              sortDirection={sortDirection}
             />
           </div>
         )}
