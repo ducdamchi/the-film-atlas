@@ -48,6 +48,28 @@ export function getNiceMonthYear(dateString) {
   }
 }
 
+/* Converts date of format yyyy-mm-dd (e.g. 2025-10-25) to Month Date Year string (e.g. October 25, 2025)*/
+export function getNiceMonthDateYear(dateString) {
+  const [year, month, date] = dateString.split("-")
+  const inputDate = new Date(year, month - 1, date)
+  // const [year, month, date] = dateString.split("-")
+  // const currentDate = new Date()
+  const options = { year: "numeric", month: "long", day: "numeric" }
+  return new Intl.DateTimeFormat("en-US", options).format(inputDate)
+}
+
+/* Calculate age from birthday and deathday in the string format yyyy-mm-dd. If deathday left empty, person is not deceased -> use current year. */
+export function getAge(birthday, deathday) {
+  const birth = new Date(birthday)
+  if (deathday) {
+    const death = new Date(deathday)
+    return death.getFullYear() - birth.getFullYear()
+  } else {
+    const currentDate = new Date()
+    return currentDate.getFullYear() - birth.getFullYear()
+  }
+}
+
 /* Query for films from TMDB (search with provided input)
 @params:
 - searchInput: A useState object containing the search input
@@ -149,6 +171,55 @@ export function queryDirectorFromTMDB(searchInput, setSearchResult) {
     })
     .catch((err) => {
       console.log("Client: Error querying director from TMDB", err)
+      throw err
+    })
+}
+
+export function fetchDirectorFromTMDB(
+  tmdbId,
+  setDirectorDetails,
+  setDirectedFilms
+) {
+  const personDetailsUrl = "https://api.themoviedb.org/3/person/"
+  const apiKey = "14b22a55c02218f84058041c5f553d3d"
+
+  return axios
+    .get(
+      `${personDetailsUrl}${tmdbId}?append_to_response=movie_credits&api_key=${apiKey}`
+    )
+    .then((response) => {
+      // Filter out films where the director's job is not 'director'
+      const directedFilms = response.data.movie_credits.crew.filter(
+        (film) => film.job === "Director"
+      )
+
+      // Filter out films without backdrop or poster path
+      const filteredDirectedFilms = directedFilms.filter(
+        (film) => !(film.backdrop_path === null || film.poster_path === null)
+      )
+
+      // If director is deceased, filter out films released after their deathdate
+      if (response.data.deathdate !== null) {
+        filteredDirectedFilms.filter(
+          (film) =>
+            parseInt(film.release_date?.replace("-", "")) <=
+            parseInt(response.data.deathday?.replace("-", ""))
+        )
+      }
+
+      // Sort by most recent release date -> least recent
+      const sortedDirectedFilms = filteredDirectedFilms.sort((a, b) => {
+        const dateA = parseInt(a.release_date?.replace("-", ""))
+        const dateB = parseInt(b.release_date?.replace("-", ""))
+        return dateB - dateA
+      })
+
+      setDirectorDetails(response.data)
+      setDirectedFilms(sortedDirectedFilms)
+      return response.data
+    })
+    .catch((err) => {
+      console.log("Client: Error fetching film from TMDB", err)
       throw err
     })
 }

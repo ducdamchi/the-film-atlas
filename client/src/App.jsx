@@ -7,6 +7,7 @@ import LoadingPage from "./Components/Shared/LoadingPage"
 import Films from "./Components/Films"
 import Directors from "./Components/Directors"
 import FilmLanding from "./Components/FilmLanding"
+import DirectorLanding from "./Components/DirectorLanding"
 import Register from "./Components/Register"
 import LogIn from "./Components/Login"
 import MapPage from "./Components/MapPage"
@@ -65,9 +66,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Films />} />
             <Route path="/directors" element={<Directors />} />
-
-            {/* <Route path="/watchlist" element={<Watchlist />} /> */}
             <Route path="/films/:tmdbId" element={<FilmLanding />} />
+            <Route path="/directors/:tmdbId" element={<DirectorLanding />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/map" element={<MapPage />} />

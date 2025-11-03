@@ -203,7 +203,7 @@ export default function Directors() {
               />
             </div>
           )}
-          {sortBy === "score" && (
+          {(sortBy === "score" || sortBy === "highest_star") && (
             <div className="flex items-center p-2 gap-5">
               <div>Sort Order </div>
               <Toggle_Two
@@ -224,7 +224,7 @@ export default function Directors() {
               />
             </div>
           )}
-          {sortBy === "highest_star" && (
+          {/* {sortBy === "highest_star" && (
             <div className="flex items-center p-2 gap-5">
               <div>Highest Star</div>
               <Toggle_Three
@@ -256,7 +256,7 @@ export default function Directors() {
                 }}
               />
             </div>
-          )}
+          )} */}
         </div>
         {/* If user logged in and is not searching, show them list of liked films */}
         {!isSearching && !isLoading && authState.status && (

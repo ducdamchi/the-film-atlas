@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom"
 import { getReleaseYear } from "../../Utils/helperFunctions"
 import { group } from "d3"
 
+import {
+  RiCreativeCommonsZeroFill,
+  RiCreativeCommonsZeroLine,
+} from "react-icons/ri"
+
 export default function DirectorUser_Gallery({
   listOfDirectorObjects,
   sortDirection,
@@ -15,120 +20,107 @@ export default function DirectorUser_Gallery({
   const [hoverId, setHoverId] = useState(null)
 
   useEffect(() => {
+    // console.log("beginning:", listOfDirectorObjects)
     /* User reduce() to group list of films by year */
     if (listOfDirectorObjects) {
-      // console.log(sortBy)
-      if (sortBy === "name") {
-        const directorGroups = listOfDirectorObjects.reduce(
-          (groups, director) => {
-            let targetKey //the key to be used for each Group Object
-            let groupName //the name to be displayed for each Group Object in HTML
+      const directorGroups = listOfDirectorObjects.reduce(
+        (groups, director) => {
+          let targetKey //the key to be used for each Group Object
+          let groupName //the name to be displayed for each Group Object in HTML
 
-            if (!director.name) {
-              console.error("Director's Name not found.")
-              return groups
-            }
-            targetKey = director.name.slice(0, 1)
+          switch (sortBy) {
+            case "name":
+              if (!director.name) {
+                console.error("Director's Name not found.")
+                return groups
+              }
+              targetKey = director.name.slice(0, 1)
+              groupName = targetKey
 
-            if (!groups[targetKey]) {
-              groups[targetKey] = {}
-              groups[targetKey].directors = []
-            }
-            groups[targetKey].directors.push(director)
-            return groups
-          },
-          {}
-        )
-        console.log("before sorting: ", directorGroups)
-
-        /* Convert grouped list to array and sort based on sortDirection */
-        let sortedDirectorGroups
-        if (directorGroups) {
-          sortedDirectorGroups = Object.entries(directorGroups)
-            .map(([key, value]) => ({
-              key,
-              ...value,
-            }))
-            .sort((a, b) => {
-              return sortDirection === "desc" ? b - a : a - b
-            })
-
-          sortedDirectorGroups = Object.entries(directorGroups).sort(
-            ([a], [b]) => {
-              const scoreA = parseInt(a)
-              const scoreB = parseInt(b)
-              return sortDirection === "desc"
-                ? scoreB - scoreA
-                : scoreA - scoreB
-            }
-          )
-        }
-        console.log("after sorting: ", sortedDirectorGroups)
-
-        const finalArray = []
-        for (const group of sortedDirectorGroups) {
-          finalArray.push(group[0])
-          for (const director of group[1].directors) {
-            finalArray.push(director)
+              break
+            case "score":
+              if (!director.WatchedDirectors.score) {
+                console.error("Director's Score not found.")
+                return groups
+              }
+              //director.score is a float number (max 4 digits, max 2 decimal points) written as a string. First, split() the string, which will return two parts, the integer and the decimal points. Then, use the integer part as the targetKey
+              const splits = director.WatchedDirectors.score.split(".")
+              targetKey = splits[0]
+              groupName = targetKey
+              break
+            case "highest_star":
+              if (
+                ![0, 1, 2, 3].includes(director.WatchedDirectors.highest_star)
+              ) {
+                console.error("Director's Highest Star not found.")
+                return groups
+              }
+              targetKey = director.WatchedDirectors.highest_star
+              if (targetKey === 3) {
+                groupName = (
+                  <div className="text-5xl text-pink-600 flex flex-col items-center justify-center">
+                    <div className="">&#10048;</div>
+                    <div className="flex gap-2">
+                      <div>&#10048;</div>
+                      <div>&#10048;</div>
+                    </div>
+                  </div>
+                )
+              } else if (targetKey === 2) {
+                groupName = (
+                  <div className="text-5xl text-pink-600">&#10048;&#10048;</div>
+                )
+              } else if (targetKey === 1) {
+                groupName = (
+                  <div className="text-5xl text-pink-600">&#10048;</div>
+                )
+              } else if (targetKey === 0) {
+                groupName = (
+                  <div className="text-5xl text-pink-600">
+                    <RiCreativeCommonsZeroLine />
+                  </div>
+                )
+              }
+              break
           }
-        }
 
-        setGroupedDirectors(finalArray)
-      } else if (sortBy == "score") {
-        const directorGroups = listOfDirectorObjects.reduce(
-          (groups, director) => {
-            let targetKey //the key to be used for each Group Object
-            let groupName //the name to be displayed for each Group Object in HTML
-
-            if (!director.WatchedDirectors.score) {
-              console.error("Director's Score not found.")
-              return groups
+          if (!groups[targetKey]) {
+            groups[targetKey] = {
+              directors: [],
+              groupName: null,
             }
-            //director.score is a float number (max 4 digits, max 2 decimal points) written as a string. First, split() the string, which will return two parts, the integer and the decimal points. Then, use the integer part as the targetKey
-            const splits = director.WatchedDirectors.score.split(".")
-            targetKey = splits[0]
-
-            if (!groups[targetKey]) {
-              groups[targetKey] = {}
-              groups[targetKey].directors = []
-              // groups[targetKey].groupName = ""
-            }
-            groups[targetKey].directors.push(director)
-            // groups[targetKey].groupName = groupName
-            return groups
-          },
-          {}
-        )
-        console.log("before sorting: ", directorGroups)
-
-        /* Convert grouped list to array and sort based on sortDirection */
-        let sortedDirectorGroups
-        if (directorGroups) {
-          sortedDirectorGroups = Object.entries(directorGroups).sort(
-            ([a], [b]) => {
-              const scoreA = parseInt(a)
-              const scoreB = parseInt(b)
-              return sortDirection === "desc"
-                ? scoreB - scoreA
-                : scoreA - scoreB
-            }
-          )
-        }
-        console.log("after sorting: ", sortedDirectorGroups)
-
-        const finalArray = []
-        for (const group of sortedDirectorGroups) {
-          finalArray.push(group[0])
-          for (const director of group[1].directors) {
-            finalArray.push(director)
           }
-        }
+          groups[targetKey].directors.push(director)
+          groups[targetKey].groupName = groupName
+          return groups
+        },
+        {}
+      )
+      // console.log("before sorting: ", directorGroups)
 
-        setGroupedDirectors(finalArray)
+      /* Convert grouped list to array and sort based on sortDirection */
+      let sortedDirectorGroups
+      if (directorGroups) {
+        sortedDirectorGroups = Object.entries(directorGroups).sort((a, b) => {
+          const valueA = parseInt(a[0])
+          const valueB = parseInt(b[0])
+          return sortDirection === "desc" ? valueB - valueA : valueA - valueB
+        })
       }
+      // console.log("after sorting: ", sortedDirectorGroups)
+
+      const finalArray = []
+      for (const group of sortedDirectorGroups) {
+        finalArray.push(group[1].groupName) // push GroupName, then push all the directors
+        for (const director of group[1].directors) {
+          finalArray.push(director)
+        }
+      }
+      // console.log("final: ", finalArray)
+
+      setGroupedDirectors(finalArray)
     }
   }, [listOfDirectorObjects, sortBy, sortDirection])
-  // console.log(listOfDirectorObjects)
 
   /* Avg_rating: total stars / total films watched. max value = 3
   watchScore: use logarithm function that rewards a director when a user watches multiple films from them. max value = 1 (when user watches 10 or more films, watchScore = 1) 
@@ -143,11 +135,11 @@ export default function DirectorUser_Gallery({
       {listOfDirectorObjects.length > 0 && groupedDirectors !== undefined && (
         <div className="grid grid-cols-4 gap-2 mt-10 border-0">
           {groupedDirectors.map((groupObject, key) => {
-            if (typeof groupObject === "string") {
+            if (!groupObject.id) {
               return (
                 <div
                   key={key}
-                  className="font-bold text-6xl flex items-center justify-center border-0 w-[7rem] aspect-4/5 min-w-[5rem] animate-[spin-y_7s_linear_infinite] [transform-style:preserve-3d] text-shadow-lg">
+                  className="font-bold text-6xl flex items-center justify-center border-0 w-[7rem] aspect-4/5 min-w-[5rem] animate-[spin-y_10s_linear_infinite] [transform-style:preserve-3d] text-shadow-lg">
                   {groupObject}
                 </div>
               )
@@ -155,7 +147,10 @@ export default function DirectorUser_Gallery({
               return (
                 <div
                   key={key}
-                  className="flex flex-col gap-1 items-center justify-center border-0 w-[7rem] aspect-4/5 group/thumbnail">
+                  className="flex flex-col gap-1 items-center justify-center border-0 w-[7rem] aspect-4/5 group/thumbnail"
+                  onClick={() => {
+                    navigate(`/directors/${groupObject.id}`)
+                  }}>
                   <div
                     className="relative aspect-4/5 overflow-hidden w-[85%] min-w-[5rem] border-3 rounded-none  flex justify-center items-center"
                     onMouseEnter={() => {

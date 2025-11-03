@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useEffectEvent, useLayoutEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getReleaseYear } from "../../Utils/helperFunctions"
 
@@ -8,6 +8,10 @@ export default function DirectorTMDB_Gallery({
 }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
   const navigate = useNavigate()
+
+  useEffect(() => {
+    console.log(listOfDirectorObjects)
+  }, [listOfDirectorObjects])
 
   return (
     <div>
@@ -33,13 +37,9 @@ export default function DirectorTMDB_Gallery({
                         : `profilepicnotfound.jpg`
                     }
                     alt=""
-                    // onClick={() => {
-                    //   navigate(`/films/${directorObject.id}`, {
-                    //     state: {
-                    //       currentViewMode: queryString,
-                    //     },
-                    //   })
-                    // }}
+                    onClick={() => {
+                      navigate(`/directors/${directorObject.id}`)
+                    }}
                   />
                   <div className="border-red-500 absolute bottom-0 left-0 h-[15rem] w-full bg-gradient-to-t from-black/90 to-transparent"></div>
                   <div className=" border-green-500 absolute bottom-0 left-0 h-[15rem] w-full flex flex-col items-center justify-end p-6 gap-1 transition-all duration-200 ease-out group">

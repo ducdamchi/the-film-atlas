@@ -10,6 +10,9 @@ import {
   fetchFilmFromTMDB,
   checkLikeStatus,
   checkSaveStatus,
+  fetchDirectorFromTMDB,
+  getNiceMonthDateYear,
+  getAge,
 } from "../Utils/helperFunctions"
 import { AuthContext } from "../Utils/authContext"
 import useCommandK from "../Utils/useCommandK"
@@ -30,14 +33,18 @@ import {
   BiSolidStar,
 } from "react-icons/bi"
 import { GiLotusFlower } from "react-icons/gi"
+import FilmTMDB_Gallery from "./Shared/FilmTmdb_Gallery"
 
-export default function FilmLanding() {
+export default function DirectorLanding() {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
   const [isLoading, setIsLoading] = useState(false)
-  const [movieDetails, setMovieDetails] = useState({})
-  const [directors, setDirectors] = useState([]) //director
-  const [dops, setDops] = useState([]) //director of photography
-  const [mainCast, setMainCast] = useState([]) //top 5 cast
+  // const [movieDetails, setMovieDetails] = useState({})
+  const [directorDetails, setDirectorDetails] = useState({})
+  const [directedFilms, setDirectedFilms] = useState({})
+
+  // const [directors, setDirectors] = useState([]) //director
+  // const [dops, setDops] = useState([]) //director of photography
+  // const [mainCast, setMainCast] = useState([]) //top 5 cast
   const [isLiked, setIsLiked] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
   const [searchModalOpen, setSearchModalOpen] = useState(false)
@@ -312,16 +319,7 @@ export default function FilmLanding() {
         setSearchModalOpen(false)
         setIsLoading(true)
         try {
-          fetchFilmFromTMDB(
-            tmdbId,
-            setMovieDetails,
-            setDirectors,
-            setDops,
-            setMainCast
-          )
-          checkLikeStatus(tmdbId, setIsLiked, setOfficialRating)
-          checkSaveStatus(tmdbId, setIsSaved)
-          // checkRateStatus(tmdbId, setOfficialRating)
+          fetchDirectorFromTMDB(tmdbId, setDirectorDetails, setDirectedFilms)
         } catch (err) {
           console.error("Error loading film data: ", err)
         } finally {
@@ -332,6 +330,11 @@ export default function FilmLanding() {
     fetchPageData()
   }, [tmdbId])
 
+  useEffect(() => {
+    console.log(directorDetails)
+    console.log(directedFilms)
+  }, [directorDetails, directedFilms])
+
   // useEffect(() => {
   //   if (location.state) {
   //     const { currentViewMode } = location.state || {}
@@ -341,8 +344,8 @@ export default function FilmLanding() {
   //   }
   // }, [location.state])
 
-  if (!movieDetails) {
-    return <div>Error loading film. Please try again.</div>
+  if (!directorDetails) {
+    return <div>Error loading director. Please try again.</div>
   }
 
   return (
@@ -358,166 +361,233 @@ export default function FilmLanding() {
       )}
 
       {/* Landing Page content */}
-      <div className="w-screen h-auto flex flex-col justify-center">
-        <div className="border-2 border-red-500 w-[100%] h-[90%] top-[5%] bg-zinc-50 text-black">
-          <NavBar />
-          <button
-            onClick={() => {
-              navigate("/", {
-                state: {
-                  returnToViewMode: returnToViewMode,
-                },
-              })
-            }}>
-            BACK TO FILMS
-          </button>
-          <div className="overflow-hidden">
+      <NavBar />
+      {/* <div>{`DirectorId: ${tmdbId}`}</div> */}
+
+      {/* Director's Info */}
+      <div>
+        <div className="font-bold uppercase text-3xl border-1">
+          {directorDetails.name}
+        </div>
+        <div className="border-1 flex flex-col items-center">
+          <div className="relative group/thumbnail aspect-10/13 overflow-hidden w-[25rem] min-w-[20rem] border-3">
             <img
-              className="w-screen aspect-16/9 object-cover scale-[1.02]"
+              className="object-cover w-full transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03] grayscale transform -translate-y-1/10 z-10 brightness-110"
               src={
-                movieDetails.backdrop_path !== null
-                  ? `${imgBaseUrl}${movieDetails.backdrop_path}`
-                  : `backdropnotfound.jpg`
+                directorDetails.profile_path !== null
+                  ? `${imgBaseUrl}${directorDetails.profile_path}`
+                  : `profilepicnotfound.jpg`
               }
               alt=""
             />
           </div>
 
-          <img
-            className="w-[20rem] min-w-[20rem] aspect-2/3 object-cover transition-all duration-300 ease-out border-2 border-blue-500"
-            src={
-              movieDetails.poster_path !== null
-                ? `${imgBaseUrl}${movieDetails.poster_path}`
-                : `posternotfound.png`
-            }
-            alt=""
-          />
+          <div className="flex italic">
+            {directorDetails.birthday && (
+              <div className="">
+                {/* <span className="font-bold uppercase">Birthday:&nbsp;</span> */}
+                <span>{`${getNiceMonthDateYear(directorDetails.birthday)}`}</span>
+              </div>
+            )}
 
-          <div className="flex items-center gap-5 border-1 h-[4rem]">
-            <button
-              alt="Add to watched"
-              title="Add to watched"
-              className="hover:text-blue-800 transition-all duration-200 ease-out hover:bg-zinc-200/30 p-3 h-full flex items-center"
-              onClick={handleLike}>
-              {isLiked ? (
-                <div className="flex items-center gap-1">
-                  <BiSolidHeart className="text-red-800 text-3xl" />
-                  <span className="text-red-800 text-xl">Watched</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1">
-                  <BiHeart className="text-3xl" />
-                  <span className="text-xl">Watched</span>
-                </div>
-              )}
-            </button>
-            <button
-              alt="Add to watchlist"
-              title="Add to watchlist"
-              className="hover:text-blue-800 hover:bg-zinc-200/30 transition-all duration-200 ease-out p-3 h-full flex items-center"
-              onClick={handleSave}>
-              {isSaved ? (
-                <div className="flex items-center gap-1">
-                  <BiListCheck className="text-green-800 text-5xl" />
-                  <span className="text-green-800 text-xl">Watchlist</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1">
-                  <BiListPlus className="text-5xl" />
-                  <span className=" text-xl">Watchlist</span>
-                </div>
-              )}
-            </button>
-            <TripleStarRating
-              officialRating={officialRating}
-              setRequestedRating={setRequestedRating}
-            />
+            {directorDetails.deathday && (
+              <div className="">
+                <span className="font-bold uppercase">
+                  &nbsp;&nbsp;-&nbsp;&nbsp;
+                </span>
+                <span>{`${getNiceMonthDateYear(directorDetails.deathday)}`}</span>
+              </div>
+            )}
           </div>
 
-          {movieDetails.overview && (
-            <div className="border-1">
-              <span className="font-bold uppercase">Overview:&nbsp;</span>
-              <span>{movieDetails.overview}</span>
-            </div>
-          )}
-
-          {movieDetails.runtime && (
-            <div className="border-1">
-              <span className="font-bold uppercase">Runtime:&nbsp;</span>
-              <span>{`${movieDetails.runtime} minutes`}</span>
-            </div>
-          )}
-
-          {movieDetails.release_date && (
-            <div className="border-1">
-              <span className="font-bold uppercase">Year:&nbsp;</span>
-              <span>{`${getReleaseYear(movieDetails.release_date)}`}</span>
-            </div>
-          )}
-
-          {movieDetails.origin_country && (
-            <div className="border-1">
-              <span className="font-bold uppercase">Origin:&nbsp;</span>
-              {movieDetails.origin_country.map((country, key) => {
-                return (
-                  <span key={key}>
-                    <span>{`${getCountryName(country)}`}</span>
-                    {/* Add a comma if it's not the last country on the list */}
-                    {key !== movieDetails.origin_country.length - 1 && (
-                      <span>,&nbsp;</span>
-                    )}
-                  </span>
-                )
-              })}
-            </div>
-          )}
-
-          {directors.length > 0 && (
-            <div className="border-1">
-              <span className="font-bold uppercase">Director:&nbsp;</span>
-              {directors.map((director, key) => {
-                return (
-                  <span key={key}>
-                    <span>{`${director.name}`}</span>
-                    {/* Add a comma if it's not the last country on the list */}
-                    {key !== directors.length - 1 && <span>,&nbsp;</span>}
-                  </span>
-                )
-              })}
-            </div>
-          )}
-
-          {dops.length > 0 && (
-            <div className="border-1">
-              <span className="font-bold uppercase">D.O.P.:&nbsp;</span>
-              {dops.map((dop, key) => {
-                return (
-                  <span key={key}>
-                    <span>{`${dop.name}`}</span>
-                    {/* Add a comma if it's not the last country on the list */}
-                    {key !== dops.length - 1 && <span>,&nbsp;</span>}
-                  </span>
-                )
-              })}
-            </div>
-          )}
-
-          {mainCast.length > 0 && (
-            <div className="border-1">
-              <span className="font-bold uppercase">Main cast:&nbsp;</span>
-              {mainCast.map((actor, key) => {
-                return (
-                  <span key={key}>
-                    <span>{`${actor.name}`}</span>
-                    {/* Add a comma if it's not the last country on the list */}
-                    {key !== mainCast.length - 1 && <span>,&nbsp;</span>}
-                  </span>
-                )
-              })}
-            </div>
-          )}
+          <div className="flex gap-1">
+            {directorDetails.deathday !== null && (
+              <span className="font-bold uppercase">Aged:</span>
+            )}
+            {directorDetails.deathday === null && (
+              <span className="font-bold uppercase">Age:</span>
+            )}
+            <span>{`${getAge(directorDetails.birthday, directorDetails.deathday)}`}</span>
+          </div>
         </div>
+
+        {directorDetails.biography && (
+          <div className="border-1">
+            <span className="font-bold uppercase">Biography:&nbsp;</span>
+            <span>{`${directorDetails.biography}`}</span>
+          </div>
+        )}
+
+        {directorDetails.place_of_birth && (
+          <div className="border-1">
+            <span className="font-bold uppercase">Birth Place:&nbsp;</span>
+            <span>{`${directorDetails.place_of_birth}`}</span>
+          </div>
+        )}
       </div>
+
+      {/* Directed Films */}
+      <FilmTMDB_Gallery listOfFilmObjects={directedFilms} />
     </>
   )
 }
+
+// ;<div className="w-screen h-auto flex flex-col justify-center">
+//   <div className="overflow-hidden">
+//     <img
+//       className="w-screen aspect-16/9 object-cover scale-[1.02]"
+//       src={
+//         movieDetails.backdrop_path !== null
+//           ? `${imgBaseUrl}${movieDetails.backdrop_path}`
+//           : `backdropnotfound.jpg`
+//       }
+//       alt=""
+//     />
+//   </div>
+//   <div className="border-2 border-red-500 w-[100%] h-[90%] top-[5%] bg-zinc-50 text-black">
+//     <NavBar />
+//     <button
+//       onClick={() => {
+//         navigate("/", {
+//           state: {
+//             returnToViewMode: returnToViewMode,
+//           },
+//         })
+//       }}>
+//       BACK TO FILMS
+//     </button>
+//     <img
+//       className="w-[20rem] min-w-[20rem] aspect-2/3 object-cover transition-all duration-300 ease-out border-2 border-blue-500"
+//       src={
+//         movieDetails.poster_path !== null
+//           ? `${imgBaseUrl}${movieDetails.poster_path}`
+//           : `posternotfound.png`
+//       }
+//       alt=""
+//     />
+
+//     <div className="flex items-center gap-5 border-1 h-[4rem]">
+//       <button
+//         alt="Add to watched"
+//         title="Add to watched"
+//         className="hover:text-blue-800 transition-all duration-200 ease-out hover:bg-zinc-200/30 p-3 h-full flex items-center"
+//         onClick={handleLike}>
+//         {isLiked ? (
+//           <div className="flex items-center gap-1">
+//             <BiSolidHeart className="text-red-800 text-3xl" />
+//             <span className="text-red-800 text-xl">Watched</span>
+//           </div>
+//         ) : (
+//           <div className="flex items-center gap-1">
+//             <BiHeart className="text-3xl" />
+//             <span className="text-xl">Watched</span>
+//           </div>
+//         )}
+//       </button>
+//       <button
+//         alt="Add to watchlist"
+//         title="Add to watchlist"
+//         className="hover:text-blue-800 hover:bg-zinc-200/30 transition-all duration-200 ease-out p-3 h-full flex items-center"
+//         onClick={handleSave}>
+//         {isSaved ? (
+//           <div className="flex items-center gap-1">
+//             <BiListCheck className="text-green-800 text-5xl" />
+//             <span className="text-green-800 text-xl">Watchlist</span>
+//           </div>
+//         ) : (
+//           <div className="flex items-center gap-1">
+//             <BiListPlus className="text-5xl" />
+//             <span className=" text-xl">Watchlist</span>
+//           </div>
+//         )}
+//       </button>
+//       <TripleStarRating
+//         officialRating={officialRating}
+//         setRequestedRating={setRequestedRating}
+//       />
+//     </div>
+
+//     {movieDetails.overview && (
+//       <div className="border-1">
+//         <span className="font-bold uppercase">Overview:&nbsp;</span>
+//         <span>{movieDetails.overview}</span>
+//       </div>
+//     )}
+
+//     {movieDetails.runtime && (
+//       <div className="border-1">
+//         <span className="font-bold uppercase">Runtime:&nbsp;</span>
+//         <span>{`${movieDetails.runtime} minutes`}</span>
+//       </div>
+//     )}
+
+//     {movieDetails.release_date && (
+//       <div className="border-1">
+//         <span className="font-bold uppercase">Year:&nbsp;</span>
+//         <span>{`${getReleaseYear(movieDetails.release_date)}`}</span>
+//       </div>
+//     )}
+
+//     {movieDetails.origin_country && (
+//       <div className="border-1">
+//         <span className="font-bold uppercase">Origin:&nbsp;</span>
+//         {movieDetails.origin_country.map((country, key) => {
+//           return (
+//             <span key={key}>
+//               <span>{`${getCountryName(country)}`}</span>
+//               {/* Add a comma if it's not the last country on the list */}
+//               {key !== movieDetails.origin_country.length - 1 && (
+//                 <span>,&nbsp;</span>
+//               )}
+//             </span>
+//           )
+//         })}
+//       </div>
+//     )}
+
+//     {directors.length > 0 && (
+//       <div className="border-1">
+//         <span className="font-bold uppercase">Director:&nbsp;</span>
+//         {directors.map((director, key) => {
+//           return (
+//             <span key={key}>
+//               <span>{`${director.name}`}</span>
+//               {/* Add a comma if it's not the last country on the list */}
+//               {key !== directors.length - 1 && <span>,&nbsp;</span>}
+//             </span>
+//           )
+//         })}
+//       </div>
+//     )}
+
+//     {dops.length > 0 && (
+//       <div className="border-1">
+//         <span className="font-bold uppercase">D.O.P.:&nbsp;</span>
+//         {dops.map((dop, key) => {
+//           return (
+//             <span key={key}>
+//               <span>{`${dop.name}`}</span>
+//               {/* Add a comma if it's not the last country on the list */}
+//               {key !== dops.length - 1 && <span>,&nbsp;</span>}
+//             </span>
+//           )
+//         })}
+//       </div>
+//     )}
+
+//     {mainCast.length > 0 && (
+//       <div className="border-1">
+//         <span className="font-bold uppercase">Main cast:&nbsp;</span>
+//         {mainCast.map((actor, key) => {
+//           return (
+//             <span key={key}>
+//               <span>{`${actor.name}`}</span>
+//               {/* Add a comma if it's not the last country on the list */}
+//               {key !== mainCast.length - 1 && <span>,&nbsp;</span>}
+//             </span>
+//           )
+//         })}
+//       </div>
+//     )}
+//   </div>
+// </div>

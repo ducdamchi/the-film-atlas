@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getReleaseYear } from "../../Utils/helperFunctions"
 
-export default function FilmTMDB_Gallery({ listOfFilmObjects, queryString }) {
+export default function FilmTMDB_Gallery({ listOfFilmObjects }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
   const navigate = useNavigate()
 
@@ -31,11 +31,14 @@ export default function FilmTMDB_Gallery({ listOfFilmObjects, queryString }) {
                     }
                     alt=""
                     onClick={() => {
-                      navigate(`/films/${filmObject.id}`, {
-                        state: {
-                          currentViewMode: queryString,
-                        },
-                      })
+                      navigate(
+                        `/films/${filmObject.id}`
+                        //   {
+                        //   state: {
+                        //     currentViewMode: queryString,
+                        //   },
+                        // }
+                      )
                     }}
                   />
                 </div>
@@ -48,11 +51,14 @@ export default function FilmTMDB_Gallery({ listOfFilmObjects, queryString }) {
                     <div>
                       <span
                         onClick={() => {
-                          navigate(`/films/${filmObject.id}`, {
-                            state: {
-                              currentViewMode: queryString,
-                            },
-                          })
+                          navigate(
+                            `/films/${filmObject.id}`
+                            //   {
+                            //   state: {
+                            //     currentViewMode: queryString,
+                            //   },
+                            // }
+                          )
                         }}
                         className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800 text-lg ">
                         {`${filmObject.title.slice(0, 30)}`}
@@ -70,44 +76,8 @@ export default function FilmTMDB_Gallery({ listOfFilmObjects, queryString }) {
                           {`${getReleaseYear(filmObject.release_date)}`}
                         </span>
                       )}
-                      {queryString && filmObject.directors && (
-                        <span className="">
-                          <span className="flex gap-1">
-                            <span>|</span>
-                            {filmObject.directors.map((dir, key) => {
-                              return (
-                                <span key={key}>
-                                  <span>{`${dir.name}`}</span>
-                                  {/* Add a comma if it's not the last country on the list */}
-                                  {key !== filmObject.directors.length - 1 && (
-                                    <span>,</span>
-                                  )}
-                                </span>
-                              )
-                            })}
-                          </span>
-                        </span>
-                      )}
                     </div>
                   </div>
-                  {/* Right side - director's photo*/}
-                  {queryString && filmObject.directors && (
-                    <div className=" border-amber-400 flex items-center gap-1 justify-center">
-                      {filmObject.directors.map((dir, key) => {
-                        return (
-                          <img
-                            className="max-w-[3.5rem] aspect-square object-cover rounded-full grayscale"
-                            key={key}
-                            src={
-                              dir.profile_path !== null
-                                ? `${imgBaseUrl}${dir.profile_path}`
-                                : "profilepicnotfound.jpg"
-                            }
-                          />
-                        )
-                      })}
-                    </div>
-                  )}
                 </div>
               </div>
             ))}

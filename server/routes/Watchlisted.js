@@ -34,19 +34,19 @@ router.get("/", validateToken, async (req, res) => {
     switch (sortCommand) {
       case "added_date_desc":
         order = [
-          [{ model: Films, as: "likedFilms" }, Saves, "createdAt", "DESC"],
+          [{ model: Films, as: "savedFilms" }, Saves, "createdAt", "DESC"],
         ]
         break
       case "added_date_asc":
         order = [
-          [{ model: Films, as: "likedFilms" }, Saves, "createdAt", "ASC"],
+          [{ model: Films, as: "savedFilms" }, Saves, "createdAt", "ASC"],
         ]
         break
       case "released_date_desc":
-        order = [[{ model: Films, as: "likedFilms" }, "release_date", "DESC"]]
+        order = [[{ model: Films, as: "savedFilms" }, "release_date", "DESC"]]
         break
       case "released_date_asc":
-        order = [[{ model: Films, as: "likedFilms" }, "release_date", "ASC"]]
+        order = [[{ model: Films, as: "savedFilms" }, "release_date", "ASC"]]
         break
     }
     const userWithSavedFilms = await Users.findByPk(jwtUserId, {
