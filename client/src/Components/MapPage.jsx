@@ -122,30 +122,30 @@ export default function MapPage() {
       }
       fetchInitialLikeData()
     } else {
-      alert("Log in to interact with map!")
+      // alert("Log in to interact with map!")
     }
   }, [])
 
   /* Hook to handle querying & sorting User Watched Films */
   useEffect(() => {
     // console.log(popupInfo)
-    if (authState.status) {
-      if (popupInfo && popupInfo.iso_a2 !== undefined) {
-        const fetchLikedFilmsByCountry = async () => {
-          fetchListByParams({
-            queryString: "watched/by_country",
-            countryCode: popupInfo.iso_a2,
-            setUserFilmList: setUserFilmList,
-            sortBy: sortBy,
-            sortDirection: sortDirection,
-            numStars: numStars,
-          })
-        }
-        fetchLikedFilmsByCountry()
+    // if (authState.status) {
+    if (popupInfo && popupInfo.iso_a2 !== undefined) {
+      const fetchLikedFilmsByCountry = async () => {
+        fetchListByParams({
+          queryString: "watched/by_country",
+          countryCode: popupInfo.iso_a2,
+          setUserFilmList: setUserFilmList,
+          sortBy: sortBy,
+          sortDirection: sortDirection,
+          numStars: numStars,
+        })
       }
-    } else {
-      alert("Log in to interact with map!")
+      fetchLikedFilmsByCountry()
     }
+    // } else {
+    //   alert("Log in to interact with map!")
+    // }
   }, [popupInfo, sortBy, sortDirection, numStars])
 
   /* Hook to switch on/off Discover Mode */

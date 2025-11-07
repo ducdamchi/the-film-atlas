@@ -231,7 +231,7 @@ export default function InteractionConsole({
       }
       /* If user not logged in, alert */
     } else {
-      alert("Log in to interact with films!")
+      // alert("Log in to interact with films!")
     }
   }
   async function handleSave() {
@@ -253,7 +253,7 @@ export default function InteractionConsole({
 
       /* If user not logged in, alert */
     } else {
-      alert("Log in to interact with films!")
+      // alert("Log in to interact with films!")
     }
   }
   async function handleRate() {
@@ -284,7 +284,7 @@ export default function InteractionConsole({
       }
       /* If user not logged in, alert */
     } else {
-      alert("Log in to interact with films!")
+      // alert("Log in to interact with films!")
     }
   }
 

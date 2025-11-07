@@ -50,7 +50,7 @@ export default function LogIn() {
               enableReinitialize={true}>
               <Form className="flex flex-col gap-4">
                 <div className="flex gap-2 items-center">
-                  <label htmlFor="username">Username</label>
+                  <label htmlFor="username">username</label>
 
                   <Field
                     className="border-1 p-1"
@@ -65,7 +65,7 @@ export default function LogIn() {
                   className="text-red-500"
                 />
                 <div className="flex gap-2 items-center">
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">password</label>
                   <Field
                     className="border-1 p-1"
                     type="password"
@@ -80,7 +80,7 @@ export default function LogIn() {
                   className="text-red-500"
                 />
                 <button type="submit" className="border-1 w-[7rem] p-1">
-                  Sign In
+                  log in
                 </button>
               </Form>
             </Formik>

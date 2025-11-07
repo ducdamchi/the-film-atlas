@@ -42,31 +42,42 @@ export default function NavBar() {
 
           {!authState.status ? (
             <>
+              <CustomLink to="/map">MAP</CustomLink>
               <CustomLink to="/" exact={true}>
                 FILMS
               </CustomLink>
               <CustomLink to="/directors">DIRECTORS</CustomLink>
-              <CustomLink to="/map">MAP</CustomLink>
-              <CustomLink to="/login">LOG IN</CustomLink>
-              <CustomLink to="/register">REGISTER</CustomLink>
             </>
           ) : (
             <>
+              <CustomLink to="/map">MAP</CustomLink>
               <CustomLink to="/">FILMS</CustomLink>
               <CustomLink to="/directors">DIRECTORS</CustomLink>
-              <CustomLink to="/map">MAP</CustomLink>
-              {/* <CustomLink to="/watchlist">WATCHLIST</CustomLink> */}
-
-              <button onClick={logOut}>LOG OUT</button>
             </>
           )}
         </ul>
       </div>
 
-      {authState.status && (
-        <div className="text-black text-sm h-full flex items-center justify-center">
-          <span>Welcome,&nbsp;</span>
-          <span className="font-bold">{`${authState.username}!`}</span>
+      {authState.status ? (
+        <div className="flex items-center justify-end gap-2">
+          <div className="text-black text-sm h-full flex items-center justify-center">
+            <span>welcome,&nbsp;</span>
+            <span className="font-bold">{`${authState.username}!`}</span>
+          </div>
+          <div className="font-thin text-black text-base ">|</div>
+          <button className="text-black text-sm" onClick={logOut}>
+            log out
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center justify-end gap-2">
+          <CustomLink className="text-black text-sm" to="/login">
+            log in
+          </CustomLink>
+          <div className="font-thin text-black text-base ">|</div>
+          <CustomLink className="text-black text-sm" to="/register">
+            register
+          </CustomLink>
         </div>
       )}
     </div>

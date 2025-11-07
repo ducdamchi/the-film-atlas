@@ -95,20 +95,20 @@ export default function Films() {
   /* Fetch User's film list (liked, watchlisted or starred) from App's DB */
   useEffect(() => {
     // console.log("NumStars: ", numStars)
-    if (authState.status) {
-      const fetchUserFilmList = async () => {
-        fetchListByParams({
-          queryString: queryString,
-          sortBy: sortBy,
-          sortDirection: sortDirection,
-          numStars: numStars,
-          setUserFilmList: setUserFilmList,
-        })
-      }
-      fetchUserFilmList()
-    } else {
-      alert("Log in to interact with films!")
+    // if (authState.status) {
+    const fetchUserFilmList = async () => {
+      fetchListByParams({
+        queryString: queryString,
+        sortBy: sortBy,
+        sortDirection: sortDirection,
+        numStars: numStars,
+        setUserFilmList: setUserFilmList,
+      })
     }
+    fetchUserFilmList()
+    // } else {
+    //   alert("Log in to interact with films!")
+    // }
   }, [sortBy, sortDirection, queryString, numStars])
 
   return (

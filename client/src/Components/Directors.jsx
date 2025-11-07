@@ -105,35 +105,35 @@ export default function Directors() {
 
   /* Fetch User's Directors list (liked, watchlisted or starred) from App's DB */
   useEffect(() => {
-    if (authState.status) {
-      const fetchUserDirectorList = async () => {
-        setIsLoading(true)
-        axios
-          .get(`http://localhost:3002/profile/me/${queryString}`, {
-            headers: {
-              accessToken: localStorage.getItem("accessToken"),
-            },
-            params: {
-              sortBy: sortBy,
-              sortDirection: sortDirection,
-              numStars: numStars,
-            },
-          })
-          .then((response) => {
-            setUserDirectorList(response.data)
-          })
-          .catch((err) => {
-            console.log("Error: ", err)
-            throw err
-          })
-          .finally(() => {
-            setIsLoading(false)
-          })
-      }
-      fetchUserDirectorList()
-    } else {
-      alert("Log in to interact with directors!")
+    // if (authState.status) {
+    const fetchUserDirectorList = async () => {
+      setIsLoading(true)
+      axios
+        .get(`http://localhost:3002/profile/me/${queryString}`, {
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+          },
+          params: {
+            sortBy: sortBy,
+            sortDirection: sortDirection,
+            numStars: numStars,
+          },
+        })
+        .then((response) => {
+          setUserDirectorList(response.data)
+        })
+        .catch((err) => {
+          console.log("Error: ", err)
+          throw err
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
     }
+    fetchUserDirectorList()
+    // } else {
+    //   alert("Log in to interact with directors!")
+    // }
   }, [sortDirection, sortBy, queryString, numStars])
 
   return (
