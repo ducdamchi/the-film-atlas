@@ -29,76 +29,96 @@ import FilmTMDB_Gallery from "./Shared/FilmTmdb_Gallery"
 import Toggle_Two from "./Shared/Toggle_Two"
 import Toggle_Three from "./Shared/Toggle_Three"
 import Toggle_Four from "./Shared/Toggle_Four"
-// import CustomSlider from "./Shared/CustomSlider"
+import CustomSlider from "./Shared/CustomSlider"
+import LoadingPage from "./Shared/LoadingPage"
 
 // import "maplibre-gl/dist/maplibre-gl.css"`
 import { FaSortNumericDown, FaSortNumericDownAlt } from "react-icons/fa"
 
 export default function MapPage() {
+  /* Map const */
+  const mapRef = useRef(null)
   const MAPTILER_API_KEY = "0bsarBRVUOINHDtiYsY0"
-  const [mapFilmData, setMapFilmData] = useState([])
-  const [userFilmList, setUserFilmList] = useState([])
-  const [suggestedFilmList, setSuggestedFilmList] = useState([])
   const [firstSymbolId, setFirstSymbolId] = useState(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
   const [popupInfo, setPopupInfo] = useState(null)
-  const [hoverInfo, setHoverInfo] = useState(null)
-  const [searchModalOpen, setSearchModalOpen] = useState(false)
   const [filmsPerCountryData, setFilmsPerCountryData] = useState({})
-  const [isDiscoverMode, setIsDiscoverMode] = useState(false)
+
+  // const [hoverInfo, setHoverInfo] = useState(null)
+
+  /* API request const */
+  const [mapFilmData, setMapFilmData] = useState([])
+  const [userFilmList, setUserFilmList] = useState([])
+  const [suggestedFilmList, setSuggestedFilmList] = useState([])
   const [sortBy, setSortBy] = useState("added_date")
   const [sortDirection, setSortDirection] = useState("desc")
   const [queryString, setQueryString] = useState("discover")
   const [numStars, setNumStars] = useState(0)
-  const [voteAverage, setVoteAverage] = useState(7)
-  const [tempVoteAverage, setTempVoteAverage] = useState(7)
-  const [ratingRange, setRatingRange] = useState([7, 10])
-  const [tempRatingRange, setTempRatingRange] = useState([7, 10])
-  const [voteCount, setVoteCount] = useState(50)
-  const [tempVoteCount, setTempVoteCount] = useState(50)
-  const [displaySliderValue, setDisplaySliderValue] = useState(false)
-  const sliderRef = useRef(null)
-  const voteAvgThumbDisplayRef = useRef(null)
+  const [isDiscoverMode, setIsDiscoverMode] = useState(false)
+  const [searchModalOpen, setSearchModalOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [discoverBy, setDiscoverBy] = useState("vote_average.desc")
 
+  /* Slider - Rating const */
+  const [ratingRange, setRatingRange] = useState([0, 7])
+  const [tempRatingRange, setTempRatingRange] = useState([0, 7])
+  const [displayRating, setDisplayRating] = useState(false)
+  const ratingValueRef = useRef(null)
+
+  /* Slider - Vote Count const */
+  const [voteCountRange, setVoteCountRange] = useState([0, 100])
+  const [tempVoteCountRange, setTempVoteCountRange] = useState([0, 100])
+  const [displayVoteCount, setDisplayVoteCount] = useState(false)
+  const voteCountValueRef = useRef(null)
+
+  /* Authentication */
   const { authState } = useContext(AuthContext)
-
-  // const rangeSliderElement = rangeSlider(element)
-
-  // const [queryString, setQueryString] = useState("watched/by_country")
-
-  // const rangeSlider = document.querySelector("#range-slider")
-  // useEffect(() => {
-  //   const rangeSlider = document.querySelector("#range-slider")
-  //   console.log(rangeSlider)
-  // }, [])
 
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
   useCommandK(toggleSearchModal)
 
-  const mapRef = useRef(null)
-
   useEffect(() => {
-    if (voteAvgThumbDisplayRef.current) {
-      if (displaySliderValue) {
-        voteAvgThumbDisplayRef.current.style.opacity = 1
+    if (ratingValueRef.current) {
+      if (displayRating) {
+        ratingValueRef.current.style.opacity = 1
       } else {
         setTimeout(() => {
-          voteAvgThumbDisplayRef.current.style.opacity = 0
+          ratingValueRef.current.style.opacity = 0
         }, 200)
       }
     }
-  }, [displaySliderValue])
+  }, [displayRating])
+
+  useEffect(() => {
+    if (voteCountValueRef.current) {
+      if (displayVoteCount) {
+        voteCountValueRef.current.style.opacity = 1
+      } else {
+        setTimeout(() => {
+          voteCountValueRef.current.style.opacity = 0
+        }, 200)
+      }
+    }
+  }, [displayVoteCount])
 
   /* Fetch User's film list (liked or watchlisted) from App's DB */
   useEffect(() => {
     if (authState.status) {
       const fetchInitialLikeData = async () => {
-        fetchListByParams({
-          queryString: "watched",
-          setUserFilmList: setMapFilmData,
-        })
+        try {
+          setIsLoading(true)
+          fetchListByParams({
+            queryString: "watched",
+            setUserFilmList: setMapFilmData,
+          })
+        } catch (err) {
+          console.log(err)
+          throw err
+        } finally {
+          setIsLoading(false)
+        }
       }
       fetchInitialLikeData()
     } else {
@@ -142,30 +162,41 @@ export default function MapPage() {
     if (isDiscoverMode) {
       const getSuggestions = async () => {
         try {
-          if (popupInfo && popupInfo.iso_a2 !== undefined) {
-            queryTopRatedFilmByCountryTMDB(
-              popupInfo.iso_a2,
-              setSuggestedFilmList
-            )
+          setIsLoading(true)
+          if (
+            popupInfo &&
+            popupInfo.iso_a2 !== undefined &&
+            ratingRange.length == 2
+          ) {
+            queryTopRatedFilmByCountryTMDB({
+              countryCode: popupInfo.iso_a2,
+              setSearchResult: setSuggestedFilmList,
+              sortBy: discoverBy,
+              ratingRange: ratingRange,
+              voteCountRange: voteCountRange,
+            })
           } else {
             setSuggestedFilmList([])
           }
         } catch (err) {
           console.log(err)
           throw err
+        } finally {
+          setIsLoading(false)
         }
       }
       getSuggestions()
     }
-  }, [isDiscoverMode, popupInfo])
+  }, [isDiscoverMode, popupInfo, discoverBy, ratingRange, voteCountRange])
 
   useEffect(() => {
     // console.log("DisoverMode:", isDiscoverMode)
     // console.log("Suggested Film List: ", suggestedFilmList)
     // console.log("Vote Avg:", voteAverage)
     // console.log("Vote Count:", voteCount)
-    console.log("Rating range:", ratingRange)
-  }, [suggestedFilmList, isDiscoverMode, voteAverage, voteCount, ratingRange])
+    // console.log("Rating range:", ratingRange)
+    // console.log("Rating range length:", ratingRange.length)
+  }, [suggestedFilmList, isDiscoverMode, ratingRange])
 
   useEffect(() => {
     // console.log(mapFilmData)
@@ -331,6 +362,7 @@ export default function MapPage() {
 
   return (
     <div>
+      {isLoading && <LoadingPage />}
       {/* Quick Search Modal */}
       {searchModalOpen && (
         <QuickSearchModal
@@ -535,46 +567,72 @@ export default function MapPage() {
               />
             </div>
           )}
-          {setIsDiscoverMode && (
-            // <CustomSlider value={voteAverage} setValue={setVoteAverage} />
-            <div className="w-full">
-              <div
-                className="w-full flex items-center gap-5"
-                onMouseEnter={() => setDisplaySliderValue(true)}
-                onMouseLeave={() => setDisplaySliderValue(false)}>
-                <div>TMDB Vote Average</div>
-                <div className="w-full flex items-center gap-2">
-                  <small>0</small>
+          {isDiscoverMode && (
+            <div className="w-full flex flex-col items-center gap-10">
+              <div className="flex items-center p-2 gap-5">
+                <div>Sort By</div>
+                <Toggle_Two
+                  width="20rem"
+                  height="2.5rem"
+                  state={discoverBy}
+                  setState={setDiscoverBy}
+                  stateDetails={{
+                    1: { value: "vote_average.desc", label: "Average Rating" },
+                    2: { value: "vote_count.desc", label: "Vote Count" },
+                  }}
+                />
+              </div>
+              <div className="text-xs italic">
+                Results are automatically ordered from highest to lowest
+              </div>
+              <div className="flex items-center p-2 gap-5">
+                <div>Filter By</div>
+                <div>
                   <div
-                    className="w-full flex justify-center"
-                    // onHover={() => console.log("hovering")}
-                  >
-                    <RangeSlider
-                      id="range-slider"
-                      className="range-slider"
+                    className="w-full flex flex-col items-center justify-center gap-1"
+                    // ref={ratingValueRef}
+                    onMouseEnter={() => setDisplayRating(true)}
+                    onMouseLeave={() => setDisplayRating(false)}>
+                    <div>{`Average Rating >= ${tempRatingRange[1]}`}</div>
+                    <CustomSlider
+                      width="20rem"
+                      id="slider-simple"
                       min={0}
                       max={10}
                       step={0.1}
-                      value={[tempRatingRange[0], tempRatingRange[1]]}
-                      onInput={(value, userInteraction) => {
-                        // if (userInteraction) {
-                        setTempRatingRange([value[0], value[1]])
-                        // }
-                      }}
-                      onThumbDragEnd={() =>
-                        setRatingRange([tempRatingRange[0], tempRatingRange[1]])
-                      }
-                      onRangeDragEnd={() =>
-                        setRatingRange([tempRatingRange[0], tempRatingRange[1]])
-                      }
+                      tempRange={tempRatingRange}
+                      setTempRange={setTempRatingRange}
+                      range={ratingRange}
+                      setRange={setRatingRange}
+                      // isInfoRefDisplayed={displayRating}
+                      // infoRef={ratingValueRef}
+                      infoRefText={`mininum ${tempRatingRange[1]}`}
+                      thumbsDisabled={[true, false]}
+                      rangeSlideDisabled={true}
                     />
-                    {displaySliderValue && (
-                      <small
-                        ref={voteAvgThumbDisplayRef}
-                        className="absolute w-[4rem]flex items-center justify-center mt-2 z-10 transition-all duration-600 ease-out opacity-0">{`${tempRatingRange[0]} - ${tempRatingRange[1]}`}</small>
-                    )}
                   </div>
-                  <small>10</small>
+                  <div
+                    className="w-full flex flex-col items-center justify-center gap-1"
+                    onMouseEnter={() => setDisplayVoteCount(true)}
+                    onMouseLeave={() => setDisplayVoteCount(false)}>
+                    <div>Vote Count</div>
+                    <CustomSlider
+                      width="20rem"
+                      id="slider-simple"
+                      min={0}
+                      max={500}
+                      step={20}
+                      tempRange={tempVoteCountRange}
+                      setTempRange={setTempVoteCountRange}
+                      range={voteCountRange}
+                      setRange={setVoteCountRange}
+                      // isInfoRefDisplayed={displayVoteCount}
+                      // infoRef={voteCountValueRef}
+                      infoRefText={`mininum ${tempVoteCountRange[1]}`}
+                      thumbsDisabled={[true, false]}
+                      rangeSlideDisabled={true}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -596,66 +654,3 @@ export default function MapPage() {
     </div>
   )
 }
-
-{
-  /* <div className="flex items-center gap-5">
-                <div>Minimum Vote Average</div>
-                <input
-                  className="w-[15rem]"
-                  type="range"
-                  min="0"
-                  max="10"
-                  step="0.1"
-                  value={voteAverage}
-                  onChange={(event) =>
-                    setVoteAverage(Number(event.target.value))
-                  }
-                />
-              </div> */
-}
-{
-  /* <div className="flex items-center gap-5">
-                <div>Mininum Vote Count</div>
-                <input
-                  className="w-[15rem]"
-                  type="range"
-                  min="0"
-                  max="1000"
-                  step="20"
-                  value={voteCount}
-                  onChange={(event) => setVoteCount(Number(event.target.value))}
-                />
-              </div> */
-}
-
-// <div className="flex items-center gap-5">
-//   <div>Minimum Vote Average</div>
-//   <input
-//     className="w-[15rem]"
-//     type="range"
-//     min="0"
-//     max="10"
-//     step="0.1"
-//     value={voteAverage}
-//     onChange={(event) =>
-//       setVoteAverage(Number(event.target.value))
-//     }
-//   />
-// </div>
-// <div className="flex items-center gap-5">
-//   <div>Mininum Vote Count</div>
-//   <input
-//     className="w-[15rem]"
-//     type="range"
-//     min="0"
-//     max="1000"
-//     step="20"
-//     value={tempVoteCount}
-//     onChange={(event) =>
-//       setTempVoteCount(Number(event.target.value))
-//     }
-//     onPointerUp={() => setVoteCount(tempVoteCount)}
-//     onMouseUp={() => setVoteCount(tempVoteCount)}
-//     onKeyUp={() => setVoteCount(tempVoteCount)}
-//   />
-// </div>

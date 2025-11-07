@@ -210,7 +210,13 @@ export function fetchDirectorFromTMDB(
     })
 }
 
-export function queryTopRatedFilmByCountryTMDB(countryCode, setSearchResult) {
+export function queryTopRatedFilmByCountryTMDB({
+  countryCode = null,
+  setSearchResult = null,
+  sortBy = null,
+  ratingRange = null,
+  voteCountRange = null,
+} = {}) {
   const searchUrl = "https://api.themoviedb.org/3/discover/movie"
   const apiKey = "14b22a55c02218f84058041c5f553d3d"
 
@@ -222,9 +228,11 @@ export function queryTopRatedFilmByCountryTMDB(countryCode, setSearchResult) {
         region: countryCode,
         include_adult: false,
         include_video: false,
-        "vote_count.gte": 20,
-        "vote_average.gte": 6,
-        sort_by: "vote_average.desc",
+        "with_runtime.gte": 80, //pick films > 85 minutes
+        "vote_count.gte": voteCountRange[1],
+        "vote_average.gte": ratingRange[1],
+        // "vote_average.lte": ratingRange[1],
+        sort_by: sortBy,
       },
     })
     .then((response) => {
@@ -237,7 +245,7 @@ export function queryTopRatedFilmByCountryTMDB(countryCode, setSearchResult) {
       //   (a, b) => b.popularity - a.popularity
       // )
       setSearchResult(filtered_results)
-      // console.log("Filtered results:", sorted_filtered_results)
+      console.log("Filtered results:", filtered_results)
       return response.data
     })
     .catch((err) => {

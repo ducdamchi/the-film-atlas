@@ -9,3 +9,29 @@
     transform: rotateY(360deg);
   }
 }
+
+/* Vote Average slider settings */
+#slider-simple {
+  height: 0.75rem;
+  border-radius: 0.75rem;
+  border: 0px solid oklch(85.751% 0.00732 268.581);
+  background: oklch(92.8% 0.006 264.531);
+}
+
+#slider-simple .range-slider__range {
+  border-radius: 0.75rem;
+  background: rgb(0, 0, 0);
+}
+#slider-simple .range-slider__thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid oklch(92.8% 0.006 264.531);
+  background: rgb(255, 255, 255);
+  filter: drop-shadow(1px 5px 10px rgba(0, 0, 0, 0.3));
+  /* box-sizing: border-box;
+  border: 1px solid red; */
+}
+#slider-simple .range-slider__thumb[data-lower] {
+  width: 0;
+  border: none;
+}

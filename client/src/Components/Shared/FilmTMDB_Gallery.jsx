@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { getReleaseYear, fetchFilmFromTMDB } from "../../Utils/helperFunctions"
 
 import InteractionConsole from "./InteractionConsole"
+import { MdStars } from "react-icons/md"
+import { MdPeople } from "react-icons/md"
 
 export default function FilmTMDB_Gallery({ listOfFilmObjects }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
@@ -109,7 +111,7 @@ export default function FilmTMDB_Gallery({ listOfFilmObjects }) {
 
                 {/* Text below poster */}
                 <div className="text-black w-full p-3  flex justify-between">
-                  {/* Left side - Title, year, directors name*/}
+                  {/* Left side - Title, year*/}
                   <div className="border-amber-400 flex flex-col items-start justify-center gap-0">
                     {/* Film Title */}
                     <div>
@@ -125,9 +127,9 @@ export default function FilmTMDB_Gallery({ listOfFilmObjects }) {
                           )
                         }}
                         className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800 text-lg ">
-                        {`${filmObject.title.slice(0, 30)}`}
+                        {`${filmObject.title.slice(0, 25)}`}
                       </span>
-                      {filmObject.title.length >= 30 && (
+                      {filmObject.title.length >= 25 && (
                         <span className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800 text-lg">
                           ...
                         </span>
@@ -140,6 +142,17 @@ export default function FilmTMDB_Gallery({ listOfFilmObjects }) {
                           {`${getReleaseYear(filmObject.release_date)}`}
                         </span>
                       )}
+                    </div>
+                  </div>
+                  {/* Right side - TMDB rating and vote count */}
+                  <div className="flex items-center gap-5 justify-center">
+                    <div className="flex items-center justify-center gap-1">
+                      <MdStars className="text-xl" />
+                      <div>{Number(filmObject.vote_average).toFixed(1)}</div>
+                    </div>
+                    <div className="flex items-center justify-center gap-1">
+                      <MdPeople className="text-2xl" />
+                      <div>{filmObject.vote_count}</div>
                     </div>
                   </div>
                 </div>
