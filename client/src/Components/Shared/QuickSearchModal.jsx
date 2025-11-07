@@ -6,6 +6,8 @@ import { getReleaseYear, queryFilmFromTMDB } from "../../Utils/helperFunctions"
 // import FilmListDisplay from "./FilmListDisplay"
 import useClickOutside from "../../Utils/useClickOutside"
 
+// import { AuthContext } from "../Utils/authContext"
+
 import { BiSearchAlt2 } from "react-icons/bi"
 
 export default function QuickSearchModal({
@@ -128,6 +130,11 @@ export default function QuickSearchModal({
                   })
                 }
               }}></input>
+            <button
+              className="border-1 p-1 pl-2 pr-2 rounded-md"
+              onClick={() => setSearchModalOpen(false)}>
+              esc
+            </button>
           </div>
         </div>
 

@@ -71,6 +71,21 @@ export function getAge(birthday, deathday) {
   }
 }
 
+export function getNameParts(fullName) {
+  if (!fullName || typeof fullName !== "string") return ""
+
+  const nameParts = fullName.trim().split(/\s+/) // Handles multiple spaces
+
+  const lastName = nameParts.length > 0 ? nameParts[nameParts.length - 1] : ""
+
+  const firstNameInitial =
+    nameParts.length > 0 && nameParts[0].length > 0
+      ? nameParts[0][0].toUpperCase()
+      : ""
+
+  return { firstNameInitial, lastName }
+}
+
 /* Query for films from TMDB (search with provided input)
 @params:
 - searchInput: A useState object containing the search input
@@ -240,12 +255,7 @@ export function queryTopRatedFilmByCountryTMDB({
       const filtered_results = original_results.filter(
         (movie) => !(movie.backdrop_path === null || movie.poster_path === null)
       )
-      // // .filter((movie) => movie.popularity > 1 || movie.vote_count > 10)
-      // const sorted_filtered_results = filtered_results.sort(
-      //   (a, b) => b.popularity - a.popularity
-      // )
       setSearchResult(filtered_results)
-      console.log("Filtered results:", filtered_results)
       return response.data
     })
     .catch((err) => {
@@ -283,35 +293,6 @@ export function fetchListByParams({
       throw err
     })
 }
-
-// export function getWatchProviders(tmdbId, setWatchProviders) {
-//    const movieDetailsUrl = "https://api.themoviedb.org/3/movie/"
-//    const apiKey = "14b22a55c02218f84058041c5f553d3d"
-
-//    return axios
-//      .get(
-//        `${movieDetailsUrl}${tmdbId}?append_to_response=credits,videos&api_key=${apiKey}`
-//      )
-//      .then((response) => {
-//        const directorsList = response.data.credits.crew.filter(
-//          (crewMember) => crewMember.job === "Director"
-//        )
-//        // const dopsList = response.data.credits.crew.filter(
-//        //   (crewMember) => crewMember.job === "Director of Photography"
-//        // )
-//        // const mainCastList = response.data.credits.cast.slice(0, 5)
-
-//        setMovieDetails(response.data)
-//        setDirectors(directorsList)
-//        // setDops(dopsList)
-//        // setMainCast(mainCastList)
-//        return response.data
-//      })
-//      .catch((err) => {
-//        console.log("Client: Error fetching film from TMDB", err)
-//        throw err
-//      })
-// }
 
 /* Check the Like status of a film for logged in users from App's DB
 @params:

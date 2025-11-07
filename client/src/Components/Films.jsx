@@ -20,8 +20,6 @@ import Toggle_Two from "./Shared/Toggle_Two"
 import LoadingPage from "./Shared/LoadingPage"
 
 /* Icons */
-import { HiMiniBarsArrowDown, HiMiniBarsArrowUp } from "react-icons/hi2"
-import { RiSortNumberAsc, RiSortNumberDesc } from "react-icons/ri"
 import { FaSortNumericDown, FaSortNumericDownAlt } from "react-icons/fa"
 
 export default function Films() {
@@ -29,14 +27,13 @@ export default function Films() {
   const [searchResult, setSearchResult] = useState([])
   const [userFilmList, setUserFilmList] = useState([])
   const [isSearching, setIsSearching] = useState(false)
-  const [searchModalOpen, setSearchModalOpen] = useState(false)
-  // const [isLoading, setIsLoading] = useState(false)
   const [sortBy, setSortBy] = useState("added_date")
   const [sortDirection, setSortDirection] = useState("desc")
   const [numStars, setNumStars] = useState(0)
 
   const [queryString, setQueryString] = useState("watched")
-  const { authState } = useContext(AuthContext)
+  const { authState, searchModalOpen, setSearchModalOpen } =
+    useContext(AuthContext)
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -45,10 +42,9 @@ export default function Films() {
   }
   useCommandK(toggleSearchModal)
 
-  /* Query films from TMDB with Quick Search Modal's Search Input */
+  /* Query films from TMDB when user clicks Enter while Quick Search Modal's Search Bar is focused. AKA do an exhaustive search instead of a quick search with limited results */
   useEffect(() => {
     try {
-      // console.log("Location.state:", location.state)
       if (location.state) {
         const { searchInputFromQuickSearch, returnToViewMode } =
           location.state || {}
@@ -58,15 +54,6 @@ export default function Films() {
             setSearchInput(searchInputFromQuickSearch)
           }
         }
-
-        // if (
-        //   returnToViewMode === "watched" ||
-        //   returnToViewMode === "watchlisted" ||
-        //   returnToViewMode === "starred"
-        // ) {
-        //   console.log("Return to View Mode: ", returnToViewMode)
-        //   setQueryString(returnToViewMode)
-        // }
       }
     } catch (err) {
       console.log(err)
@@ -75,9 +62,9 @@ export default function Films() {
 
   /* Query films from TMDB with Search Bar */
   useEffect(() => {
-    // console.log("Search Input:", searchInput)
     const queryFilm = async () => {
       try {
+        // Do not start API query if searchInput is empty
         if (searchInput.trim().length === 0 || searchInput === null) {
           setIsSearching(false)
         } else {

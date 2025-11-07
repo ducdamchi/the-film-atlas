@@ -21,7 +21,7 @@ export default function CustomSlider({
 }) {
   return (
     <div className={`w-[${width}] flex items-center gap-2`}>
-      <div className="text-xs font-semibold">{min}</div>
+      <div className="text-xs font-semibold text-gray-600">{min}</div>
       <div
         className="w-full flex justify-center"
         // onHover={() => console.log("hovering")}
@@ -49,7 +49,7 @@ export default function CustomSlider({
           {infoRefText}
         </small> */}
       </div>
-      <div className="text-xs font-semibold">{max}</div>
+      <div className="text-xs font-semibold text-gray-600">{max}</div>
     </div>
   )
 }

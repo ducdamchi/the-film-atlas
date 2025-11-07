@@ -1,9 +1,11 @@
 import { useContext, useEffect } from "react"
 import { Link, useMatch, useResolvedPath } from "react-router-dom"
 import { AuthContext } from "../../Utils/authContext"
+import { BiSearchAlt2 } from "react-icons/bi"
 
 export default function NavBar() {
-  const { authState, setAuthState } = useContext(AuthContext)
+  const { authState, setAuthState, searchModalOpen, setSearchModalOpen } =
+    useContext(AuthContext)
 
   function CustomLink({ to, children, exact = true, ...props }) {
     // to: URL path (e.g., "/about", "/contact")
@@ -32,30 +34,42 @@ export default function NavBar() {
 
   return (
     <div className="flex items-center justify-between w-full p-3 pl-[2rem] pr-[2rem] h-[4rem]">
-      <div className="h-full flex items-center justify-center">
-        <span className="text-md uppercase font-semibold ">The Film Atlas</span>
-      </div>
+      <div className="flex items-center justify-center gap-7">
+        <div className="h-full flex items-center justify-center pt-1">
+          <span className="text-md uppercase font-semibold ">
+            The Film Atlas
+          </span>
+        </div>
 
-      <div className="text-sm h-full mt-1">
-        <ul className="flex gap-7 p-2 ">
-          {/* <CustomLink to="/">Search</CustomLink> */}
+        <div className="text-sm h-full mt-1 flex items-center gap-5">
+          <ul className="flex gap-7 p-2 ">
+            {/* <CustomLink to="/">Search</CustomLink> */}
 
-          {!authState.status ? (
-            <>
-              <CustomLink to="/map">MAP</CustomLink>
-              <CustomLink to="/" exact={true}>
-                FILMS
-              </CustomLink>
-              <CustomLink to="/directors">DIRECTORS</CustomLink>
-            </>
-          ) : (
-            <>
-              <CustomLink to="/map">MAP</CustomLink>
-              <CustomLink to="/">FILMS</CustomLink>
-              <CustomLink to="/directors">DIRECTORS</CustomLink>
-            </>
-          )}
-        </ul>
+            {!authState.status ? (
+              <>
+                <CustomLink to="/map">MAP</CustomLink>
+                <CustomLink to="/" exact={true}>
+                  FILMS
+                </CustomLink>
+                <CustomLink to="/directors">DIRECTORS</CustomLink>
+              </>
+            ) : (
+              <>
+                <CustomLink to="/map">MAP</CustomLink>
+                <CustomLink to="/">FILMS</CustomLink>
+                <CustomLink to="/directors">DIRECTORS</CustomLink>
+              </>
+            )}
+          </ul>
+          <button
+            className="flex items-center justify-center gap-1 border-0 p-1 pl-2 pr-2 rounded-full bg-gray-200 text-gray-600 cursor-pointer"
+            onClick={() => {
+              setSearchModalOpen(true)
+            }}>
+            <BiSearchAlt2 />
+            {`\u2318K`}
+          </button>
+        </div>
       </div>
 
       {authState.status ? (

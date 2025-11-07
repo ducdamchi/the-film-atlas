@@ -9,6 +9,7 @@ import {
   fetchFilmFromTMDB,
 } from "../Utils/helperFunctions"
 import useCommandK from "../Utils/useCommandK"
+import { AuthContext } from "../Utils/authContext"
 
 /* Components */
 import NavBar from "./Shared/NavBar"
@@ -24,10 +25,11 @@ export default function FilmLanding() {
   const [dops, setDops] = useState([]) //director of photography
   const [mainCast, setMainCast] = useState([]) //top 5 cast
   const [trailerLink, setTrailerLink] = useState(null)
-  const [searchModalOpen, setSearchModalOpen] = useState(false)
+  // const [searchModalOpen, setSearchModalOpen] = useState(false)
   // const [returnToViewMode, setReturnToViewMode] = useState("")
 
-  // const { authState, loading } = useContext(AuthContext)
+  const { authState, searchModalOpen, setSearchModalOpen } =
+    useContext(AuthContext)
   const { tmdbId } = useParams()
   // const location = useLocation()
   const navigate = useNavigate()

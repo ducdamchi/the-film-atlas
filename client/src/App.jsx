@@ -9,7 +9,7 @@ import Directors from "./Components/Directors"
 import FilmLanding from "./Components/FilmLanding"
 import DirectorLanding from "./Components/DirectorLanding"
 import Register from "./Components/Register"
-import LogIn from "./Components/Login"
+import LogIn from "./Components/LogIn"
 import MapPage from "./Components/MapPage"
 
 import { AuthContext } from "./Utils/authContext"
@@ -21,6 +21,7 @@ function App() {
     id: 0,
     status: false,
   })
+  const [searchModalOpen, setSearchModalOpen] = useState(false)
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken")
@@ -61,7 +62,14 @@ function App() {
   return (
     <>
       <AuthContext.Provider
-        value={{ authState, setAuthState, loading, setLoading }}>
+        value={{
+          authState,
+          setAuthState,
+          loading,
+          setLoading,
+          searchModalOpen,
+          setSearchModalOpen,
+        }}>
         <HashRouter>
           <Routes>
             <Route path="/" element={<Films />} />

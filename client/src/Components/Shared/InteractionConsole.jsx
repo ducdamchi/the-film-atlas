@@ -24,6 +24,7 @@ import {
   BiStar,
   BiSolidStar,
 } from "react-icons/bi"
+import { AiFillClockCircle } from "react-icons/ai"
 
 export default function InteractionConsole({
   tmdbId,
@@ -315,54 +316,69 @@ export default function InteractionConsole({
     <>
       {!isLoading && (
         <div
-          className={`flex items-center gap-${css.flexGap} h-[4rem] text-${css.textColor} z-30`}>
-          <button
-            alt="Add to watched"
-            title="Add to watched"
-            className={`hover:${css.hoverTextColor} transition-all duration-200 ease-out hover:${css.hoverBg} p-3 h-full flex items-center`}
-            onClick={handleLike}>
-            {isLiked ? (
-              <div className="flex items-center gap-1">
-                <BiSolidHeart
-                  className={`text-${css.likeColor} text-${css.likeSize}`}
-                />
-                <span className={`text-${css.likeColor} text-${css.fontSize}`}>
-                  Watched
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1">
-                <BiHeart className={`text-${css.likeSize}`} />
-                <span className={`text-${css.fontSize}`}>Watched</span>
-              </div>
-            )}
-          </button>
-          <button
-            alt="Add to watchlist"
-            title="Add to watchlist"
-            className={`hover:${css.hoverTextColor} transition-all duration-200 ease-out hover:${css.hoverBg} p-3 h-full flex items-center`}
-            onClick={handleSave}>
-            {isSaved ? (
-              <div className="flex items-center gap-1">
-                <BiListCheck
-                  className={`text-${css.saveColor} text-${css.saveSize}`}
-                />
-                <span className={`text-${css.saveColor} text-${css.fontSize}`}>
-                  Watchlist
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1">
-                <BiListPlus className={`text-${css.saveSize}`} />
-                <span className={`text-${css.fontSize}`}>Watchlist</span>
-              </div>
-            )}
-          </button>
-          <TripleStarRating
-            officialRating={officialRating}
-            setRequestedRating={setRequestedRating}
-            css={css}
-          />
+          className={`flex flex-col text-${css.textColor} z-30 items-center justify-center gap-0`}>
+          <div className="text-white w-[85%] text-justify pr-4 pl-4 pb-2">
+            <span className="">{movieDetails.overview?.slice(0, 200)}</span>
+            {movieDetails.overview?.length >= 200 && <span>{`...`}</span>}
+          </div>
+
+          {/* <div className="text-white w-[85%] flex items-center justify-center gap-2 pr-4 pl-4 pb-4">
+            <AiFillClockCircle />
+            <span className="">{`${movieDetails.runtime} minutes`}</span>
+          </div> */}
+
+          <div
+            className={`flex items-center gap-${css.flexGap} h-[4rem] justify-center w-[85%]`}>
+            <button
+              alt="Add to watched"
+              title="Add to watched"
+              className={`hover:${css.hoverTextColor} transition-all duration-200 ease-out hover:${css.hoverBg} p-3 h-full flex items-center`}
+              onClick={handleLike}>
+              {isLiked ? (
+                <div className="flex items-center gap-1">
+                  <BiSolidHeart
+                    className={`text-${css.likeColor} text-${css.likeSize}`}
+                  />
+                  <span
+                    className={`text-${css.likeColor} text-${css.fontSize}`}>
+                    Watched
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <BiHeart className={`text-${css.likeSize}`} />
+                  <span className={`text-${css.fontSize}`}>Watched</span>
+                </div>
+              )}
+            </button>
+            <button
+              alt="Add to watchlist"
+              title="Add to watchlist"
+              className={`hover:${css.hoverTextColor} transition-all duration-200 ease-out hover:${css.hoverBg} p-3 h-full flex items-center`}
+              onClick={handleSave}>
+              {isSaved ? (
+                <div className="flex items-center gap-1">
+                  <BiListCheck
+                    className={`text-${css.saveColor} text-${css.saveSize}`}
+                  />
+                  <span
+                    className={`text-${css.saveColor} text-${css.fontSize}`}>
+                    Watchlist
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <BiListPlus className={`text-${css.saveSize}`} />
+                  <span className={`text-${css.fontSize}`}>Watchlist</span>
+                </div>
+              )}
+            </button>
+            <TripleStarRating
+              officialRating={officialRating}
+              setRequestedRating={setRequestedRating}
+              css={css}
+            />
+          </div>
         </div>
       )}
     </>

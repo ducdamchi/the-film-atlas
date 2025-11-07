@@ -43,13 +43,14 @@ export default function Directors() {
   const [searchResult, setSearchResult] = useState([])
   const [userDirectorList, setUserDirectorList] = useState([])
   const [isSearching, setIsSearching] = useState(false)
-  const [searchModalOpen, setSearchModalOpen] = useState(false)
+  // const [searchModalOpen, setSearchModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [numStars, setNumStars] = useState(0)
   const [sortBy, setSortBy] = useState("name")
   const [sortDirection, setSortDirection] = useState("desc")
   const [queryString, setQueryString] = useState("directors")
-  const { authState } = useContext(AuthContext)
+  const { authState, searchModalOpen, setSearchModalOpen } =
+    useContext(AuthContext)
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -157,7 +158,7 @@ export default function Directors() {
         <SearchBar
           searchInput={searchInput}
           setSearchInput={setSearchInput}
-          placeholderString={`Search by director's name (or \u2318K) ...`}
+          placeholderString={`Search by director's name ...`}
         />
         <div className="flex flex-col items-start justify-center mt-20">
           {/* <div className="flex items-center p-2 gap-5">

@@ -55,7 +55,7 @@ export default function MapPage() {
   const [queryString, setQueryString] = useState("discover")
   const [numStars, setNumStars] = useState(0)
   const [isDiscoverMode, setIsDiscoverMode] = useState(false)
-  const [searchModalOpen, setSearchModalOpen] = useState(false)
+  // const [searchModalOpen, setSearchModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [discoverBy, setDiscoverBy] = useState("vote_average.desc")
 
@@ -72,7 +72,8 @@ export default function MapPage() {
   const voteCountValueRef = useRef(null)
 
   /* Authentication */
-  const { authState } = useContext(AuthContext)
+  const { authState, searchModalOpen, setSearchModalOpen } =
+    useContext(AuthContext)
 
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
@@ -584,7 +585,7 @@ export default function MapPage() {
                     // ref={ratingValueRef}
                     onMouseEnter={() => setDisplayRating(true)}
                     onMouseLeave={() => setDisplayRating(false)}>
-                    <div className="text-xs uppercase font-semibold">
+                    <div className="text-xs uppercase font-semibold text-gray-600">
                       Average Rating &#x2265; {`${tempRatingRange[1]}`}
                     </div>
                     <CustomSlider
@@ -608,7 +609,7 @@ export default function MapPage() {
                     className="w-full flex flex-col items-center justify-center gap-2"
                     onMouseEnter={() => setDisplayVoteCount(true)}
                     onMouseLeave={() => setDisplayVoteCount(false)}>
-                    <div className="text-xs uppercase font-bold">
+                    <div className="text-xs uppercase font-bold text-gray-600">
                       Vote Count &#x2265; {`${tempVoteCountRange[1]}`}
                     </div>
                     <CustomSlider
