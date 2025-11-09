@@ -80,44 +80,6 @@ export default function MapPage() {
   }
   useCommandK(toggleSearchModal)
 
-  const getSuggestions = async (page) => {
-    try {
-      setIsLoading(true)
-      if (
-        popupInfo &&
-        popupInfo.iso_a2 !== undefined &&
-        ratingRange.length == 2
-      ) {
-        const result = await queryTopRatedFilmByCountryTMDB({
-          page: page,
-          countryCode: popupInfo.iso_a2,
-          sortBy: discoverBy,
-          ratingRange: ratingRange,
-          voteCountRange: voteCountRange,
-        })
-
-        const filtered_results = result.filter(
-          (movie) =>
-            !(movie.backdrop_path === null || movie.poster_path === null)
-        )
-
-        if (filtered_results.length > 0) {
-          setSuggestedFilmList((prevResults) => [
-            ...prevResults,
-            ...filtered_results,
-          ])
-          setPage((prevPage) => prevPage + 1)
-        }
-      } else {
-        setSuggestedFilmList([])
-      }
-    } catch (err) {
-      console.log(err)
-      throw err
-    } finally {
-      setIsLoading(false)
-    }
-  }
   /* Fetch User's film list (liked or watchlisted) from App's DB when page first loads */
   useEffect(() => {
     if (authState.status) {
@@ -146,7 +108,8 @@ export default function MapPage() {
         (entry) => {
           if (entry.isIntersecting && !isLoading) {
             // console.log("Entry Intersected: ", entry)
-            getSuggestions(page)
+            // getSuggestions(page)
+            setPage((prevPage) => prevPage + 1)
           }
         },
         {
@@ -205,12 +168,104 @@ export default function MapPage() {
     }
   }, [queryString])
 
-  /* Hook to handle Discover Mode */
+  /* Hook to handle Discover Mode when any of the dependencies below change*/
   useEffect(() => {
-    if (isDiscoverMode) {
-      getSuggestions(page)
+    if (isDiscoverMode && !isLoading) {
+      const getSuggestions = async () => {
+        try {
+          setIsLoading(true)
+          setPage(1) //restart the page count
+          setHasMore(true) //restart hasMore var
+          if (
+            popupInfo &&
+            popupInfo.iso_a2 !== undefined &&
+            ratingRange.length == 2
+          ) {
+            // console.log("Popup iso_a2: ", popupInfo.iso_a2)
+            // console.log("requested Country: ", requestedCountry)
+            // If parameters change but user are looking at the same region
+
+            // This is the standard query whenever any of the parameters change. Default page number is 1.
+            const result = await queryTopRatedFilmByCountryTMDB({
+              page: 1,
+              countryCode: popupInfo.iso_a2,
+              sortBy: discoverBy,
+              ratingRange: ratingRange,
+              voteCountRange: voteCountRange,
+            })
+
+            const filtered_results = result.filter(
+              (movie) =>
+                !(movie.backdrop_path === null || movie.poster_path === null)
+            )
+
+            setSuggestedFilmList(filtered_results)
+
+            // If requested country is different from previously requested country
+          } else {
+            setSuggestedFilmList([])
+          }
+        } catch (err) {
+          console.log(err)
+          throw err
+        } finally {
+          setIsLoading(false)
+        }
+      }
+      getSuggestions()
     }
   }, [isDiscoverMode, popupInfo, discoverBy, ratingRange, voteCountRange])
+
+  /* This hook gets triggered when there's a request to load more pages (when "page" variable is > 1, and when it changes). It queries the specified page, and appends it to the existing Suggestions list. Note: this hook only gets called when all other parameters like countryCode, discoverBy, ratingRange, voteCountRange, are unchanged. If any of these parameters change, the default hook above will be called, which automatically resets the Suggestions List and fill it with content from page 1 of the TMDB query. */
+  useEffect(() => {
+    // only trigger when page is incremented past 1. if page is 1, it means that the default fetch function is handling fetching the first page from TMDB
+    // console.log("Page: ", page)
+
+    if (isDiscoverMode && !isLoading && page !== 1) {
+      const getSuggestions = async () => {
+        try {
+          setIsLoading(true)
+          if (
+            popupInfo &&
+            popupInfo.iso_a2 !== undefined &&
+            ratingRange.length == 2
+          ) {
+            const result = await queryTopRatedFilmByCountryTMDB({
+              page: page,
+              countryCode: popupInfo.iso_a2,
+              sortBy: discoverBy,
+              ratingRange: ratingRange,
+              voteCountRange: voteCountRange,
+            })
+
+            const filtered_results = result.filter(
+              (movie) =>
+                !(movie.backdrop_path === null || movie.poster_path === null)
+            )
+
+            if (filtered_results.length > 0) {
+              setSuggestedFilmList((prevResults) => [
+                ...prevResults,
+                ...filtered_results,
+              ])
+            } else {
+              setHasMore(false)
+              console.log("No more pages to load.")
+            }
+            // If requested country is different from previously requested country
+          } else {
+            setSuggestedFilmList([])
+          }
+        } catch (err) {
+          console.log(err)
+          throw err
+        } finally {
+          setIsLoading(false)
+        }
+      }
+      getSuggestions()
+    }
+  }, [page])
 
   useEffect(() => {
     // console.log(mapFilmData)
@@ -291,9 +346,9 @@ export default function MapPage() {
     })
   }, [filmsPerCountryData])
 
-  useEffect(() => {
-    console.log(suggestedFilmList)
-  }, [suggestedFilmList])
+  // useEffect(() => {
+  //   console.log(suggestedFilmList)
+  // }, [suggestedFilmList])
 
   const onData = useCallback(
     (event) => {
@@ -658,11 +713,17 @@ export default function MapPage() {
           <FilmTMDB_Gallery listOfFilmObjects={suggestedFilmList} />
         )}
 
-        <div
-          ref={loadMoreTrigger}
-          className="w-full border-1 flex items-center justify-center">
-          Load More
-        </div>
+        {hasMore && (
+          <div
+            ref={loadMoreTrigger}
+            className="w-full h-[10rem] flex items-center justify-center m-10"></div>
+        )}
+
+        {!hasMore && (
+          <div className="w-full flex items-center justify-center m-10">
+            You've reached the end!
+          </div>
+        )}
       </div>
     </div>
   )
