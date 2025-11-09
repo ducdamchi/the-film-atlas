@@ -71,11 +71,53 @@ export default function MapPage() {
   const { authState, searchModalOpen, setSearchModalOpen } =
     useContext(AuthContext)
 
+  const loadMoreTrigger = useRef(null)
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
   useCommandK(toggleSearchModal)
 
+  const getSuggestions = async (page) => {
+    try {
+      setIsLoading(true)
+      if (
+        popupInfo &&
+        popupInfo.iso_a2 !== undefined &&
+        ratingRange.length == 2
+      ) {
+        const result = await queryTopRatedFilmByCountryTMDB({
+          page: page,
+          countryCode: popupInfo.iso_a2,
+          sortBy: discoverBy,
+          ratingRange: ratingRange,
+          voteCountRange: voteCountRange,
+        })
+
+        const filtered_results = result.filter(
+          (movie) =>
+            !(movie.backdrop_path === null || movie.poster_path === null)
+        )
+
+        if (filtered_results.length > 0) {
+          setSuggestedFilmList((prevResults) => [
+            ...prevResults,
+            ...filtered_results,
+          ])
+          setPage((prevPage) => prevPage + 1)
+        }
+      } else {
+        setSuggestedFilmList([])
+      }
+    } catch (err) {
+      console.log(err)
+      throw err
+    } finally {
+      setIsLoading(false)
+    }
+  }
   /* Fetch User's film list (liked or watchlisted) from App's DB when page first loads */
   useEffect(() => {
     if (authState.status) {
@@ -97,6 +139,32 @@ export default function MapPage() {
       // alert("Log in to interact with map!")
     }
   }, [])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) =>
+      entries.forEach(
+        (entry) => {
+          if (entry.isIntersecting && !isLoading) {
+            // console.log("Entry Intersected: ", entry)
+            getSuggestions(page)
+          }
+        },
+        {
+          threshold: 1,
+        }
+      )
+    )
+
+    if (loadMoreTrigger.current) {
+      observer.observe(loadMoreTrigger.current)
+    }
+
+    return () => {
+      if (loadMoreTrigger.current) {
+        observer.unobserve(loadMoreTrigger.current)
+      }
+    }
+  }, [isLoading])
 
   /* Hook to handle querying & sorting User Watched Films */
   useEffect(() => {
@@ -140,37 +208,7 @@ export default function MapPage() {
   /* Hook to handle Discover Mode */
   useEffect(() => {
     if (isDiscoverMode) {
-      const getSuggestions = async () => {
-        try {
-          setIsLoading(true)
-          if (
-            popupInfo &&
-            popupInfo.iso_a2 !== undefined &&
-            ratingRange.length == 2
-          ) {
-            const result = await queryTopRatedFilmByCountryTMDB({
-              countryCode: popupInfo.iso_a2,
-              sortBy: discoverBy,
-              ratingRange: ratingRange,
-              voteCountRange: voteCountRange,
-            })
-
-            const filtered_results = result.filter(
-              (movie) =>
-                !(movie.backdrop_path === null || movie.poster_path === null)
-            )
-            setSuggestedFilmList(filtered_results)
-          } else {
-            setSuggestedFilmList([])
-          }
-        } catch (err) {
-          console.log(err)
-          throw err
-        } finally {
-          setIsLoading(false)
-        }
-      }
-      getSuggestions()
+      getSuggestions(page)
     }
   }, [isDiscoverMode, popupInfo, discoverBy, ratingRange, voteCountRange])
 
@@ -252,6 +290,10 @@ export default function MapPage() {
       }
     })
   }, [filmsPerCountryData])
+
+  useEffect(() => {
+    console.log(suggestedFilmList)
+  }, [suggestedFilmList])
 
   const onData = useCallback(
     (event) => {
@@ -345,7 +387,6 @@ export default function MapPage() {
         <QuickSearchModal
           searchModalOpen={searchModalOpen}
           setSearchModalOpen={setSearchModalOpen}
-          // queryString={queryString}
         />
       )}
       <NavBar />
@@ -616,6 +657,12 @@ export default function MapPage() {
         {isDiscoverMode && suggestedFilmList && (
           <FilmTMDB_Gallery listOfFilmObjects={suggestedFilmList} />
         )}
+
+        <div
+          ref={loadMoreTrigger}
+          className="w-full border-1 flex items-center justify-center">
+          Load More
+        </div>
       </div>
     </div>
   )

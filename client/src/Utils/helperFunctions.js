@@ -173,6 +173,7 @@ export function fetchDirectorFromTMDB(tmdbId) {
 }
 
 export function queryTopRatedFilmByCountryTMDB({
+  page = 1,
   countryCode = null,
   sortBy = null,
   ratingRange = null,
@@ -193,6 +194,7 @@ export function queryTopRatedFilmByCountryTMDB({
         "vote_count.gte": voteCountRange[1],
         "vote_average.gte": ratingRange[1],
         sort_by: sortBy,
+        page: page,
       },
     })
     .then((response) => {

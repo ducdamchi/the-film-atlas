@@ -128,6 +128,9 @@ export default function InteractionConsole({
       try {
         if (!isSaved) {
           const req = createReqBody("save")
+
+          console.log(movieDetails)
+          console.log("Save request: ", req)
           const result = await saveFilm(req)
           if (result.error) {
             console.error("Server: ", result.error)
@@ -252,14 +255,14 @@ export default function InteractionConsole({
       {!isLoading && (
         <div
           className={`flex flex-col text-${css.textColor} z-30 items-center justify-center gap-0`}>
-          {!isLandingPage && (
-            <div className="text-white w-[85%] text-justify pr-4 pl-4 pb-2">
-              <span className="">{movieDetails.overview?.slice(0, 200)}</span>
-              {movieDetails.overview?.length >= 200 && <span>{`...`}</span>}
-            </div>
-          )}
-
-          {/* <div className="text-white w-[85%] flex items-center justify-center gap-2 pr-4 pl-4 pb-4">
+          {/* {!isLandingPage && (
+          )} */}
+          <div className="text-white text-sm w-[85%] text-justify pr-4 pl-4 pb-2">
+            <span className="">{movieDetails.overview?.slice(0, 250)}</span>
+            {movieDetails.overview?.length >= 250 && <span>{`...`}</span>}
+          </div>
+          {/* 
+          <div className="text-white w-[85%] flex items-center justify-center gap-2 pr-4 pl-4 pb-4">
             <AiFillClockCircle />
             <span className="">{`${movieDetails.runtime} minutes`}</span>
           </div> */}

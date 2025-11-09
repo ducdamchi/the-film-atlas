@@ -25,8 +25,6 @@ export default function FilmLanding() {
   const [dops, setDops] = useState([]) //director of photography
   const [mainCast, setMainCast] = useState([]) //top 5 cast
   const [trailerLink, setTrailerLink] = useState(null)
-  // const [searchModalOpen, setSearchModalOpen] = useState(false)
-  // const [returnToViewMode, setReturnToViewMode] = useState("")
 
   const { authState, searchModalOpen, setSearchModalOpen } =
     useContext(AuthContext)
@@ -43,9 +41,9 @@ export default function FilmLanding() {
   useEffect(() => {
     const fetchPageData = async () => {
       if (tmdbId) {
-        setSearchModalOpen(false)
-        setIsLoading(true)
         try {
+          setSearchModalOpen(false) // close search modal if it's somehow open
+          setIsLoading(true)
           const result = await fetchFilmFromTMDB(tmdbId)
           const directorsList = result.credits.crew.filter(
             (crewMember) => crewMember.job === "Director"

@@ -26,9 +26,14 @@ export default function FilmTMDB_Card({ filmObject, queryString }) {
   useEffect(() => {
     const fetchPageData = async () => {
       if (hoverId) {
-        setIsLoading(true)
         try {
-          fetchFilmFromTMDB(hoverId, setMovieDetails, setDirectors)
+          setIsLoading(true)
+          const result = await fetchFilmFromTMDB(hoverId)
+          const directorsList = result.credits.crew.filter(
+            (crewMember) => crewMember.job === "Director"
+          )
+          setMovieDetails(result)
+          setDirectors(directorsList)
         } catch (err) {
           console.error("Error loading film data: ", err)
         } finally {
@@ -112,7 +117,7 @@ export default function FilmTMDB_Card({ filmObject, queryString }) {
             )
           }}
         />
-        {hoverId === filmObject.id && (
+        {hoverId === filmObject.id && !isLoading && (
           <div className="border-red-500 absolute bottom-0 left-0 w-[30rem] min-w-[20rem] aspect-16/10 object-cover bg-black/70 flex items-center justify-center">
             <InteractionConsole
               tmdbId={hoverId}
@@ -132,6 +137,7 @@ export default function FilmTMDB_Card({ filmObject, queryString }) {
                 likeColor: "red-800",
                 saveColor: "green-800",
               }}
+              isLandingPage={false}
             />
             <div
               className="border-red-500 absolute w-full h-full z-10"
