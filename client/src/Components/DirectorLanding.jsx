@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom"
 import { getNiceMonthDateYear, getAge } from "../Utils/helperFunctions"
 import { fetchDirectorFromTMDB } from "../Utils/apiCalls"
 import useCommandK from "../Hooks/useCommandK"
+import { usePersistedState } from "../Hooks/usePersistedState"
 
 /* Components */
 import NavBar from "./Shared/Navigation-Search/NavBar"
@@ -20,11 +21,45 @@ export default function DirectorLanding() {
   const [directedFilms, setDirectedFilms] = useState({})
   const [searchModalOpen, setSearchModalOpen] = useState(false)
   const { tmdbId } = useParams()
+  const [scrollPosition, setScrollPosition] = usePersistedState(
+    "directorLanding-scrollPosition",
+    0
+  )
 
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
   useCommandK(toggleSearchModal)
+
+  /* Hook for scroll restoration */
+  useEffect(() => {
+    // console.log("Loading state: ", isLoading)
+    if (!isLoading) {
+      if (scrollPosition) {
+        // use setTimeout as a temporary solution to make sure page content fully loads before scroll restoration starts. When watched/rated films become a lot, the 300ms second might not be enough and a new solution will be required.
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(scrollPosition, 10))
+        }, 50)
+      } else {
+        setTimeout(() => {
+          window.scrollTo(0, 0)
+        }, 0)
+      }
+
+      const handleScroll = () => {
+        setScrollPosition(window.scrollY)
+      }
+
+      const scrollTimer = setTimeout(() => {
+        window.addEventListener("scroll", handleScroll)
+      }, 500)
+
+      return () => {
+        clearTimeout(scrollTimer)
+        window.removeEventListener("scroll", handleScroll)
+      }
+    }
+  }, [isLoading])
 
   /* Fetch film info for Landing Page */
   useEffect(() => {

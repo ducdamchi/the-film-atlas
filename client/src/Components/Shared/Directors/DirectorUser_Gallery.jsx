@@ -170,7 +170,9 @@ export default function DirectorUser_Gallery({
                         <span>
                           {`Watched: ${groupObject.WatchedDirectors.num_watched_films}`}
                         </span>
-
+                        <span>
+                          {`Starred: ${groupObject.WatchedDirectors.num_starred_films}`}
+                        </span>
                         <span>
                           {`Score: ${groupObject.WatchedDirectors.score}`}
                         </span>

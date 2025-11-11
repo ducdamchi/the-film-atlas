@@ -16,13 +16,11 @@ These terms are used interchangeably to adapt to different logic in frontend and
 const authRouter = require("./routes/Auth.js")
 const watchedRouter = require("./routes/Watched.js")
 const watchlistedRouter = require("./routes/Watchlisted.js")
-const starredRouter = require("./routes/Starred.js")
 const directorsRouter = require("./routes/Directors.js")
 
 app.use("/auth", authRouter)
 app.use("/profile/me/watched", watchedRouter)
 app.use("/profile/me/watchlisted", watchlistedRouter)
-// app.use("/profile/me/starred", starredRouter)
 app.use("/profile/me/directors", directorsRouter)
 
 /* Notes:

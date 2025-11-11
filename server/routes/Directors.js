@@ -74,6 +74,7 @@ router.get("/", validateToken, async (req, res) => {
           through: {
             attributes: [
               "num_watched_films",
+              "num_starred_films",
               "num_stars_total",
               "highest_star",
               "avg_rating",
