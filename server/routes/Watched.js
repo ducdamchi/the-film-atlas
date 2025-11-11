@@ -10,17 +10,21 @@ const {
   Saves,
 } = require("../models")
 const { validateToken } = require("../middlewares/AuthMiddleware")
-const { Op, fn, col, Sequelize } = require("sequelize")
+const { Op, fn, col, literal, Sequelize } = require("sequelize")
 
 /* Avg_rating: total stars / total films watched. max value = 3
   watchScore: use logarithm function that rewards a director when a user watches multiple films from them. max value = 1 (when user watches 10 or more films, watchScore = 1) 
   finalScore: max(avg_rating) = 3; max(watchScore) = 1; multiply avg_rating by 2 (max 6); multiply watchScore by 4 (max 4). This will achieve a score on a scale of 10, where avg_rating has 60% weight, and num_watched_films has 40% weight.*/
-function calculateScore(num_stars_total, num_watched_films) {
+function calculateScore(num_stars_total, num_starred_films, num_watched_films) {
   const watchScore = Math.min(1, Math.log(num_watched_films + 1) / Math.log(10))
-  const finalScore = Number(
-    (num_stars_total / num_watched_films) * 2 + watchScore * 4
-  ).toFixed(2)
-  return finalScore
+  if (parseInt(num_starred_films) === 0) {
+    return Number(watchScore * 4).toFixed(2)
+  } else {
+    const finalScore = Number(
+      (num_stars_total / num_starred_films) * 2 + watchScore * 4
+    ).toFixed(2)
+    return finalScore
+  }
 }
 
 /* GET: Fetch all films liked by a user */
@@ -379,10 +383,14 @@ router.post("/", validateToken, async (req, res) => {
           },
           defaults: {
             num_watched_films: 1,
+            num_starred_films: reqData.stars === 0 ? 0 : 1,
             num_stars_total: reqData.stars,
-            avg_rating: reqData.stars,
+            avg_rating: reqData.stars === 0 ? 0 : reqData.stars,
             highest_star: reqData.stars,
-            score: calculateScore(reqData.stars, 1),
+            score:
+              reqData.stars === 0
+                ? calculateScore(reqData.stars, 0, 1)
+                : calculateScore(reqData.stars, 1, 1),
           },
         })
       if (!watchedDirector) {
@@ -427,6 +435,12 @@ router.post("/", validateToken, async (req, res) => {
                 fn("COUNT", col("watchedDirectorLikes.filmId")),
                 "num_watched_films",
               ],
+              [
+                literal(
+                  `COUNT(CASE WHEN watchedDirectorLikes.stars > 0 THEN 1 END)`
+                ),
+                "num_starred_films",
+              ],
               [fn("SUM", col("watchedDirectorLikes.stars")), "num_stars_total"],
               [fn("MAX", col("watchedDirectorLikes.stars")), "highest_star"],
             ],
@@ -443,13 +457,15 @@ router.post("/", validateToken, async (req, res) => {
         const [affectedRows] = await WatchedDirectors.update(
           {
             num_watched_films: likesFromWatchedDirector.num_watched_films,
+            num_starred_films: likesFromWatchedDirector.num_starred_films,
             num_stars_total: likesFromWatchedDirector.num_stars_total,
             avg_rating:
               likesFromWatchedDirector.num_stars_total /
-              likesFromWatchedDirector.num_watched_films,
+              likesFromWatchedDirector.num_starred_films,
             highest_star: likesFromWatchedDirector.highest_star,
             score: calculateScore(
               likesFromWatchedDirector.num_stars_total,
+              likesFromWatchedDirector.num_starred_films,
               likesFromWatchedDirector.num_watched_films
             ),
           },
@@ -542,6 +558,12 @@ router.delete("/", validateToken, async (req, res) => {
               fn("COUNT", col("watchedDirectorLikes.filmId")),
               "num_watched_films",
             ],
+            [
+              literal(
+                `COUNT(CASE WHEN watchedDirectorLikes.stars > 0 THEN 1 END)`
+              ),
+              "num_starred_films",
+            ],
             [fn("SUM", col("watchedDirectorLikes.stars")), "num_stars_total"],
             [fn("MAX", col("watchedDirectorLikes.stars")), "highest_star"],
           ],
@@ -571,13 +593,15 @@ router.delete("/", validateToken, async (req, res) => {
         const [affectedRows] = await WatchedDirectors.update(
           {
             num_watched_films: likesFromWatchedDirector.num_watched_films,
+            num_starred_films: likesFromWatchedDirector.num_starred_films,
             num_stars_total: likesFromWatchedDirector.num_stars_total,
             avg_rating:
               likesFromWatchedDirector.num_stars_total /
-              likesFromWatchedDirector.num_watched_films,
+              likesFromWatchedDirector.num_starred_films,
             highest_star: likesFromWatchedDirector.highest_star,
             score: calculateScore(
               likesFromWatchedDirector.num_stars_total,
+              likesFromWatchedDirector.num_starred_films,
               likesFromWatchedDirector.num_watched_films
             ),
           },
@@ -681,6 +705,12 @@ router.put("/", validateToken, async (req, res) => {
               fn("COUNT", col("watchedDirectorLikes.filmId")),
               "num_watched_films",
             ],
+            [
+              literal(
+                `COUNT(CASE WHEN watchedDirectorLikes.stars > 0 THEN 1 END)`
+              ),
+              "num_starred_films",
+            ],
             [fn("SUM", col("watchedDirectorLikes.stars")), "num_stars_total"],
             [fn("MAX", col("watchedDirectorLikes.stars")), "highest_star"],
           ],
@@ -692,13 +722,15 @@ router.put("/", validateToken, async (req, res) => {
       await WatchedDirectors.update(
         {
           num_watched_films: likesFromWatchedDirector.num_watched_films,
+          num_starred_films: likesFromWatchedDirector.num_starred_films,
           num_stars_total: likesFromWatchedDirector.num_stars_total,
           avg_rating:
             likesFromWatchedDirector.num_stars_total /
-            likesFromWatchedDirector.num_watched_films,
+            likesFromWatchedDirector.num_starred_films,
           highest_star: likesFromWatchedDirector.highest_star,
           score: calculateScore(
             likesFromWatchedDirector.num_stars_total,
+            likesFromWatchedDirector.num_starred_films,
             likesFromWatchedDirector.num_watched_films
           ),
         },

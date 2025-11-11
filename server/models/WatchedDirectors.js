@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    num_starred_films: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     num_stars_total: {
       type: DataTypes.INTEGER,
       allowNull: false,
