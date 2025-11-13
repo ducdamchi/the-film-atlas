@@ -150,7 +150,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
       </div>
 
       {/* Text below poster */}
-      <div className="text-black w-full p-4 flex justify-between">
+      <div className="text-black w-full md:p-4m md:pb-4 p-2 pb-3 flex justify-between">
         {/* Left side - Title, year*/}
         <div className="border-amber-400 flex flex-col items-start justify-center gap-0 ml-1">
           {/* Film Title */}
@@ -160,7 +160,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
                 navigate(`/films/${filmObject.id}`)
                 setPage((prevPage) => ({ ...prevPage, loadMore: false }))
               }}
-              className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800 text-lg ">
+              className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800 md:text-lg text-sm">
               {`${filmObject.title.slice(0, 25)}`}
             </span>
             {filmObject.title.length >= 25 && (
@@ -170,7 +170,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
             )}
           </div>
           {/* Release year & Director's name */}
-          <div className="flex items-center uppercase text-sm gap-1">
+          <div className="flex items-center uppercase md:text-sm text-xs gap-1">
             {filmObject.release_date && (
               <span className="">
                 {`${getReleaseYear(filmObject.release_date)}`}
@@ -181,12 +181,14 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
         {/* Right side - TMDB rating and vote count */}
         <div className="flex items-center gap-5 justify-center mr-1">
           <div className="flex items-center justify-center gap-1">
-            <MdStars className="text-xl" />
-            <div>{Number(filmObject.vote_average).toFixed(1)}</div>
+            <MdStars className="md:text-xl text-base" />
+            <div className="md:text-base text-sm">
+              {Number(filmObject.vote_average).toFixed(1)}
+            </div>
           </div>
           <div className="flex items-center justify-center gap-1">
-            <MdPeople className="text-2xl" />
-            <div>{filmObject.vote_count}</div>
+            <MdPeople className="md:text-2xl text-lg" />
+            <div className="md:text-base text-sm">{filmObject.vote_count}</div>
           </div>
         </div>
       </div>

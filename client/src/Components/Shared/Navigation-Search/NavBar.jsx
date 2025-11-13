@@ -5,12 +5,20 @@ import { BiSearchAlt2, BiMenu, BiSolidMessageRoundedDots } from "react-icons/bi"
 import { MdClose, MdMenu, MdOutlineSettings, MdSearch } from "react-icons/md"
 import { TbArrowBigRightLinesFilled } from "react-icons/tb"
 
+import { usePersistedState } from "../../../Hooks/usePersistedState"
+
 export default function NavBar() {
   const { authState, setAuthState, searchModalOpen, setSearchModalOpen } =
     useContext(AuthContext)
 
-  const [menuOpened, setMenuOpened] = useState(false)
-  const [settingsOpened, setSettingsOpened] = useState(false)
+  const [menuOpened, setMenuOpened] = usePersistedState(
+    "navbar-menuOpened",
+    false
+  )
+  const [settingsOpened, setSettingsOpened] = usePersistedState(
+    "navbar-settingsOpened",
+    false
+  )
   const menuRef = useRef(null)
   const menuBorderBottom = useRef(null)
   const menuBorderRight = useRef(null)
@@ -38,28 +46,6 @@ export default function NavBar() {
     )
   }
 
-  function openMenu() {
-    setMenuOpened(true)
-    // if (navModalRef.current) {
-    //   navModalRef.current.classList.add("open")
-    // }
-  }
-
-  function closeMenu() {
-    setMenuOpened(false)
-    // if (navModalRef.current) {
-    //   navModalRef.current.classList.remove("open")
-    // }
-  }
-
-  function openSettings() {
-    setSettingsOpened(true)
-  }
-
-  function closeSettings() {
-    setSettingsOpened(false)
-  }
-
   const logOut = () => {
     localStorage.removeItem("accessToken")
     setAuthState({ username: "", id: 0, status: false })
@@ -71,28 +57,38 @@ export default function NavBar() {
       menuBorderBottom.current &&
       menuBorderRight.current
     ) {
-      let timer
+      console.log("Menu Opened: ", menuOpened)
+      let timer1, timer2
       if (menuOpened) {
-        timer = setTimeout(() => {
-          menuRef.current.style.opacity = "1"
+        menuRef.current.style.display = "flex"
+        menuBorderBottom.current.style.display = "block"
+        menuBorderRight.current.style.display = "block"
+        timer1 = setTimeout(() => {
           menuRef.current.style.transform = "translateY(0px)"
-        }, 200)
+        }, 400)
 
-        menuBorderBottom.current.style.transform = "translateY(0px)"
-        menuBorderRight.current.style.transform = "translateY(0px)"
+        timer2 = setTimeout(() => {
+          menuBorderBottom.current.style.transform = "translateY(0px)"
+          menuBorderRight.current.style.transform = "translateY(0px)"
+        }, 200)
 
         // menuRef.current.style.borderWidth = "3px"
       } else {
-        timer = setTimeout(() => {
-          menuRef.current.style.opacity = "1"
-          menuRef.current.style.transform = "translateX(-190px)"
+        timer1 = setTimeout(() => {
+          menuRef.current.style.transform = "translateX(-200px)"
         }, 200)
+        timer2 = setTimeout(() => {
+          menuRef.current.style.display = "none"
+          menuBorderBottom.current.style.display = "none"
+          menuBorderRight.current.style.display = "none"
+        }, 400)
         menuBorderBottom.current.style.transform = "translateX(-200px)"
-        menuBorderRight.current.style.transform = "translateY(-160px)"
-        // menuRef.current.style.borderWidth = "0px"
+        menuBorderRight.current.style.transform = "translateY(-180px)"
+        // settingsRef.current.style.borderWidth = "0px"
       }
       return () => {
-        clearTimeout(timer)
+        clearTimeout(timer1)
+        clearTimeout(timer2)
       }
     }
   }, [menuOpened])
@@ -103,34 +99,46 @@ export default function NavBar() {
       settingsBorderBottom.current &&
       settingsBorderRight.current
     ) {
-      let timer
-      if (settingsOpened) {
-        timer = setTimeout(() => {
-          settingsRef.current.style.opacity = "1"
-          settingsRef.current.style.transform = "translateY(0px)"
-        }, 200)
+      console.log("Settings Opened: ", settingsOpened)
 
-        settingsBorderBottom.current.style.transform = "translateY(0px)"
-        settingsBorderRight.current.style.transform = "translateY(0px)"
+      let timer1, timer2
+      if (settingsOpened) {
+        settingsRef.current.style.display = "flex"
+        settingsBorderBottom.current.style.display = "block"
+        settingsBorderRight.current.style.display = "block "
+        timer1 = setTimeout(() => {
+          settingsRef.current.style.transform = "translateY(0px)"
+        }, 400)
+
+        timer2 = setTimeout(() => {
+          settingsBorderBottom.current.style.transform = "translateY(0px)"
+          settingsBorderRight.current.style.transform = "translateY(0px)"
+        }, 200)
 
         // settingsRef.current.style.borderWidth = "3px"
       } else {
-        timer = setTimeout(() => {
-          settingsRef.current.style.opacity = "1"
-          settingsRef.current.style.transform = "translateX(190px)"
+        // settingsRef.current.style.display = "block"
+        timer1 = setTimeout(() => {
+          settingsRef.current.style.transform = "translateX(200px)"
         }, 200)
+        timer2 = setTimeout(() => {
+          settingsRef.current.style.display = "none"
+          settingsBorderBottom.current.style.display = "none"
+          settingsBorderRight.current.style.display = "none"
+        }, 400)
         settingsBorderBottom.current.style.transform = "translateX(200px)"
-        settingsBorderRight.current.style.transform = "translateY(-160px)"
+        settingsBorderRight.current.style.transform = "translateY(-180px)"
         // settingsRef.current.style.borderWidth = "0px"
       }
       return () => {
-        clearTimeout(timer)
+        clearTimeout(timer1)
+        clearTimeout(timer2)
       }
     }
   }, [settingsOpened])
 
   return (
-    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[3rem] md:h-[4rem] bg-slate-950 text-white border-b-4 border-[#b8d5e5]">
+    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-stone-900 text-white border-b-4 border-[#b8d5e5]">
       <div className="flex items-center justify-center gap-7 min-w-[12rem] ml-3">
         {/* MOBILE - APP NAME */}
         <div className="md:hidden h-full flex items-center justify-center pt-0 z-30">
@@ -138,10 +146,13 @@ export default function NavBar() {
             {menuOpened ? (
               <MdClose
                 className="text-xl mb-[2px]"
-                onClick={() => closeMenu()}
+                onClick={() => setMenuOpened(false)}
               />
             ) : (
-              <MdMenu className="text-xl mb-[2px]" onClick={() => openMenu()} />
+              <MdMenu
+                className="text-xl mb-[2px]"
+                onClick={() => setMenuOpened(true)}
+              />
             )}
           </button>
           <span className="text-[13px] uppercase font-black flex items-center justify-center p-1">
@@ -158,35 +169,53 @@ export default function NavBar() {
 
         {/* MOBILE - HAMBURGER MENU CONTENT */}
         <div
-          className="absolute z-20 top-[48px] left-0 bg-slate-950 border-[#b8d5e5] w-[calc(50vw)] h-[6.5rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
+          className="hidden absolute z-20 top-[60px] left-0 bg-slate-950 border-[#b8d5e5] w-[calc(50vw)] h-[6.5rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
           ref={menuRef}>
           <ul className="flex flex-col gap-2 text-[13px]">
-            <CustomLink to="/map" exact={false}>
+            <CustomLink
+              to="/map"
+              exact={false}
+              onClick={() => {
+                setMenuOpened(false)
+                setSettingsOpened(false)
+              }}>
               MAP
             </CustomLink>
-            <CustomLink to="/films" exact={false}>
+            <CustomLink
+              to="/films"
+              exact={false}
+              onClick={() => {
+                setMenuOpened(false)
+                setSettingsOpened(false)
+              }}>
               FILMS
             </CustomLink>
-            <CustomLink to="/directors" exact={false}>
+            <CustomLink
+              to="/directors"
+              exact={false}
+              onClick={() => {
+                setMenuOpened(false)
+                setSettingsOpened(false)
+              }}>
               DIRECTORS
             </CustomLink>
           </ul>
         </div>
         <div
-          className="absolute w-[calc(50vw+0.4rem)] h-[0.4rem] top-[152px] left-0 bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
+          className="hidden absolute w-[calc(50vw+0.4rem)] h-[0.4rem] top-[164px] left-0 bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
           ref={menuBorderBottom}></div>
         <div
-          className="absolute w-[0.4rem] h-[6.5rem] left-[50%] top-[48px] bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
+          className="hidden absolute w-[0.4rem] h-[6.5rem] left-[50%] top-[60px] bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
           ref={menuBorderRight}></div>
 
         {/* LAPTOP - APP NAME*/}
-        <div className="hidden md:block h-full flex items-center justify-center pt-1">
+        <div className="hidden md:flex h-full items-center justify-center pt-1">
           <span className="text-md uppercase">The Film Atlas</span>
         </div>
 
         {/* LAPTOP - HORIZONTAL MENU */}
-        <div className="hidden md:block text-sm h-full mt-1 flex items-center gap-5">
-          <ul className="flex gap-7 p-2 ">
+        <div className="hidden md:flex text-sm flex h-full mt-1 items-center gap-5">
+          <ul className="flex gap-7 p-2">
             <CustomLink to="/map" exact={false}>
               MAP
             </CustomLink>
@@ -212,48 +241,35 @@ export default function NavBar() {
 
       <div className="md:hidden flex items-center justify-end gap-1 mr-3 text-[13px]">
         {authState.status ? (
-          <div className="h-full flex items-center justify-center">
-            <span className=" p-1 flex items-center justify-center font-light">{`${authState.username}`}</span>
-          </div>
-        ) : (
-          <div className="h-full flex items-center justify-center">
-            <span className="p-2 font-light text-[8px] italic">
-              {`log in to enjoy all features!`}
-            </span>
-            {/* <TbArrowBigRightLinesFilled className="text-xs mr-1" /> */}
-            {/* <span className="p-1 font-bold text-[9px] italic">&rarr;</span> */}
-          </div>
-        )}
-
-        {!settingsOpened ? (
-          <MdOutlineSettings
-            className="text-xl"
-            onClick={() => openSettings()}
-          />
-        ) : (
-          <MdClose className="text-xl" onClick={() => closeSettings()} />
-        )}
-
-        {authState.status ? (
           <div>
+            <div className="h-full flex items-center justify-center">
+              <span className=" p-1 flex items-center justify-center font-light">{`${authState.username}`}</span>
+            </div>
             <div
-              className="absolute z-20 top-[48px] right-0 bg-slate-950 border-[#b8d5e5] w-[50vw] h-[2.5rem] pl-5 pb-5 pt-5 transition-all ease-out duration-200 font-light flex justify-end items-center"
+              className="hidden absolute z-20 top-[60px] right-0 bg-slate-950 border-[#b8d5e5] w-[50vw] h-[2.5rem] pl-5 pb-5 pt-5 transition-all ease-out duration-200 font-light justify-end items-center"
               ref={settingsRef}>
               <button className="mr-5 gap-2 text-[13px]" onClick={logOut}>
                 log out
               </button>
             </div>
             <div
-              className="absolute w-[50vw] h-[0.4rem] top-[88px] right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
+              className="hidden absolute w-[50vw] h-[0.4rem] top-[100px] right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
               ref={settingsBorderBottom}></div>
             <div
-              className="absolute w-[0.4rem] h-[2.5rem] left-[50%] top-[48px] bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
+              className="hidden absolute w-[0.4rem] h-[2.5rem] left-[50%] top-[60px] bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
               ref={settingsBorderRight}></div>
           </div>
         ) : (
           <div>
+            <div className="h-full flex items-center justify-center">
+              <span className="p-2 font-light text-[8px] italic">
+                {`log in to enjoy all features!`}
+              </span>
+              {/* <TbArrowBigRightLinesFilled className="text-xs mr-1" /> */}
+              {/* <span className="p-1 font-bold text-[9px] italic">&rarr;</span> */}
+            </div>
             <div
-              className="absolute z-20 top-[48px] right-0 bg-slate-950 border-[#b8d5e5] w-[50vw] h-[4.8rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
+              className="absolute hidden z-20 top-[60px] right-0 bg-slate-950 border-[#b8d5e5] w-[50vw] h-[4.8rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
               ref={settingsRef}>
               <ul className="flex flex-col text-right mr-5 gap-2 text-[13px]">
                 <CustomLink to="/login">log in</CustomLink>
@@ -261,34 +277,46 @@ export default function NavBar() {
               </ul>
             </div>
             <div
-              className="absolute w-[50vw] h-[0.4rem] top-[125px] right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
+              className="hidden absolute w-[50vw] h-[0.4rem] top-[125px] right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
               ref={settingsBorderBottom}></div>
             <div
-              className="absolute w-[0.4rem] h-[4.8rem] left-[50%] top-[48px] bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
+              className="hidden absolute w-[0.4rem] h-[4.8rem] left-[50%] top-[60px] bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
               ref={settingsBorderRight}></div>
           </div>
+        )}
+
+        {!settingsOpened ? (
+          <MdOutlineSettings
+            className="text-xl"
+            onClick={() => setSettingsOpened(true)}
+          />
+        ) : (
+          <MdClose
+            className="text-xl"
+            onClick={() => setSettingsOpened(false)}
+          />
         )}
       </div>
 
       {/* LAPTOP - USER INFO / AUTH */}
       {authState.status ? (
-        <div className="hidden md:block flex items-center justify-end gap-2">
-          <div className="text-black text-sm h-full flex items-center justify-center">
+        <div className="hidden md:flex items-center justify-end gap-2">
+          <div className="text-sm h-full flex items-center justify-center">
             <span>welcome,&nbsp;</span>
             <span className="font-bold">{`${authState.username}!`}</span>
           </div>
-          <div className="font-thin text-black text-base ">|</div>
-          <button className="text-black text-sm" onClick={logOut}>
+          <div className="font-thin text-base ">|</div>
+          <button className=" text-sm" onClick={logOut}>
             log out
           </button>
         </div>
       ) : (
-        <div className="hidden md:block flex items-center justify-end gap-2">
-          <CustomLink className="text-black text-sm" to="/login">
+        <div className="hidden md:flex flex items-center justify-end gap-2">
+          <CustomLink className="text-sm" to="/login">
             log in
           </CustomLink>
-          <div className="font-thin text-black text-base ">|</div>
-          <CustomLink className="text-black text-sm" to="/register">
+          <div className="font-thintext-base ">|</div>
+          <CustomLink className="text-sm" to="/register">
             register
           </CustomLink>
         </div>
