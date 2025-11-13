@@ -138,7 +138,7 @@ export default function NavBar() {
   }, [settingsOpened])
 
   return (
-    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-stone-900 text-white border-b-4 border-[#b8d5e5]">
+    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-stone-900 text-stone-200 border-b-5 border-[#b8d5e5]">
       <div className="flex items-center justify-center gap-7 min-w-[12rem] ml-3">
         {/* MOBILE - APP NAME */}
         <div className="md:hidden h-full flex items-center justify-center pt-0 z-30">
@@ -169,7 +169,7 @@ export default function NavBar() {
 
         {/* MOBILE - HAMBURGER MENU CONTENT */}
         <div
-          className="hidden absolute z-20 top-[60px] left-0 bg-slate-950 border-[#b8d5e5] w-[calc(50vw)] h-[6.5rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
+          className="hidden absolute z-20 top-[59px] left-0 bg-stone-900 border-[#b8d5e5] w-[calc(50vw)] h-[6.5rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
           ref={menuRef}>
           <ul className="flex flex-col gap-2 text-[13px]">
             <CustomLink
@@ -202,10 +202,10 @@ export default function NavBar() {
           </ul>
         </div>
         <div
-          className="hidden absolute w-[calc(50vw+0.4rem)] h-[0.4rem] top-[164px] left-0 bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
+          className="hidden absolute w-[calc(50vw+0.4rem)] h-[0.4rem] top-[163px] left-0 bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
           ref={menuBorderBottom}></div>
         <div
-          className="hidden absolute w-[0.4rem] h-[6.5rem] left-[50%] top-[60px] bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
+          className="hidden absolute w-[0.4rem] h-[6.5rem] left-[50%] top-[59px] bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
           ref={menuBorderRight}></div>
 
         {/* LAPTOP - APP NAME*/}
@@ -246,30 +246,28 @@ export default function NavBar() {
               <span className=" p-1 flex items-center justify-center font-light">{`${authState.username}`}</span>
             </div>
             <div
-              className="hidden absolute z-20 top-[60px] right-0 bg-slate-950 border-[#b8d5e5] w-[50vw] h-[2.5rem] pl-5 pb-5 pt-5 transition-all ease-out duration-200 font-light justify-end items-center"
+              className="hidden absolute z-20 top-[59px] right-0 bg-stone-900 border-[#b8d5e5] w-[50vw] h-[2.5rem] pl-5 pb-5 pt-5 transition-all ease-out duration-200 font-light justify-end items-center"
               ref={settingsRef}>
               <button className="mr-5 gap-2 text-[13px]" onClick={logOut}>
                 log out
               </button>
             </div>
             <div
-              className="hidden absolute w-[50vw] h-[0.4rem] top-[100px] right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
+              className="hidden absolute w-[50vw] h-[0.4rem] top-[99px] right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
               ref={settingsBorderBottom}></div>
             <div
-              className="hidden absolute w-[0.4rem] h-[2.5rem] left-[50%] top-[60px] bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
+              className="hidden absolute w-[0.4rem] h-[2.5rem] left-[50%] top-[59px] bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
               ref={settingsBorderRight}></div>
           </div>
         ) : (
           <div>
             <div className="h-full flex items-center justify-center">
-              <span className="p-2 font-light text-[8px] italic">
+              {/* <span className="p-2 font-light text-[8px] italic">
                 {`log in to enjoy all features!`}
-              </span>
-              {/* <TbArrowBigRightLinesFilled className="text-xs mr-1" /> */}
-              {/* <span className="p-1 font-bold text-[9px] italic">&rarr;</span> */}
+              </span> */}
             </div>
             <div
-              className="absolute hidden z-20 top-[60px] right-0 bg-slate-950 border-[#b8d5e5] w-[50vw] h-[4.8rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
+              className="absolute hidden z-20 top-[59px] right-0 bg-stone-900 border-[#b8d5e5] w-[50vw] h-[4.8rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light justify-end"
               ref={settingsRef}>
               <ul className="flex flex-col text-right mr-5 gap-2 text-[13px]">
                 <CustomLink to="/login">log in</CustomLink>
@@ -277,10 +275,10 @@ export default function NavBar() {
               </ul>
             </div>
             <div
-              className="hidden absolute w-[50vw] h-[0.4rem] top-[125px] right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
+              className="hidden absolute w-[50vw] h-[0.4rem] top-[136px] right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
               ref={settingsBorderBottom}></div>
             <div
-              className="hidden absolute w-[0.4rem] h-[4.8rem] left-[50%] top-[60px] bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
+              className="hidden absolute w-[0.4rem] h-[4.8rem] left-[50%] top-[59px] bg-[#d5e5b8] z-20 transition-all ease-out duration-400"
               ref={settingsBorderRight}></div>
           </div>
         )}
