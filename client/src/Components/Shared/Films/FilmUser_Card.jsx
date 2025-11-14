@@ -81,7 +81,7 @@ export default function FilmUser_Card({ filmObject, queryString }) {
   return (
     <div
       id={`film-card-${filmObject.id}`}
-      className="film-item w-[22rem] md:w-[30rem] md:min-w-[20rem] aspect-16/10 flex flex-col justify-center items-center md:items-start gap-0 bg-gray-200 text-black rounded-md">
+      className="film-item w-[20rem] md:w-[30rem] md:min-w-[20rem] aspect-16/10 flex flex-col justify-center items-center md:items-start gap-0 bg-gray-200 text-black rounded-md">
       {/* Poster */}
       <div
         className="group/thumbnail overflow-hidden relative"
@@ -93,7 +93,7 @@ export default function FilmUser_Card({ filmObject, queryString }) {
         }}>
         <img
           id={`thumbnail-${filmObject.id}`}
-          className="w-[22rem] md:w-[30rem] min-w-[20rem] aspect-16/10 object-cover transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03]"
+          className="w-[20rem] md:w-[30rem] min-w-[20rem] aspect-16/10 object-cover transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03]"
           src={
             filmObject.backdrop_path !== null
               ? `${imgBaseUrl}${filmObject.backdrop_path}`

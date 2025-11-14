@@ -12,7 +12,9 @@ export default function DirectorTMDB_Gallery({ listOfDirectorObjects }) {
   return (
     <div>
       {listOfDirectorObjects.length === 0 && (
-        <div className="mt-10 mb-20">No directors found.</div>
+        <div className="mt-10 mb-20 text-sm md:text-base">
+          No directors found.
+        </div>
       )}
 
       {listOfDirectorObjects.length > 0 && (

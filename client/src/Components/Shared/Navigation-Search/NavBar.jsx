@@ -138,7 +138,7 @@ export default function NavBar() {
   }, [settingsOpened])
 
   return (
-    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-stone-900 text-stone-200 border-b-5 border-[#b8d5e5]">
+    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-stone-900 text-stone-200 border-b-5 border-[#b8d5e5] z-100">
       <div className="flex items-center justify-center gap-7 min-w-[12rem] ml-3">
         {/* MOBILE - APP NAME */}
         <div className="md:hidden h-full flex items-center justify-center pt-0 z-30">

@@ -10,6 +10,15 @@
   }
 }
 
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 /* Vote Average slider settings */
 #slider-simple {
   height: 0.75rem;

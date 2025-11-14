@@ -34,52 +34,52 @@ export default function LogIn() {
   }
 
   const validationSchema = Yup.object({
-    username: Yup.string().required(),
-    password: Yup.string().required(),
+    username: Yup.string().required("Username is required."),
+    password: Yup.string().required("Password is required."),
   })
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="auth-whole">
+        <div className="auth-svgContainer">
+          <img src="worldmap.svg" alt="" className="auth-svg" />
+          <img src="worldmap.svg" alt="" className="auth-svg" />
+        </div>
+
         <NavBar />
-        <div className="mt-20">
-          <div className="p-4 border-1">
+        <div className="auth-formContainer">
+          <div className="p-4 w-full">
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
               validationSchema={validationSchema}
               enableReinitialize={true}>
-              <Form className="flex flex-col gap-4">
-                <div className="flex gap-2 items-center">
-                  <label htmlFor="username">username</label>
-
-                  <Field
-                    className="border-1 p-1"
-                    id="username"
-                    name="username"
-                    placeholder="Enter username"
-                  />
-                </div>
+              <Form className="auth-form">
+                <Field
+                  className="auth-formField"
+                  id="username"
+                  name="username"
+                  placeholder="username"
+                />
                 <ErrorMessage
                   name="username"
                   component="error-div"
-                  className="text-red-500"
+                  className="auth-formErrorMessage"
                 />
-                <div className="flex gap-2 items-center">
-                  <label htmlFor="password">password</label>
-                  <Field
-                    className="border-1 p-1"
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter password"
-                  />
-                </div>
+
+                <Field
+                  className="auth-formField"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="password"
+                />
+
                 <ErrorMessage
                   name="password"
                   component="error-div"
-                  className="text-red-500"
+                  className="auth-formErrorMessage"
                 />
-                <button type="submit" className="border-1 w-[7rem] p-1">
+                <button type="submit" className="auth-formSubmitButton">
                   log in
                 </button>
               </Form>

@@ -10,6 +10,7 @@ export default function Register() {
   const initialValues = {
     username: "",
     password: "",
+    confirmPassword: "",
   }
 
   const onSubmit = (data) => {
@@ -23,53 +24,69 @@ export default function Register() {
   }
 
   const validationSchema = Yup.object({
-    username: Yup.string().min(3).max(15).required(),
-    password: Yup.string().min(8).max(20).required(),
+    username: Yup.string().min(3).max(15).required("Username is required."),
+    password: Yup.string().min(8).max(20).required("Password is required."),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match.")
+      .required("Confirm Password is required."),
   })
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="auth-whole">
+        <div className="auth-svgContainer">
+          <img src="worldmap.svg" alt="" className="auth-svg" />
+          <img src="worldmap.svg" alt="" className="auth-svg" />
+        </div>
         <NavBar />
-        <div className="mt-20">
-          <div className="p-4 border-1">
+        <div className="auth-formContainer">
+          <div className="p-4">
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
               validationSchema={validationSchema}
               enableReinitialize={true}>
-              <Form className="flex flex-col gap-4">
-                <div className="flex gap-2 items-center">
-                  <label htmlFor="username">username</label>
-
-                  <Field
-                    className="border-1 p-1"
-                    id="username"
-                    name="username"
-                    placeholder="Enter username"
-                  />
-                </div>
+              <Form className="auth-form">
+                <Field
+                  className="auth-formField"
+                  id="username"
+                  name="username"
+                  placeholder="username"
+                />
                 <ErrorMessage
                   name="username"
                   component="error-div"
-                  className="text-red-500"
+                  className="auth-formErrorMessage"
                 />
-                <div className="flex gap-2 items-center">
-                  <label htmlFor="password">password</label>
-                  <Field
-                    className="border-1 p-1"
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter password"
-                  />
-                </div>
+
+                <Field
+                  className="auth-formField"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="password"
+                />
+
                 <ErrorMessage
                   name="password"
                   component="error-div"
-                  className="text-red-500"
+                  className="auth-formErrorMessage"
                 />
-                <button type="submit" className="border-1 w-[7rem] p-1">
-                  create user
+
+                <Field
+                  className="auth-formField"
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="confirm password"
+                />
+
+                <ErrorMessage
+                  name="confirmPassword"
+                  component="error-div"
+                  className="auth-formErrorMessage"
+                />
+                <button type="submit" className="auth-formSubmitButton">
+                  create new account
                 </button>
               </Form>
             </Formik>

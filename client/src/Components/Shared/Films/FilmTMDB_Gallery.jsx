@@ -30,7 +30,7 @@ export default function FilmTMDB_Gallery({ listOfFilmObjects, setPage }) {
   return (
     <div>
       {listOfFilmObjects && listOfFilmObjects.length === 0 && (
-        <div className="mt-10 mb-20">No films found.</div>
+        <div className="mt-10 mb-20 text-sm md:text-base">No films found.</div>
       )}
 
       {listOfFilmObjects && listOfFilmObjects.length > 0 && (

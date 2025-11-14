@@ -113,7 +113,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
   return (
     <div
       id={`film-card-${filmObject.id}`}
-      className="film-item w-[22rem] md:w-[30rem] md:min-w-[20rem] aspect-16/10 flex flex-col justify-center items-center md:items-start gap-0 bg-gray-200 text-black rounded-md">
+      className="film-item w-[20rem] md:w-[30rem] md:min-w-[20rem] aspect-16/10 flex flex-col justify-center items-center md:items-start gap-0 bg-gray-200 text-black rounded-md">
       {/* Poster */}
       <div
         className="group/thumbnail overflow-hidden relative"
@@ -125,7 +125,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
         }}>
         <img
           id={`thumbnail-${filmObject.id}`}
-          className="w-[22rem] md:w-[30rem] min-w-[20rem] aspect-16/10 object-cover transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03]"
+          className="w-[20rem] md:w-[30rem] min-w-[20rem] aspect-16/10 object-cover transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03]"
           src={
             filmObject.backdrop_path !== null
               ? `${imgBaseUrl}${filmObject.backdrop_path}`
@@ -191,16 +191,16 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
           </div>
 
           {/* Film Title - MOBILE*/}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center justify-start">
             <span
               onClick={() => {
                 navigate(`/films/${filmObject.id}`)
                 setPage((prevPage) => ({ ...prevPage, loadMore: false }))
               }}
               className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800 md:text-lg text-sm">
-              {`${filmObject.title.slice(0, 18)}`}
+              {`${filmObject.title.slice(0, 17)}`}
             </span>
-            {filmObject.title.length >= 18 && (
+            {filmObject.title.length >= 17 && (
               <span className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800 text-sm">
                 ...
               </span>
@@ -211,6 +211,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
               </span>
             )}
           </div>
+
           {/* Release year */}
           <div className="hidden md:flex items-center justify-center uppercase text-sm gap-1">
             {filmObject.release_date && (
@@ -220,17 +221,18 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
             )}
           </div>
         </div>
+
         {/* Right side - TMDB rating and vote count */}
         <div className="flex items-center gap-2 md:gap-5 justify-center mr-1">
           <div className="flex items-center justify-center gap-1">
-            <MdStars className="md:text-xl text-base" />
-            <div className="md:text-base text-sm">
+            <MdStars className="md:text-xl text-sm" />
+            <div className="md:text-base text-xs">
               {Number(filmObject.vote_average).toFixed(1)}
             </div>
           </div>
           <div className="flex items-center justify-center gap-1">
-            <MdPeople className="md:text-2xl text-lg" />
-            <div className="md:text-base text-sm">{filmObject.vote_count}</div>
+            <MdPeople className="md:text-2xl text-base" />
+            <div className="md:text-base text-xs">{filmObject.vote_count}</div>
           </div>
         </div>
       </div>
@@ -238,9 +240,9 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
       <div className="md:hidden mt-[-5px] pb-4 w-full">
         <div className="p-0 pr-3 pl-3 mb-3 w-full">
           <span className="text-xs italic">
-            {filmObject.overview?.slice(0, 50)}
+            {filmObject.overview?.slice(0, 45)}
           </span>
-          {filmObject.overview?.length >= 50 && <span>{`...`}</span>}
+          {filmObject.overview?.length >= 45 && <span>{`...`}</span>}
         </div>
         <InteractionConsole
           tmdbId={filmObject.id}
@@ -254,10 +256,10 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
             hoverBg: "none",
             hoverTextColor: "none",
             fontSize: "0.8rem",
-            likeSize: "1.3rem",
-            saveSize: "1.7rem",
-            starSize: "1.5rem",
-            flexGap: "0.4rem",
+            likeSize: "1.2rem",
+            saveSize: "1.6rem",
+            starSize: "1.4rem",
+            flexGap: "0rem",
             likeColor: "oklch(44.4% 0.177 26.899)",
             saveColor: "oklch(44.8% 0.119 151.328)",
           }}
