@@ -140,7 +140,7 @@ export default function NavBar() {
   }, [settingsOpened])
 
   return (
-    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-stone-900 text-stone-200 border-b-5 border-[#b8d5e5] z-100">
+    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-black text-stone-200 border-b-5 border-[#b8d5e5] z-100">
       <div className="flex items-center justify-center gap-7 min-w-[12rem] ml-3">
         {/* MOBILE - APP NAME */}
         <div className="md:hidden h-full flex items-center justify-center pt-0 z-30">
@@ -171,7 +171,7 @@ export default function NavBar() {
 
         {/* MOBILE - HAMBURGER MENU CONTENT */}
         <div
-          className="hidden absolute z-20 top-[59px] left-0 bg-stone-900 border-[#b8d5e5] w-[calc(50vw)] h-[6.5rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
+          className="hidden absolute z-20 top-[59px] left-0 bg-black border-[#b8d5e5] w-[calc(50vw)] h-[6.5rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
           ref={menuRef}>
           <ul className="flex flex-col gap-2 text-[13px]">
             <CustomLink
@@ -248,7 +248,7 @@ export default function NavBar() {
               <span className=" p-1 flex items-center justify-center font-light">{`${authState.username}`}</span>
             </div>
             <div
-              className="hidden absolute z-20 top-[59px] right-0 bg-stone-900 border-[#b8d5e5] w-[50vw] h-[2.5rem] pl-5 pb-5 pt-5 transition-all ease-out duration-200 font-light justify-end items-center"
+              className="hidden absolute z-20 top-[59px] right-0 bg-black border-[#b8d5e5] w-[50vw] h-[2.5rem] pl-5 pb-5 pt-5 transition-all ease-out duration-200 font-light justify-end items-center"
               ref={settingsRef}>
               <button className="mr-5 gap-2 text-[13px]" onClick={logOut}>
                 log out
@@ -269,7 +269,7 @@ export default function NavBar() {
               </span> */}
             </div>
             <div
-              className="absolute hidden z-20 top-[59px] right-0 bg-stone-900 border-[#b8d5e5] w-[50vw] h-[4.8rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light justify-end"
+              className="absolute hidden z-20 top-[59px] right-0 bg-black border-[#b8d5e5] w-[50vw] h-[4.8rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light justify-end"
               ref={settingsRef}>
               <ul className="flex flex-col text-right mr-5 gap-2 text-[13px]">
                 <CustomLink to="/login">log in</CustomLink>

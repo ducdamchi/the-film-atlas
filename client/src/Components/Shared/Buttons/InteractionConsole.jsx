@@ -269,7 +269,7 @@ export default function InteractionConsole({
           )}
 
           <div
-            className={`flex items-center h-[4rem] justify-center w-full`}
+            className={`flex h-[4rem] justify-center items-end w-full`}
             style={{
               gap: css.flexGap,
               height: css.height ? css.height : "4rem",
@@ -277,7 +277,7 @@ export default function InteractionConsole({
             <button
               alt="Add to watched"
               title="Add to watched"
-              className={`hover:text-[var(--hover-text-color)] transition-all duration-200 ease-out hover:bg-[var(--hover-bg-color)] h-full flex items-center`}
+              className={`hover:text-[var(--hover-text-color)] transition-all duration-200 ease-out hover:bg-[var(--hover-bg-color)] h-full flex items-center  p-0`}
               style={{
                 "--hover-text-color": css.hoverTextColor,
                 "--hover-bg-color": css.hoverBg,
@@ -285,7 +285,14 @@ export default function InteractionConsole({
               }}
               onClick={handleLike}>
               {isLiked ? (
-                <div className="flex items-center gap-1">
+                <div
+                  className="console-button"
+                  style={{
+                    backgroundColor: css.likedBgColor,
+                    borderColor: css.likedBgColor,
+                    padding: `${css.paddingTopBottom} ${css.paddingLeftRight}`,
+                    height: css.buttonHeight,
+                  }}>
                   <BiSolidHeart
                     style={{ color: css.likeColor, fontSize: css.likeSize }}
                     // className={`text-${css.likeColor} text-${css.likeSize}`}
@@ -298,7 +305,12 @@ export default function InteractionConsole({
                   </span>
                 </div>
               ) : (
-                <div className="flex items-center gap-1">
+                <div
+                  className="console-button"
+                  style={{
+                    padding: `${css.paddingTopBottom} ${css.paddingLeftRight}`,
+                    height: css.buttonHeight,
+                  }}>
                   <BiHeart
                     // className={`text-${css.likeSize}`}
                     style={{ fontSize: css.likeSize }}
@@ -322,7 +334,14 @@ export default function InteractionConsole({
               }}
               onClick={handleSave}>
               {isSaved ? (
-                <div className="flex items-center gap-1">
+                <div
+                  className="console-button"
+                  style={{
+                    backgroundColor: css.savedBgColor,
+                    borderColor: css.savedBgColor,
+                    padding: `${css.paddingTopBottom} ${css.paddingLeftRight}`,
+                    height: css.buttonHeight,
+                  }}>
                   <BiListCheck
                     // className={`text-${css.saveColor} text-${css.saveSize}`}
                     style={{ color: css.saveColor, fontSize: css.saveSize }}
@@ -334,7 +353,12 @@ export default function InteractionConsole({
                   </span>
                 </div>
               ) : (
-                <div className="flex items-center gap-1">
+                <div
+                  className="console-button"
+                  style={{
+                    padding: `${css.paddingTopBottom} ${css.paddingLeftRight}`,
+                    height: css.buttonHeight,
+                  }}>
                   <BiListPlus
                     className={`text-${css.saveSize}`}
                     style={{ fontSize: css.saveSize }}

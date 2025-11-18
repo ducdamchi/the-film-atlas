@@ -98,4 +98,12 @@
   .auth-formErrorMessage {
     @apply text-red-500 self-start ml-2;
   }
+
+  .console-button {
+    @apply flex items-center gap-1 border-1 rounded-full max-h-[2.5rem];
+  }
+
+  .landing-page-title {
+    @apply font-black text-2xl mb-2;
+  }
 }

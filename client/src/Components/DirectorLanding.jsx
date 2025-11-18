@@ -130,9 +130,7 @@ export default function DirectorLanding() {
 
       {/* Director's Info */}
       <div>
-        <div className="font-bold uppercase text-3xl border-1">
-          {directorDetails.name}
-        </div>
+        <div className="landing-page-title">{directorDetails.name}</div>
         <div className="border-1 flex flex-col items-center">
           <div className="relative group/thumbnail aspect-10/13 overflow-hidden w-[25rem] min-w-[20rem] border-3">
             <img

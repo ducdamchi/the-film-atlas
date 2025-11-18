@@ -138,7 +138,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
           }}
         />
         {hoverId === filmObject.id && (
-          <div className="border-red-500 absolute bottom-0 left-0 w-[20rem] md:w-[30rem] min-w-[20rem] aspect-16/10 object-cover bg-black/70 flex items-center justify-center">
+          <div className="hidden border-red-500 absolute bottom-0 left-0 w-[20rem] md:w-[30rem] min-w-[20rem] aspect-16/10 object-cover bg-black/70 flex items-center justify-center">
             <InteractionConsole
               tmdbId={hoverId}
               directors={directors}
@@ -255,14 +255,19 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
             textColor: "black",
             hoverBg: "none",
             hoverTextColor: "none",
-            fontSize: "0.8rem",
-            likeSize: "1.2rem",
-            saveSize: "1.6rem",
-            starSize: "1.4rem",
+            fontSize: "10px",
+            likeSize: "1.0rem",
+            saveSize: "1.4rem",
+            starSize: "1.2rem",
             flexGap: "0rem",
-            likeColor: "oklch(44.4% 0.177 26.899)",
-            saveColor: "oklch(44.8% 0.119 151.328)",
-            buttonPadding: "8px",
+            likeColor: "white",
+            saveColor: "white",
+            likedBgColor: "oklch(44.4% 0.177 26.899)",
+            savedBgColor: "oklch(44.8% 0.119 151.328)",
+            buttonPadding: "4px",
+            paddingTopBottom: "0px",
+            paddingLeftRight: "10px",
+            buttonHeight: "2rem",
           }}
           showOverview={false}
         />
