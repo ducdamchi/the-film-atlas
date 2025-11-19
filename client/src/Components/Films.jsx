@@ -162,7 +162,7 @@ export default function Films() {
   }, [sortBy, sortDirection, queryString, numStars])
 
   return (
-    <>
+    <div className="font-primary ">
       {/* {isLoading && <LoadingPage />} */}
       {/* Quick Search Modal */}
       {searchModalOpen && (
@@ -176,7 +176,7 @@ export default function Films() {
       <div className="flex flex-col items-center">
         <NavBar />
 
-        <div className="page-title">Films</div>
+        <div className="font-heading page-title">Films</div>
 
         <SearchBar
           searchInput={searchInput}
@@ -304,6 +304,6 @@ export default function Films() {
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 }

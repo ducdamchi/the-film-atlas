@@ -140,7 +140,7 @@ export default function NavBar() {
   }, [settingsOpened])
 
   return (
-    <div className="flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-black text-stone-200 border-b-5 border-[#b8d5e5] z-100">
+    <div className="font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] h-[4rem] md:h-[5rem] bg-black text-stone-200 border-b-5 border-[#b8d5e5] z-100">
       <div className="flex items-center justify-center gap-7 min-w-[12rem] ml-3">
         {/* MOBILE - APP NAME */}
         <div className="md:hidden h-full flex items-center justify-center pt-0 z-30">
@@ -157,7 +157,7 @@ export default function NavBar() {
               />
             )}
           </button>
-          <span className="text-[13px] uppercase font-black flex items-center justify-center p-1">
+          <span className="font-heading text-[13px] uppercase font-black flex items-center justify-center p-1">
             The Film Atlas
           </span>
           <button
@@ -212,7 +212,9 @@ export default function NavBar() {
 
         {/* LAPTOP - APP NAME*/}
         <div className="hidden md:flex h-full items-center justify-center pt-1">
-          <span className="font-black uppercase">The Film Atlas</span>
+          <span className="font-heading font-black uppercase">
+            The Film Atlas
+          </span>
         </div>
 
         {/* LAPTOP - HORIZONTAL MENU */}

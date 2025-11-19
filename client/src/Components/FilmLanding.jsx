@@ -216,7 +216,7 @@ export default function FilmLanding() {
   }
 
   return (
-    <>
+    <div className="font-primary">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
@@ -259,7 +259,9 @@ export default function FilmLanding() {
               <div className="landing-img-text-container">
                 {/* Title */}
                 {movieDetails.title && (
-                  <div className="landing-page-title">{movieDetails.title}</div>
+                  <div className="landing-page-title font-heading">
+                    {movieDetails.title}
+                  </div>
                 )}
 
                 {/* Release Date */}
@@ -326,7 +328,7 @@ export default function FilmLanding() {
               </div>
             </div>
             <div className="landing-transparent-layer-bottom"></div>
-            <div className="absolute bottom-0 w-full">
+            <div className="absolute bottom-0 w-full flex items-center justify-center mb-1">
               <InteractionConsole
                 tmdbId={tmdbId}
                 directors={directors}
@@ -336,7 +338,7 @@ export default function FilmLanding() {
                   textColor: "oklch(92.3% 0.003 48.717)",
                   hoverBg: "oklch(92% 0.004 286.32 / 0.3)",
                   hoverTextColor: "oklch(42.4% 0.199 265.638)",
-                  fontSize: "13px",
+                  fontSize: "11px",
                   likeSize: "1rem",
                   saveSize: "1.5rem",
                   starSize: "1.3rem",
@@ -348,7 +350,7 @@ export default function FilmLanding() {
                   buttonPadding: "0px",
                   paddingTopBottom: "0px",
                   paddingLeftRight: "12px",
-                  buttonHeight: "2.5rem",
+                  buttonHeight: "2.3rem",
                 }}
                 showOverview={false}
               />
@@ -358,7 +360,7 @@ export default function FilmLanding() {
           <div
             // id="landing-bg-1"
             // ref={overviewRef}
-            className="flex flex-col items-start p-4 text-stone-900 gap-2 relative border-0 border-b-0 border-t-0 border-0 overflow-visible bg-stone-100">
+            className="flex flex-col items-start p-4 text-stone-900 gap-2 relative bg-stone-100">
             <div className="flex">
               <div className="flex flex-col items-start justify-start">
                 {movieDetails.overview && (
@@ -414,6 +416,6 @@ export default function FilmLanding() {
             className="h-[40rem] w-screen relative z-20"></div> */}
         </div>
       </div>
-    </>
+    </div>
   )
 }

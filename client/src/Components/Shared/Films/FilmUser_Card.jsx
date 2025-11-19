@@ -161,7 +161,7 @@ export default function FilmUser_Card({ filmObject, queryString }) {
             )}
           </div>
           {/* Release year & Director's name */}
-          <div className="flex items-center uppercase md:text-sm text-xs font-light gap-1">
+          <div className="flex items-center uppercase md:text-sm text-[10px] font-light gap-1">
             {filmObject.release_date && (
               <span className="">
                 {`${getReleaseYear(filmObject.release_date)}`}
@@ -199,9 +199,9 @@ export default function FilmUser_Card({ filmObject, queryString }) {
                   <div
                     key={key}
                     className="flex flex-col items-center justify-center gap-1">
-                    <div className="relative max-w-[8rem] h-[2.5rem] md:h-[3rem] aspect-1/1 overflow-hidden rounded-full">
+                    <div className="relative max-w-[8rem] h-[2rem] md:h-[3rem] aspect-1/1 overflow-hidden rounded-full">
                       <img
-                        className="object-cover grayscale transform -translate-y-2/11 hover:scale-[1.05] transition-all duration-300 ease-out"
+                        className="object-cover grayscale transform -translate-y-1 hover:scale-[1.05] transition-all duration-300 ease-out"
                         src={
                           dir.profile_path !== null
                             ? `${imgBaseUrl}${dir.profile_path}`

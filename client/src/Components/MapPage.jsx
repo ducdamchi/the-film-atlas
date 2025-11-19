@@ -21,7 +21,7 @@ import "react-range-slider-input/dist/style.css"
 import "../App.css"
 
 import { AuthContext } from "../Utils/authContext"
-import { getCountryName } from "../Utils/helperFunctions"
+import { getCountryName, shuffleArray } from "../Utils/helperFunctions"
 import {
   fetchListByParams,
   queryTopRatedFilmByCountryTMDB,
@@ -78,7 +78,7 @@ export default function MapPage() {
   const [numStars, setNumStars] = usePersistedState("map-numStars", 0)
   const [discoverBy, setDiscoverBy] = usePersistedState(
     "map-discoverBy",
-    "vote_average.desc"
+    "random"
   )
   const [scrollPosition, setScrollPosition] = usePersistedState(
     "map-scrollPosition",
@@ -357,6 +357,10 @@ export default function MapPage() {
                 !(movie.backdrop_path === null || movie.poster_path === null)
             )
 
+            if (discoverBy === "random") {
+              shuffleArray(filtered_results)
+            }
+
             if (filtered_results.length > 0) {
               setSuggestedFilmList((prevResults) => [
                 ...prevResults,
@@ -424,6 +428,11 @@ export default function MapPage() {
               (movie) =>
                 !(movie.backdrop_path === null || movie.poster_path === null)
             )
+
+            // This means user wants to discover by random
+            if (discoverBy === "random") {
+              shuffleArray(filtered_results)
+            }
 
             setSuggestedFilmList(filtered_results)
 
@@ -529,7 +538,7 @@ export default function MapPage() {
   }, [onData])
 
   return (
-    <div className="flex flex-col justify-center w-[100vw]">
+    <div className="font-primary flex flex-col justify-center w-[100vw]">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
@@ -650,7 +659,7 @@ export default function MapPage() {
         {popupInfo &&
           popupInfo.iso_a2 !== null &&
           popupInfo.iso_a2 !== undefined && (
-            <div className="page-title">{`${getCountryName(popupInfo.iso_a2)}`}</div>
+            <div className="page-title font-heading">{`${getCountryName(popupInfo.iso_a2)}`}</div>
           )}
 
         <div className="flex flex-col items-center justify-center md:mt-10 mt-5 w-[90%] min-w-[20rem] md:w-[30rem">
@@ -742,15 +751,17 @@ export default function MapPage() {
           )}
           {isDiscoverMode && (
             <div className="w-full flex flex-col items-center gap-0 mb-7">
-              <Toggle_Two
+              <Toggle_Three
                 label="Sort By"
                 width="20rem"
                 height="2.5rem"
                 state={discoverBy}
                 setState={setDiscoverBy}
                 stateDetails={{
-                  1: { value: "vote_average.desc", label: "Average Rating" },
-                  2: { value: "vote_count.desc", label: "Vote Count" },
+                  //"random" is not a valid parameter for TMDB sortBy, so api would return default sortBy, which is popularity.desc
+                  1: { value: "random", label: "Random" },
+                  2: { value: "vote_average.desc", label: "Avg. Rating" },
+                  3: { value: "vote_count.desc", label: "Vote Count" },
                 }}
               />
 

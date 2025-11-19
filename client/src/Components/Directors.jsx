@@ -170,10 +170,10 @@ export default function Directors() {
         />
       )}
       {/* Wrapper for entire page */}
-      <div className="flex flex-col items-center">
+      <div className="font-primary flex flex-col items-center">
         <NavBar />
 
-        <div className="page-title">DIRECTORS</div>
+        <div className="font-heading page-title">DIRECTORS</div>
 
         <SearchBar
           searchInput={searchInput}

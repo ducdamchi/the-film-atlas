@@ -16,6 +16,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
   const [movieDetails, setMovieDetails] = useState({})
   const [directors, setDirectors] = useState([]) //director
 
+  /* Fetch TMDB details for a film when it's hovered on --- might become obsolete */
   useEffect(() => {
     // console.log("Hover Id Hook triggered: ", hoverId)
     const fetchPageData = async () => {
@@ -38,6 +39,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
     fetchPageData()
   }, [hoverId])
 
+  /* Fetch TMDB details for each film card that shows up on screen */
   useEffect(() => {
     const fetchPageData = async () => {
       try {
@@ -137,6 +139,8 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
             setPage((prevPage) => ({ ...prevPage, loadMore: false }))
           }}
         />
+
+        {/* Laptop Interaction Console */}
         {hoverId === filmObject.id && (
           <div className="hidden border-red-500 absolute bottom-0 left-0 w-[20rem] md:w-[30rem] min-w-[20rem] aspect-16/10 object-cover bg-black/70 flex items-center justify-center">
             <InteractionConsole
@@ -206,7 +210,7 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
               </span>
             )}
             {filmObject.release_date && (
-              <span className="ml-1 text-sm font-light">
+              <span className="ml-1 text-sm font-thin">
                 {`${getReleaseYear(filmObject.release_date)}`}
               </span>
             )}
@@ -239,10 +243,10 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
 
       <div className="md:hidden mt-[-5px] pb-4 w-full">
         <div className="p-0 pr-3 pl-3 mb-3 w-full">
-          <span className="text-xs italic">
-            {filmObject.overview?.slice(0, 45)}
+          <span className="text-[10px] italic">
+            {filmObject.overview?.slice(0, 55)}
           </span>
-          {filmObject.overview?.length >= 45 && <span>{`...`}</span>}
+          {filmObject.overview?.length >= 55 && <span>{`...`}</span>}
         </div>
         <InteractionConsole
           tmdbId={filmObject.id}

@@ -133,7 +133,7 @@ export default function FilmUser_Gallery({
           {groupedFilms.map(([groupKey, groupObject]) => {
             return (
               <div key={`${groupKey}`} className="flex flex-col gap-2">
-                <div className="page-subtitle ml-5 md:ml-0">
+                <div className="page-subtitle ml-0">
                   {groupObject.groupName}
                 </div>
                 <div className="grid grid-cols-1 gap-6">

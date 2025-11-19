@@ -39,7 +39,7 @@ export default function LogIn() {
   })
   return (
     <>
-      <div className="auth-whole">
+      <div className="font-primary auth-whole">
         <div className="auth-svgContainer">
           <img src="worldmap.svg" alt="" className="auth-svg" />
           <img src="worldmap.svg" alt="" className="auth-svg" />
