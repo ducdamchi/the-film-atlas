@@ -21,7 +21,7 @@ export default function DirectorLanding() {
   const [isLoading, setIsLoading] = useState(false)
   const [directorDetails, setDirectorDetails] = useState({})
   const [directedFilms, setDirectedFilms] = useState({})
-  const [searchModalOpen, setSearchModalOpen] = useState(false)
+  // const [searchModalOpen, setSearchModalOpen] = useState(false)
   const { tmdbId } = useParams()
   const [scrollPosition, setScrollPosition] = usePersistedState(
     "directorLanding-scrollPosition",
@@ -33,7 +33,8 @@ export default function DirectorLanding() {
   const [score, setScore] = useState(0)
   const [avgRating, setAvgRating] = useState(0)
 
-  const { authState } = useContext(AuthContext)
+  const { authState, searchModalOpen, setSearchModalOpen } =
+    useContext(AuthContext)
 
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)

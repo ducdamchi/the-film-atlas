@@ -3,7 +3,13 @@ import React, { useEffect, useState, useContext, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
 /* Custom functions */
-import { getCountryName, getReleaseYear } from "../Utils/helperFunctions"
+import {
+  getCountryName,
+  getReleaseYear,
+  getLuminance,
+  getContrastRatio,
+  ensureContrast,
+} from "../Utils/helperFunctions"
 import { fetchFilmFromTMDB } from "../Utils/apiCalls"
 import useCommandK from "../Hooks/useCommandK"
 import { AuthContext } from "../Utils/authContext"
@@ -28,14 +34,16 @@ export default function FilmLanding() {
   const [backdropList, setBackdropList] = useState([])
   const [posterList, setPosterList] = useState([])
   const [trailerLink, setTrailerLink] = useState(null)
+  const [overlayColor, setOverlayColor] = useState([0, 0, 0])
+  const [overlayTextColor, setOverlayTextColor] = useState([255, 255, 255])
 
   const { authState, searchModalOpen, setSearchModalOpen } =
     useContext(AuthContext)
   const { tmdbId } = useParams()
   const navigate = useNavigate()
-  const overviewRef = useRef(null)
+  // const overviewRef = useRef(null)
   const posterRef = useRef(null)
-  const castRef = useRef(null)
+  // const castRef = useRef(null)
 
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
@@ -71,7 +79,7 @@ export default function FilmLanding() {
   }, [tmdbId])
 
   useEffect(() => {
-    console.log("movieDetails: ", movieDetails)
+    // console.log("movieDetails: ", movieDetails)
     if (movieDetails.credits) {
       const directorsList = movieDetails.credits.crew.filter(
         (crewMember) => crewMember.job === "Director"
@@ -98,7 +106,10 @@ export default function FilmLanding() {
 
       // Filter for YouTube trailers only
       const trailerLinks = movieDetails.videos.results.filter((video) => {
-        return video.site === "YouTube" && video.type === "Trailer"
+        return (
+          // (video.site === "YouTube" || video.site === "Vimeo") &&
+          video.type === "Trailer"
+        )
       })
       // Sort trailers by newest to oldest
       const sortedTrailerLinks = trailerLinks.sort((a, b) => {
@@ -106,6 +117,7 @@ export default function FilmLanding() {
         const dateB = new Date(b.published_at)
         return dateB - dateA
       })
+      console.log("Trailers:", sortedTrailerLinks)
 
       setDirectors(directorsList)
       setDops(dopsList)
@@ -118,98 +130,32 @@ export default function FilmLanding() {
         setTrailerLink(null)
       }
     }
-  }, [movieDetails])
 
-  useEffect(() => {
-    if (overviewRef.current && posterRef.current && castRef.current) {
-      try {
-        const backdrop = new Image()
-        const poster = new Image()
-        backdrop.crossOrigin = "anonymous"
-        poster.crossOrigin = "anonymous"
+    /* Once movie detail loads, set the overlay color based on poster dominant color */
+    try {
+      const poster = new Image()
+      poster.crossOrigin = "anonymous"
+      const proxyUrl2 = `https://corsproxy.io/?${encodeURIComponent(`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`)}`
+      poster.src = proxyUrl2
 
-        const proxyUrl1 = `https://corsproxy.io/?${encodeURIComponent(`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`)}`
-        const proxyUrl2 = `https://corsproxy.io/?${encodeURIComponent(`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`)}`
-        backdrop.src = proxyUrl1
-        poster.src = proxyUrl2
+      poster.onload = () => {
+        const colorThief2 = new ColorThief()
+        let domColor2 = colorThief2.getColor(poster)
+        const bgColor = domColor2
+        let textColor = [
+          255 - domColor2[0],
+          255 - domColor2[1],
+          255 - domColor2[2],
+        ]
+        textColor = ensureContrast(bgColor, textColor)
 
-        // Convert RGB to relative luminance
-        const getLuminance = (r, g, b) => {
-          const [rs, gs, bs] = [r, g, b].map((c) => {
-            c = c / 255
-            return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
-          })
-          return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs
-        }
-
-        // Calculate contrast ratio
-        const getContrastRatio = (l1, l2) => {
-          const lighter = Math.max(l1, l2)
-          const darker = Math.min(l1, l2)
-          return (lighter + 0.05) / (darker + 0.05)
-        }
-
-        // Adjust color to ensure sufficient contrast
-        const ensureContrast = (bgColor, textColor) => {
-          const bgLuminance = getLuminance(...bgColor)
-          let textLuminance = getLuminance(...textColor)
-          let contrastRatio = getContrastRatio(bgLuminance, textLuminance)
-
-          // WCAG AA requires at least 4.5:1 for normal text
-          const minContrast = 4.5
-
-          if (contrastRatio < minContrast) {
-            // If contrast is insufficient, adjust the text color
-            // by making it significantly lighter or darker
-            const isBgDark = bgLuminance < 0.5
-
-            if (isBgDark) {
-              // For dark backgrounds, use light text (high luminance)
-              return [231, 229, 228] // white
-            } else {
-              // For light backgrounds, use dark text (low luminance)
-              return [28, 25, 23] // black
-            }
-          }
-
-          return textColor
-        }
-
-        backdrop.onload = () => {
-          const colorThief = new ColorThief()
-          let domColor
-
-          domColor = colorThief.getColor(backdrop)
-          const bgColor = domColor
-          let textColor = [
-            255 - domColor[0],
-            255 - domColor[1],
-            255 - domColor[2],
-          ]
-          textColor = ensureContrast(bgColor, textColor)
-          overviewRef.current.style.backgroundColor = `rgba(${bgColor[0]}, ${bgColor[1]}, ${bgColor[2]}, 1)`
-          overviewRef.current.style.color = `rgba(${textColor[0]}, ${textColor[1]}, ${textColor[2]}, 1)`
-        }
-
-        poster.onload = () => {
-          const colorThief2 = new ColorThief()
-          let domColor2
-
-          domColor2 = colorThief2.getColor(poster)
-
-          posterRef.current.style.backgroundColor = `rgba(${domColor2[0]}, ${domColor2[1]}, ${domColor2[2]}, 1)`
-          posterRef.current.style.color = `rgba(${255 - domColor2[0]}, ${255 - domColor2[1]}, ${255 - domColor2[2]}, 1)`
-          castRef.current.style.backgroundColor = `rgba(${255 - domColor2[0]}, ${255 - domColor2[1]}, ${255 - domColor2[2]}, 1)`
-          castRef.current.style.color = `rgba(${domColor2[0]}, ${domColor2[1]}, ${domColor2[2]}, 1)`
-        }
-      } catch (err) {
-        console.log(err)
+        setOverlayTextColor(textColor)
+        setOverlayColor(bgColor)
       }
+    } catch (err) {
+      console.log(err)
     }
-    // const landingBg = document.getElementById(`landing-bg-1`)
-    // const landingBg2 = document.getElementById(`landing-bg-2`)
-    // const cast = document.getElementById(`cast`)
-  }, [tmdbId, posterRef, overviewRef, castRef])
+  }, [movieDetails])
 
   if (!movieDetails) {
     return <div>Error loading film. Please try again.</div>
@@ -376,6 +322,7 @@ export default function FilmLanding() {
                 )}
                 <div className="p-4 pt-1">
                   <img
+                    ref={posterRef}
                     className=" w-[12rem] aspect-2/3 object-cover scale-[1] mb-5 border-0 rounded-md z-30 inset-shadow-white inset-shadow-sm drop-shadow-2xl"
                     src={
                       movieDetails.poster_path !== null
@@ -388,10 +335,20 @@ export default function FilmLanding() {
               </div>
               <div className="flex flex-col items-end justify-start gap-0">
                 {mainCast.length > 0 && (
-                  <PersonList title="main cast" listOfPeople={mainCast} />
+                  <PersonList
+                    title="main cast"
+                    listOfPeople={mainCast}
+                    overlayColor={overlayColor}
+                    overlayTextColor={overlayTextColor}
+                  />
                 )}
                 {dops.length > 0 && (
-                  <PersonList title="d.o.p." listOfPeople={dops} />
+                  <PersonList
+                    title="d.o.p."
+                    listOfPeople={dops}
+                    overlayColor={overlayColor}
+                    overlayTextColor={overlayTextColor}
+                  />
                 )}
               </div>
             </div>
@@ -401,6 +358,7 @@ export default function FilmLanding() {
                   trailer
                 </div>
                 <iframe
+                  className="rounded-md"
                   width="100%"
                   height="100%"
                   src={`https://www.youtube.com/embed/${trailerLink}`}

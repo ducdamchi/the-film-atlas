@@ -102,3 +102,45 @@ export function shuffleArray(array) {
 
   return array
 }
+
+// Convert RGB to relative luminance
+export const getLuminance = (r, g, b) => {
+  const [rs, gs, bs] = [r, g, b].map((c) => {
+    c = c / 255
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+  })
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs
+}
+
+// Calculate contrast ratio
+export const getContrastRatio = (l1, l2) => {
+  const lighter = Math.max(l1, l2)
+  const darker = Math.min(l1, l2)
+  return (lighter + 0.05) / (darker + 0.05)
+}
+
+// Adjust color to ensure sufficient contrast
+export const ensureContrast = (bgColor, textColor) => {
+  const bgLuminance = getLuminance(...bgColor)
+  let textLuminance = getLuminance(...textColor)
+  let contrastRatio = getContrastRatio(bgLuminance, textLuminance)
+
+  // WCAG AA requires at least 4.5:1 for normal text
+  const minContrast = 4.5
+
+  if (contrastRatio < minContrast) {
+    // If contrast is insufficient, adjust the text color
+    // by making it significantly lighter or darker
+    const isBgDark = bgLuminance < 0.5
+
+    if (isBgDark) {
+      // For dark backgrounds, use light text (high luminance)
+      return [231, 229, 228] // white
+    } else {
+      // For light backgrounds, use dark text (low luminance)
+      return [28, 25, 23] // black
+    }
+  }
+
+  return textColor
+}
