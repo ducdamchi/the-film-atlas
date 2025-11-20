@@ -171,7 +171,7 @@ export default function NavBar() {
 
         {/* MOBILE - HAMBURGER MENU CONTENT */}
         <div
-          className="hidden absolute z-20 top-[59px] left-0 bg-black border-[#b8d5e5] w-[calc(50vw)] h-[6.5rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light"
+          className="hidden absolute z-20 top-[59px] left-0 bg-black border-[#b8d5e5] w-[calc(50vw)] h-[6.5rem] pl-5 pb-5 pt-3 transition-all ease-out duration-200 font-light z-100"
           ref={menuRef}>
           <ul className="flex flex-col gap-2 text-[13px]">
             <CustomLink
@@ -240,8 +240,7 @@ export default function NavBar() {
       </div>
 
       {/* MOBILE - USER INFO / AUTH */}
-
-      <div className="md:hidden flex items-center justify-end gap-1 mr-3 text-[13px]">
+      <div className="md:hidden flex items-center justify-end gap-1 mr-3 text-[13px] z-100">
         {authState.status ? (
           <div>
             <div className="h-full flex items-center justify-center">

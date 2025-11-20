@@ -52,11 +52,12 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   /* font-family: "Russo One", sans-serif; */
 }
 
-.font-heading {
+/* .font-heading {
   font-family: "Sen", "Optima", "Helvetica", sans-serif;
-}
+} */
 
-.font-primary {
+.font-primary,
+.font-heading {
   /* font-family: "Josefin Sans", "Optima", "Helvetica", sans-serif; */
   /* font-family: "Inconsolata", "Optima", "Helvetica", sans-serif; */
   font-family: "Outfit", "Optima", "Helvetica", sans-serif;

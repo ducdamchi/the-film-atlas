@@ -20,6 +20,7 @@ import LoadingPage from "./Shared/Navigation-Search/LoadingPage"
 import QuickSearchModal from "./Shared/Navigation-Search/QuickSearchModal"
 import InteractionConsole from "./Shared/Buttons/InteractionConsole"
 import PersonList from "./Shared/LandingPage/PersonList"
+import TrailerModal from "./Shared/LandingPage/TrailerModal"
 
 import { MdSunny, MdOutlineTimelapse } from "react-icons/md"
 import { IoMdCalendar, IoIosTimer } from "react-icons/io"
@@ -31,6 +32,7 @@ export default function FilmLanding() {
   const [movieDetails, setMovieDetails] = useState({})
   const [directors, setDirectors] = useState([]) //director
   const [dops, setDops] = useState([]) //director of photography
+  const [crew, setCrew] = useState([]) //director of photography
   const [mainCast, setMainCast] = useState([]) //top 5 cast
   const [backdropList, setBackdropList] = useState([])
   const [posterList, setPosterList] = useState([])
@@ -38,6 +40,7 @@ export default function FilmLanding() {
   const [overlayColor, setOverlayColor] = useState([0, 0, 0])
   const [overlayTextColor, setOverlayTextColor] = useState([255, 255, 255])
   const [backdropColor, setBackdropColor] = useState([0, 0, 0])
+  const [openTrailer, setOpenTrailer] = useState(false)
 
   const { authState, searchModalOpen, setSearchModalOpen } =
     useContext(AuthContext)
@@ -83,28 +86,54 @@ export default function FilmLanding() {
   useEffect(() => {
     // console.log("movieDetails: ", movieDetails)
     if (movieDetails.credits) {
+      // const selectedJobs = ["Director of Photography", "Producer", "Production Design", "Editor", "Sound Designer", "Assistant Director", "Script Supervisor", "Screenplay", "Set Designer", "Co-producer", "Make"]
       const directorsList = movieDetails.credits.crew.filter(
         (crewMember) => crewMember.job === "Director"
       )
-      const dopsList = movieDetails.credits.crew.filter(
-        (crewMember) => crewMember.job === "Director of Photography"
-      )
+      // const dopsList = movieDetails.credits.crew.filter(
+      //   (crewMember) => crewMember.job === "Director of Photography"
+      // )
 
-      const backdropList = movieDetails.images.backdrops.slice(
-        0,
-        Math.min(movieDetails.images.backdrops.length, 5)
-      )
+      const crew = movieDetails.credits.crew
+      const listOfUniqueCrewMembers = []
+      crew.forEach((person) => {
+        const crewMember = listOfUniqueCrewMembers.find(
+          (member) => member.id === person.id
+        )
+        if (crewMember !== undefined) {
+          crewMember.jobs.push(person.job)
+        } else {
+          if (person.profile_path !== null) {
+            listOfUniqueCrewMembers.push({
+              id: person.id,
+              name: person.name,
+              profile_path: person.profile_path,
+              jobs: [person.job],
+            })
+          }
+        }
+      })
+      console.log(listOfUniqueCrewMembers)
 
-      const posterList = movieDetails.images.posters.slice(
-        0,
-        Math.min(movieDetails.images.posters.length, 5)
-      )
+      // const backdropList = movieDetails.images.backdrops.slice(
+      //   0,
+      //   Math.min(movieDetails.images.backdrops.length, 5)
+      // )
 
-      // Pick top 5 cast
-      const mainCastList = movieDetails.credits.cast.slice(
-        0,
-        Math.min(5, movieDetails.credits.cast.length)
+      // const posterList = movieDetails.images.posters.slice(
+      //   0,
+      //   Math.min(movieDetails.images.posters.length, 5)
+      // )
+
+      // Filter out cast who does not have profile pic, then pic top 15
+      const castListFiltered = movieDetails.credits.cast.filter(
+        (cast) => cast.profile_path !== null
       )
+      const mainCastList = castListFiltered.slice(
+        0,
+        Math.min(15, castListFiltered.length)
+      )
+      console.log("Main cast list:", mainCastList)
 
       // Filter for YouTube trailers only
       const trailerLinks = movieDetails.videos.results.filter((video) => {
@@ -122,10 +151,11 @@ export default function FilmLanding() {
       console.log("Trailers:", sortedTrailerLinks)
 
       setDirectors(directorsList)
-      setDops(dopsList)
+      setCrew(listOfUniqueCrewMembers)
+      // setDops(dopsList)
       setMainCast(mainCastList)
-      setBackdropList(backdropList)
-      setPosterList(posterList)
+      // setBackdropList(backdropList)
+      // setPosterList(posterList)
       if (sortedTrailerLinks.length >= 1) {
         setTrailerLink(sortedTrailerLinks[0].key) // pick newest trailer
       } else {
@@ -190,19 +220,9 @@ export default function FilmLanding() {
         <div className="border-red-500 w-[100%] h-[90%] top-[5%] text-stone-200 text-[14px]">
           <NavBar />
 
-          <div className="hidden overflow-hidden">
-            <img
-              className="w-screen aspect-16/9 object-cover scale-[1.02]"
-              src={
-                movieDetails.backdrop_path !== null
-                  ? `${imgBaseUrl}${movieDetails.backdrop_path}`
-                  : `backdropnotfound.jpg`
-              }
-              alt=""
-            />
-          </div>
-
+          {/* Backdrop section */}
           <div className="landing-main-img-container">
+            {/* Main backdrop */}
             <img
               className="landing-main-img"
               src={
@@ -212,7 +232,11 @@ export default function FilmLanding() {
               }
               alt=""
             />
+
+            {/* Transparent layer top */}
             <div className="landing-transparent-layer"></div>
+
+            {/* All the text displayed over main backdrop */}
             <div className="">
               <div className="landing-img-text-container">
                 {/* Title */}
@@ -285,19 +309,28 @@ export default function FilmLanding() {
                   )}
               </div>
             </div>
+
+            {/* trailer play button */}
             {trailerLink !== null && (
-              <div className="absolute w-full h-full border-2 border-red-500 z-40 top-0 left-0 flex items-center justify-center">
-                <div
-                  className="flex items-center z-40 rounded-full p-2 pt-1 pb-1 drop-shadow-lg bg-white text-[var(--backdropColor)] hover:text-white hover:bg-[var(--backdropColor)] transition-all duration-300 ease-out"
+              <div className="absolute w-full h-full border-0 border-red-500 z-20 top-0 left-0 flex items-center justify-center">
+                <button
+                  onClick={() => {
+                    setOpenTrailer(true)
+                  }}
+                  className="flex items-center z-40 rounded-full p-3 pt-2 pb-2 drop-shadow-lg bg-white text-[var(--backdropColor)] hover:text-white hover:bg-[var(--backdropColor)] transition-all duration-300 ease-out"
                   style={{
                     "--backdropColor": `rgb(${backdropColor[0]}, ${backdropColor[1]}, ${backdropColor[2]})`,
                   }}>
                   <BiPlay className="text-xl" />
                   <span className="text-[11px]">Trailer</span>
-                </div>
+                </button>
               </div>
             )}
+
+            {/* Transparent layer bottom */}
             <div className="landing-transparent-layer-bottom"></div>
+
+            {/* Interaction console */}
             <div className="absolute bottom-0 w-full flex items-center justify-center mb-1">
               <InteractionConsole
                 tmdbId={tmdbId}
@@ -329,26 +362,9 @@ export default function FilmLanding() {
 
           {/* Section below main backdrop */}
           <div className="flex flex-col items-start p-4 text-stone-900 gap-2 relative bg-stone-100">
-            <div className="flex flex-row lg:flex-col">
-              <div className="flex flex-col order-1 lg:flex-row lg:order-2 items-center justify-start gap-0">
-                {mainCast.length > 0 && (
-                  <PersonList
-                    title="main cast"
-                    listOfPeople={mainCast}
-                    overlayColor={overlayColor}
-                    overlayTextColor={overlayTextColor}
-                  />
-                )}
-                {dops.length > 0 && (
-                  <PersonList
-                    title="d.o.p."
-                    listOfPeople={dops}
-                    overlayColor={overlayColor}
-                    overlayTextColor={overlayTextColor}
-                  />
-                )}
-              </div>
-              <div className="flex flex-col items-start justify-start order-2 lg:order-1">
+            <div className="flex flex-col">
+              {/* Overview section */}
+              <div className="flex flex-col items-start justify-start ">
                 {movieDetails.overview && (
                   <div className="p-4 pt-2">
                     {/* <span className="font-bold uppercase">Overview:&nbsp;</span> */}
@@ -358,7 +374,74 @@ export default function FilmLanding() {
                     </div>
                   </div>
                 )}
-                <div className="p-4 pt-1 md:flex md:w-full md:gap-5">
+              </div>
+              {/* Cast and crew section */}
+              <div className="flex flex-col lg:flex-row items-center justify-start gap-2">
+                {mainCast.length > 0 && (
+                  <PersonList
+                    title="main cast"
+                    listOfPeople={mainCast}
+                    type="cast"
+                  />
+                )}
+                {dops.length > 0 && (
+                  <PersonList
+                    title="main crew"
+                    listOfPeople={crew}
+                    type="crew"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Trailer modal */}
+          {openTrailer && (
+            <TrailerModal
+              trailerLink={trailerLink}
+              closeModal={() => {
+                setOpenTrailer(false)
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// {
+//   trailerLink !== null && (
+//     <div className="hidden md:block h-[15rem] aspect-16/9 border-0">
+//       {/* <div className="landing-sectionTitle p-0 pb-2">
+//                         trailer
+//                       </div> */}
+//       <iframe
+//         className=""
+//         width="100%"
+//         height="100%"
+//         src={`https://www.youtube.com/embed/${trailerLink}`}
+//         title="YouTube video player"
+//         allowFullScreen></iframe>
+//     </div>
+//   )
+// }
+
+// ;<div
+//   className="absolute top-0 aspect-16/9 w-screen
+//            h-screen border-2 border-blue-500 mb-10 bg-stone-100 z-50">
+//   <iframe
+//     className=""
+//     width="100%"
+//     height="100%"
+//     src={`https://www.youtube.com/embed/${trailerLink}?autoplay=1&mute=1&playsinline=1`}
+//     title="YouTube video player"
+//     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+//     allowFullScreen></iframe>
+// </div>
+
+{
+  /* <div className="p-4 pt-1 md:flex md:w-full md:gap-5">
                   <div className="">
                     <img
                       ref={posterRef}
@@ -371,44 +454,5 @@ export default function FilmLanding() {
                       alt=""
                     />
                   </div>
-                  {trailerLink !== null && (
-                    <div className="hidden md:block h-[15rem] aspect-16/9 border-0">
-                      {/* <div className="landing-sectionTitle p-0 pb-2">
-                        trailer
-                      </div> */}
-                      <iframe
-                        className=""
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${trailerLink}`}
-                        title="YouTube video player"
-                        allowFullScreen></iframe>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            {trailerLink !== null && (
-              <div className="md:hidden w-full aspect-16/9 md:h-[30rem] border-0 p-3 mb-10 bg-stone-100 ">
-                <div className="landing-sectionTitle p-0 pb-2">trailer</div>
-                <iframe
-                  className=""
-                  width="100%"
-                  height="100%"
-                  src={`https://www.youtube.com/embed/${trailerLink}?autoplay=1&mute=1&playsinline=1`}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen></iframe>
-              </div>
-            )}
-          </div>
-
-          {/* <div
-            // id="landing-bg-2"
-            // ref={posterRef}
-            className="h-[40rem] w-screen relative z-20"></div> */}
-        </div>
-      </div>
-    </div>
-  )
+                </div> */
 }

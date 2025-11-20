@@ -1,11 +1,6 @@
 import React, { useEffect } from "react"
 
-export default function PersonList({
-  title,
-  listOfPeople,
-  overlayColor,
-  overlayTextColor,
-}) {
+export default function PersonList({ title, listOfPeople, type }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
 
   // useEffect(() => {
@@ -13,9 +8,9 @@ export default function PersonList({
   // }, [overlayColor])
 
   return (
-    <div className="flex flex-col justify-start items-center border-0 pl-3 pr-3 pt-2 drop-shadow-2xl mr-0 border-1">
+    <div className="flex flex-col justify-start items-center pl-3 pr-3 pt-2 drop-shadow-2xl mr-0 ">
       <div className="landing-sectionTitle mb-2 w-full">{title}</div>
-      <div className="border-1 flex flex-col lg:flex-row gap-2">
+      <div className="grid grid-cols-4 gap-2">
         {listOfPeople.map((person, key) => {
           return (
             <div
@@ -39,8 +34,21 @@ export default function PersonList({
                 />
               </div>
               {/* <div className="border-red-500 absolute bottom-0 left-0 h-[2rem] w-full bg-gradient-to-t from-black/90 to-transparent z-20"></div> */}
-              <div className="font-bold h-[30%] w-full flex items-center justify-start text-[7px] md:text-[10px] text-center uppercase max-w-[4.5rem] text-left p-1 text-stone-900 pl-2">
-                {person.name}
+              <div className="font-bold h-auto w-full flex flex-col items-start justify-start text-[7px] md:text-[10px] text-center  max-w-[4.5rem] text-left text-stone-900 p-[7px]">
+                <div className="uppercase">{person.name}</div>
+                {type === "cast" && (
+                  <div className="font-extralight ">{`as ${person.character}`}</div>
+                )}
+                {type === "crew" && (
+                  <div className="font-extralight text-[7px]/2">
+                    {person.jobs.map((job, key) => (
+                      <span key={key}>
+                        {job}
+                        {key !== person.jobs.length - 1 && <span>, </span>}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 {/* {person.name.split(" ").map((word, key) => (
                 <div key={key} className="w-full uppercase text-stone-900">
                   {word}
