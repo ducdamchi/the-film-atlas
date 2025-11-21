@@ -69,24 +69,24 @@ export default function FilmUser_Card({ filmObject, queryString }) {
         // console.style.backgroundColor = `rgba(${domColor[0]}, ${domColor[1]}, ${domColor[2]}, 0.6)`
         /* If bg dark enough, font can be white */
         if (brightness > 194) {
-          // filmCard.style.backgroundColor = `rgba(${domColor[0]}, ${domColor[1]}, ${domColor[2]}, 0.4)`
-          setOverlayColor(
-            `rgba(${domColor[0]}, ${domColor[1]}, ${domColor[2]}, 0.4)`
-          )
+          filmCard.style.backgroundColor = `rgba(${domColor[0]}, ${domColor[1]}, ${domColor[2]}, 0.4)`
+          // setOverlayColor(
+          //   `rgba(${domColor[0]}, ${domColor[1]}, ${domColor[2]}, 0.4)`
+          // )
           // console.style.backgroundColor = `rgba(${domColor[0]}, ${domColor[1]}, ${domColor[2]}, 0.3)`
           /* If bg a little light, reduce each rgb value by 33% */
         } else if (130 < brightness <= 194) {
-          // filmCard.style.backgroundColor = `rgba(${domColor[0] * 1.2}, ${domColor[1] * 1.2}, ${domColor[2] * 1.2}, 0.4)`
-          setOverlayColor(
-            `rgba(${domColor[0] * 1.2}, ${domColor[1] * 1.2}, ${domColor[2] * 1.2}, 0.4)`
-          )
+          filmCard.style.backgroundColor = `rgba(${domColor[0] * 1.2}, ${domColor[1] * 1.2}, ${domColor[2] * 1.2}, 0.4)`
+          // setOverlayColor(
+          //   `rgba(${domColor[0] * 1.2}, ${domColor[1] * 1.2}, ${domColor[2] * 1.2}, 0.4)`
+          // )
           // console.style.backgroundColor = `rgba(${domColor[0] * 1.2}, ${domColor[1] * 1.2}, ${domColor[2] * 1.2}, 0.3)`
           /* If bg too light, reduce each rgb value by 66% */
         } else {
-          // filmCard.style.backgroundColor = `rgba(${domColor[0] * 1.8}, ${domColor[1] * 1.8}, ${domColor[2] * 1.8}, 0.4)`
-          setOverlayColor(
-            `rgba(${domColor[0] * 1.8}, ${domColor[1] * 1.8}, ${domColor[2] * 1.8}, 0.4)`
-          )
+          filmCard.style.backgroundColor = `rgba(${domColor[0] * 1.8}, ${domColor[1] * 1.8}, ${domColor[2] * 1.8}, 0.4)`
+          // setOverlayColor(
+          //   `rgba(${domColor[0] * 1.8}, ${domColor[1] * 1.8}, ${domColor[2] * 1.8}, 0.4)`
+          // )
           // console.style.backgroundColor = `rgba(${domColor[0] * 1.8}, ${domColor[1] * 1.8}, ${domColor[2] * 1.8}, 0.3)`
         }
       } catch (err) {

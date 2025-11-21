@@ -19,6 +19,7 @@ import Toggle_Four from "./Shared/Buttons/Toggle_Four"
 import Toggle_Three from "./Shared/Buttons/Toggle_Three"
 import Toggle_Two from "./Shared/Buttons/Toggle_Two"
 import LoadingPage from "./Shared/Navigation-Search/LoadingPage"
+import Footer from "./Shared/Navigation-Search/Footer"
 
 /* Icons */
 import { FaSortNumericDown, FaSortNumericDownAlt } from "react-icons/fa"
@@ -162,7 +163,7 @@ export default function Films() {
   }, [sortBy, sortDirection, queryString, numStars])
 
   return (
-    <div className="font-primary ">
+    <div className="font-primary mt-10">
       {/* {isLoading && <LoadingPage />} */}
       {/* Quick Search Modal */}
       {searchModalOpen && (

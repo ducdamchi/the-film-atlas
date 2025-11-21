@@ -160,7 +160,7 @@ export default function Directors() {
   }, [sortDirection, sortBy, queryString, numStars])
 
   return (
-    <>
+    <div className="font-primary mt-10">
       {/* Quick Search Modal */}
       {searchModalOpen && (
         <QuickSearchModal
@@ -170,7 +170,7 @@ export default function Directors() {
         />
       )}
       {/* Wrapper for entire page */}
-      <div className="font-primary flex flex-col items-center">
+      <div className=" flex flex-col items-center">
         <NavBar />
 
         <div className="font-heading page-title">DIRECTORS</div>
@@ -268,6 +268,6 @@ export default function Directors() {
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 }

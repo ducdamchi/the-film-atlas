@@ -1,4 +1,5 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 import InteractionConsole from "./InteractionConsole"
 
 export default function LaptopInteractionConsole({
@@ -10,6 +11,7 @@ export default function LaptopInteractionConsole({
   setIsLoading,
   hasOverview,
 }) {
+  const navigate = useNavigate()
   if (hoverId === filmObject.id) {
     return (
       <div className="hidden md:flex border-0 border-red-500 absolute bottom-0 left-0 w-[20rem] min-w-[20rem] max-w-[20rem] aspect-16/10 object-cover bg-black/70 items-start justify-center">

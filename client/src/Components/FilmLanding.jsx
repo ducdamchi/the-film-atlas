@@ -199,12 +199,16 @@ export default function FilmLanding() {
     }
   }, [movieDetails])
 
+  useEffect(() => {
+    console.log("Trailer Link:", trailerLink)
+  }, [trailerLink])
+
   if (!movieDetails) {
     return <div>Error loading film. Please try again.</div>
   }
 
   return (
-    <div className="font-primary">
+    <div className="font-primary mt-10">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
@@ -310,7 +314,7 @@ export default function FilmLanding() {
               </div>
               {/* trailer play button */}
               {trailerLink !== null && (
-                <div className="absolute w-full h-full border-0 border-red-500 z-0 top-0 left-0 flex items-center justify-center">
+                <div className="absolute w-full h-full border-0 border-red-500 top-0 left-0 flex items-center justify-center">
                   <button
                     onClick={() => {
                       setOpenTrailer(true)
@@ -330,7 +334,7 @@ export default function FilmLanding() {
             <div className="landing-transparent-layer-bottom"></div>
 
             {/* Interaction console */}
-            <div className="absolute bottom-0 w-full flex items-center justify-center mb-1">
+            <div className="absolute bottom-0 w-full flex items-center justify-center mb-4">
               <InteractionConsole
                 tmdbId={tmdbId}
                 directors={directors}

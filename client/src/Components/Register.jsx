@@ -31,7 +31,7 @@ export default function Register() {
       .required("Confirm Password is required."),
   })
   return (
-    <div className="font-primary">
+    <div className="font-primary mt-10">
       <div className="auth-whole">
         <div className="auth-svgContainer">
           <img src="worldmap.svg" alt="" className="auth-svg" />

@@ -148,7 +148,7 @@ export default function NavBar() {
 
   return (
     <div
-      className={`font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black text-stone-200 border-b-[0.3rem] border-[#b8d5e5] z-100`}
+      className={`fixed top-0 left-0 font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black/95 text-stone-200 border-b-[0.3rem] border-[#b8d5e5] z-100`}
       style={{ height: `${navbarHeight}rem` }}>
       {/* LEFT SIDE */}
       <div className="flex items-center justify-center gap-7 min-w-[12rem] ml-0 md:ml-3">
@@ -353,7 +353,7 @@ export default function NavBar() {
 
       {/* LAPTOP - USER INFO / AUTH */}
       {authState.status ? (
-        <div className="hidden md:flex items-center justify-end gap-2 text-[10px] font-extralight pb-[5px]">
+        <div className="hidden md:flex items-center justify-end gap-2 text-[10px] font-extralight">
           <div className="h-full flex items-center justify-center">
             <span>welcome,&nbsp;</span>
             <span className="font-bold">{`${authState.username}!`}</span>

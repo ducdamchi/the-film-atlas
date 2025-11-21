@@ -11,6 +11,7 @@ import DirectorLanding from "./Components/DirectorLanding"
 import Register from "./Components/Register"
 import LogIn from "./Components/LogIn"
 import MapPage from "./Components/MapPage"
+import Footer from "./Components/Shared/Navigation-Search/Footer"
 
 import { AuthContext } from "./Utils/authContext"
 
@@ -83,6 +84,7 @@ function App() {
           </Routes>
         </HashRouter>
       </AuthContext.Provider>
+      {/* <Footer /> */}
     </>
   )
 }

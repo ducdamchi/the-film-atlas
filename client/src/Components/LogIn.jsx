@@ -38,55 +38,53 @@ export default function LogIn() {
     password: Yup.string().required("Password is required."),
   })
   return (
-    <>
-      <div className="font-primary auth-whole">
-        <div className="auth-svgContainer">
-          <img src="worldmap.svg" alt="" className="auth-svg" />
-          <img src="worldmap.svg" alt="" className="auth-svg" />
-        </div>
+    <div className="font-primary auth-whole mt-10">
+      <div className="auth-svgContainer">
+        <img src="worldmap.svg" alt="" className="auth-svg" />
+        <img src="worldmap.svg" alt="" className="auth-svg" />
+      </div>
 
-        <NavBar />
-        <div className="auth-formContainer">
-          <div className="p-4 w-full">
-            <Formik
-              initialValues={initialValues}
-              onSubmit={onSubmit}
-              validationSchema={validationSchema}
-              enableReinitialize={true}>
-              <Form className="auth-form">
-                <Field
-                  className="auth-formField"
-                  id="username"
-                  name="username"
-                  placeholder="username"
-                />
-                <ErrorMessage
-                  name="username"
-                  component="error-div"
-                  className="auth-formErrorMessage"
-                />
+      <NavBar />
+      <div className="auth-formContainer">
+        <div className="p-4 w-full">
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+            enableReinitialize={true}>
+            <Form className="auth-form">
+              <Field
+                className="auth-formField"
+                id="username"
+                name="username"
+                placeholder="username"
+              />
+              <ErrorMessage
+                name="username"
+                component="error-div"
+                className="auth-formErrorMessage"
+              />
 
-                <Field
-                  className="auth-formField"
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="password"
-                />
+              <Field
+                className="auth-formField"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="password"
+              />
 
-                <ErrorMessage
-                  name="password"
-                  component="error-div"
-                  className="auth-formErrorMessage"
-                />
-                <button type="submit" className="auth-formSubmitButton">
-                  log in
-                </button>
-              </Form>
-            </Formik>
-          </div>
+              <ErrorMessage
+                name="password"
+                component="error-div"
+                className="auth-formErrorMessage"
+              />
+              <button type="submit" className="auth-formSubmitButton">
+                log in
+              </button>
+            </Form>
+          </Formik>
         </div>
       </div>
-    </>
+    </div>
   )
 }

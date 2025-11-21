@@ -55,7 +55,7 @@ export default function DirectorUser_Gallery({
               targetKey = director.WatchedDirectors.highest_star
               if (targetKey === 3) {
                 groupName = (
-                  <div className="md:text-5xl text-3xl text-pink-600 flex flex-col items-center justify-center">
+                  <div className=" text-3xl text-pink-600 flex flex-col items-center justify-center">
                     <div className="">&#10048;</div>
                     <div className="flex gap-2">
                       <div>&#10048;</div>
@@ -65,19 +65,17 @@ export default function DirectorUser_Gallery({
                 )
               } else if (targetKey === 2) {
                 groupName = (
-                  <div className="md:text-5xl text-3xl text-pink-600">
+                  <div className=" text-3xl text-pink-600">
                     &#10048;&#10048;
                   </div>
                 )
               } else if (targetKey === 1) {
                 groupName = (
-                  <div className="md:text-5xl text-3xl text-pink-600">
-                    &#10048;
-                  </div>
+                  <div className=" text-3xl text-pink-600">&#10048;</div>
                 )
               } else if (targetKey === 0) {
                 groupName = (
-                  <div className="md:text-5xl text-3xl text-black">
+                  <div className=" text-3xl text-black">
                     {/* <RiCreativeCommonsZeroLine /> */}
                     &#10048;
                   </div>
@@ -137,61 +135,76 @@ export default function DirectorUser_Gallery({
       )}
 
       {listOfDirectorObjects.length > 0 && groupedDirectors !== undefined && (
-        <div className="border-0 grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 items-start gap-1 md:mt-10 mt-0 border-0 mb-20">
+        <div className="border-0 grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0 md:mt-5 mt-0 mb-20 border-0 gap-1">
           {groupedDirectors.map((groupObject, key) => {
             if (!groupObject.id) {
               return (
                 <div
                   key={key}
-                  className="font-bold md:text-6xl text-[3rem] flex items-center justify-center border-0 md:h-[10rem] md:w-[8rem] h-[7rem] w-[5.4rem] min-w-[5.4rem] min-h-[7rem] animate-[spin-y_10s_linear_infinite] [transform-style:preserve-3d] text-shadow-lg border-0"
+                  className="font-bold text-[3rem] flex items-center justify-center pb-5 h-[9rem] w-[5rem] animate-[spin-y_10s_linear_infinite] [transform-style:preserve-3d] text-shadow-lg"
                   style={{ animationDelay: `${key * 0.23}s` }}>
                   {groupObject}
                 </div>
               )
             } else {
               return (
-                <div
-                  key={key}
-                  className="border-0 flex flex-col gap-1 items-center justify-start border-0 md:h-[10rem] md:w-[8rem] h-[7rem] w-[5.4rem] min-h-[7rem] aspect-4/5 group/thumbnail overflow-hidden"
-                  onClick={() => {
-                    navigate(`/directors/${groupObject.id}`)
-                  }}>
+                <div className="flex justify-center">
                   <div
-                    className="relative aspect-4/5 overflow-hidden min-h-[80%] md:min-w-[5rem] border-3 rounded-none flex justify-center items-center"
-                    onMouseEnter={() => {
-                      setHoverId(key)
-                    }}
-                    onMouseLeave={() => {
-                      setHoverId(null)
+                    key={key}
+                    className="flex flex-col gap-0 items-center justify-center h-[9rem] w-[5rem] group/thumbnail overflow-hidden mb-1"
+                    onClick={() => {
+                      navigate(`/directors/${groupObject.id}`)
                     }}>
-                    <img
-                      className="object-cover w-full transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03] grayscale transform  brightness-110"
-                      src={
-                        groupObject.profile_path !== null
-                          ? `${imgBaseUrl}${groupObject.profile_path}`
-                          : `profilepicnotfound.jpg`
-                      }
-                    />
-                    {hoverId === key && (
-                      <div className="absolute text-xs w-full h-full bg-black/60 text-white p-1 flex flex-col justify-center items-center">
-                        <span>
-                          {`Watched: ${groupObject.WatchedDirectors.num_watched_films}`}
-                        </span>
-                        <span>
-                          {`Starred: ${groupObject.WatchedDirectors.num_starred_films}`}
-                        </span>
-                        <span>
-                          {`Score: ${groupObject.WatchedDirectors.score}`}
-                        </span>
-                      </div>
-                    )}
+                    <div
+                      className="relative w-full aspect-4/6 overflow-hidden border-3 rounded-none flex justify-center items-center"
+                      onMouseEnter={() => {
+                        setHoverId(key)
+                      }}
+                      onMouseLeave={() => {
+                        setHoverId(null)
+                      }}>
+                      <img
+                        className="object-cover w-full h-full max-h-[7.5rem] md:max-h-[10.5rem] transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03] grayscale transform  brightness-110"
+                        src={
+                          groupObject.profile_path !== null
+                            ? `${imgBaseUrl}${groupObject.profile_path}`
+                            : `profilepicnotfound.jpg`
+                        }
+                      />
+                      {hoverId === key && (
+                        <div className="absolute w-full text-[9px] w-full h-full bg-black/60 text-white p-1 flex flex-col justify-center items-center md:gap-2">
+                          <span>
+                            {`Watched: ${groupObject.WatchedDirectors.num_watched_films}`}
+                          </span>
+                          <span>
+                            {`Starred: ${groupObject.WatchedDirectors.num_starred_films}`}
+                          </span>
+                          <span>
+                            {`Score: ${groupObject.WatchedDirectors.score}`}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-[10px] italic text-center whitespace-normal wrap-break-word break-all h-[2.5rem] w-[5rem] pt-1">
+                      {groupObject.name.split(" ").map((word, key) => {
+                        if (key <= 1) {
+                          return (
+                            <span key={key} className="w-full">
+                              {word.slice(0, 12)}
+                              {key === 0 && <br />}
+                            </span>
+                          )
+                        }
+                        if (
+                          (key === 2 &&
+                            groupObject.name.split("").length > 2) ||
+                          word.length >= 13
+                        ) {
+                          return <span>...</span>
+                        }
+                      })}
+                    </div>
                   </div>
-                  <span className="md:text-xs text-[10px] italic border-0 text-center pr-2 pl-2 whitespace-normal wrap-break-word break-all">
-                    <span className="">{groupObject.name?.slice(0, 14)}</span>
-                    <span>
-                      {groupObject.name?.length >= 15 && <span>...</span>}
-                    </span>
-                  </span>
                 </div>
               )
             }

@@ -541,7 +541,7 @@ export default function MapPage() {
   }, [onData])
 
   return (
-    <div className="font-primary flex flex-col justify-center w-[100vw]">
+    <div className="font-primary flex flex-col justify-center w-[100vw] mt-10">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
@@ -594,14 +594,16 @@ export default function MapPage() {
                     ["linear"],
                     ["feature-state", "num_watched_films"],
                     1,
-                    "rgba(247, 227, 222, 1)",
-                    10,
-                    "rgba(140, 23, 10, 1)",
+                    "#faf1f3",
+                    // "#fff1f2",
+                    30,
+                    "#e81445",
+                    // "#4d0218",
                   ],
                   "rgba(126, 126, 126, 0)",
                 ],
                 "fill-opacity": 1,
-                "fill-outline-color": "rgba(140, 206, 34, 0.7)",
+                "fill-outline-color": "#d5e5b8",
               }}
               filter={["==", "level", 0]}
               beforeId={firstSymbolId}></Layer>
@@ -844,7 +846,7 @@ export default function MapPage() {
         )}
 
         {isDiscoverMode && !page.hasMore && (
-          <div className="w-full flex items-center justify-center m-10">
+          <div className="w-full flex items-center justify-center m-10 text-sm">
             You've reached the end!
           </div>
         )}

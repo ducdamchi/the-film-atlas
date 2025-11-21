@@ -111,17 +111,17 @@ export default function QuickSearchModal({
   }, [searchModalOpen, searchInput])
 
   return (
-    <div className="font-primary absolute top-[30%] left-0 border-green-700 w-screen h-auto z-100 flex justify-center ">
+    <div className="font-primary fixed top-[30%] left-0 border-green-700 w-screen h-auto z-100 flex justify-center ">
       <div
-        className="relative w-[60%] h-auto min-w-[20rem] max-w-[45rem] bg-stone-900/80 text-stone-200 backdrop-blur-sm border-1 border-stone-500/80 rounded-md"
+        className="relative w-[60%] h-auto min-w-[20rem] max-w-[32rem] bg-stone-900/80 text-stone-200 backdrop-blur-sm border-1 border-stone-500/80 rounded-md"
         ref={modalRef}>
         {/* Search bar */}
         <div className="relative flex justify-start h-auto  border-stone-500/80">
-          <div className="relative w-full min-w-[10rem] h-[2.5rem] md:h-[3.5rem] p-2 flex items-center gap-3 ">
-            <BiSearchAlt2 className="border-white text-xl md:text-2xl ml-3 mt-1" />
+          <div className="relative w-full min-w-[10rem] h-[2.5rem] p-2 flex items-center gap-3 ">
+            <BiSearchAlt2 className="border-white text-base md:ml-2 ml-1 mt-1" />
             <input
               ref={searchModalRef}
-              className="h-[4rem] w-full border-white focus:outline-0 input:bg-none text-sm md:text-xl"
+              className="h-[4rem] w-full border-white focus:outline-0 input:bg-none text-sm"
               type="text"
               name="search-bar"
               autoComplete="off"
@@ -139,7 +139,7 @@ export default function QuickSearchModal({
                 }
               }}></input>
             <button
-              className="border-1 p-[3px] md:p-1 md:pl-2 md:pr-2 rounded-md text-[0.65rem] md:text-base"
+              className="border-1 p-[3px] md:pb-1 md:pl-2 md:pr-2 rounded-md text-[0.65rem]"
               onClick={() => setSearchModalOpen(false)}>
               esc
             </button>
@@ -177,7 +177,7 @@ export default function QuickSearchModal({
                     </div>
 
                     {/* Text next to backdrop */}
-                    <div className="md:text-[0.9rem] text-[0.65rem] w-full p-3">
+                    <div className="text-[12px] w-full p-3">
                       <span className="font-bold uppercase transition-all duration-200 ease-out peer-hover:text-blue-800">
                         {}
                         {`${filmObject.title.slice(0, 20)}`}
@@ -195,11 +195,9 @@ export default function QuickSearchModal({
                       )}
                     </div>
 
-                    <div className="flex w-[3rem] md:w-[12rem] items-center justify-center gap-1">
-                      <span className="hidden md:block text-base">
-                        Go to Film
-                      </span>
-                      <BiSolidRightArrowSquare className="text-lg md:text-2xl" />
+                    <div className="text-[12px] flex w-[3rem] md:w-[12rem] items-center justify-center gap-1">
+                      <span className="hidden md:block">Go to Film</span>
+                      <BiSolidRightArrowSquare className="text-lg" />
                     </div>
                   </Link>
                 ))}

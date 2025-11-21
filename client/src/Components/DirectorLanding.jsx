@@ -152,7 +152,7 @@ export default function DirectorLanding() {
   }
 
   return (
-    <div className="font-primary">
+    <div className="font-primary mt-10">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
