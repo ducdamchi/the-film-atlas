@@ -552,7 +552,7 @@ export default function MapPage() {
         />
       )}
       <NavBar />
-      <div className="w-screen h-[25rem] relative border-[0.3rem] border-t-0 border-[#b8d5e5]">
+      <div className="w-screen h-[25rem] md:h-[30rem] relative border-[0.3rem] border-t-0 border-[#b8d5e5]">
         <Map
           className=""
           ref={mapRef}

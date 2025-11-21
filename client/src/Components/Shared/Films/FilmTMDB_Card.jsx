@@ -5,6 +5,7 @@ import { getReleaseYear } from "../../../Utils/helperFunctions"
 import { fetchFilmFromTMDB } from "../../../Utils/apiCalls"
 
 import InteractionConsole from "../Buttons/InteractionConsole"
+import LaptopInteractionConsole from "../Buttons/LaptopInteractionConsole"
 import { MdStars } from "react-icons/md"
 import { MdPeople } from "react-icons/md"
 
@@ -16,9 +17,8 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
   const [movieDetails, setMovieDetails] = useState({})
   const [directors, setDirectors] = useState([]) //director
 
-  /* Fetch TMDB details for a film when it's hovered on --- might become obsolete */
+  /* Fetch TMDB details for a film when it's hovered on --- this is an exact duplicate of the hook below, but to handle laptop mode when user hovers over a film. might need better solution in future to avoid redundancy */
   useEffect(() => {
-    // console.log("Hover Id Hook triggered: ", hoverId)
     const fetchPageData = async () => {
       if (hoverId) {
         try {
@@ -89,51 +89,15 @@ export default function FilmTMDB_Card({ filmObject, setPage }) {
         />
 
         {/* Laptop Interaction Console */}
-        {hoverId === filmObject.id && (
-          <div className="hidden md:flex border-0 border-red-500 absolute bottom-0 left-0 w-[20rem] min-w-[20rem] max-w-[20rem] aspect-16/10 object-cover bg-black/70 items-start justify-center">
-            <div className="flex flex-col justify-end items-center h-[10rem] max-h-p[10rem] border-0 border-blue-500 pb-3 ">
-              <div className="w-full text-white pr-7 pl-7 pb-5 hover:text-blue-400">
-                <span className="text-[9px] italic">
-                  {filmObject.overview?.slice(0, 180)}
-                </span>
-                {filmObject.overview?.length >= 181 && <span>{`...`}</span>}
-              </div>
-              <InteractionConsole
-                tmdbId={hoverId}
-                directors={directors}
-                movieDetails={movieDetails}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                css={{
-                  height: "1.4rem",
-                  textColor: "white",
-                  hoverBg: "none",
-                  hoverTextColor: "oklch(70.7% 0.165 254.624)",
-                  fontSize: "9px",
-                  likeSize: "0.9rem",
-                  saveSize: "1.3rem",
-                  starSize: "1.1rem",
-                  flexGap: "2px",
-                  likeColor: "white",
-                  saveColor: "white",
-                  likedBgColor: "oklch(44.4% 0.177 26.899)",
-                  savedBgColor: "oklch(44.8% 0.119 151.328)",
-                  buttonPadding: "4px",
-                  paddingTopBottom: "0px",
-                  paddingLeftRight: "10px",
-                  buttonHeight: "1.7rem",
-                }}
-                showOverview={false}
-              />
-              <div
-                className="border-red-500 absolute w-full h-full z-10"
-                onClick={() => {
-                  navigate(`/films/${filmObject.id}`)
-                  setPage((prevPage) => ({ ...prevPage, loadMore: false }))
-                }}></div>
-            </div>
-          </div>
-        )}
+        <LaptopInteractionConsole
+          hoverId={hoverId}
+          filmObject={filmObject}
+          directors={directors}
+          movieDetails={movieDetails}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          hasOverview={true}
+        />
       </div>
 
       {/* Text below poster */}
