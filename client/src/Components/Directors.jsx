@@ -160,7 +160,7 @@ export default function Directors() {
   }, [sortDirection, sortBy, queryString, numStars])
 
   return (
-    <div className="font-primary mt-10">
+    <div className="font-primary mt-20">
       {/* Quick Search Modal */}
       {searchModalOpen && (
         <QuickSearchModal

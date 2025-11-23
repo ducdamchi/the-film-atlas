@@ -48,7 +48,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
 
 .font-logo {
   /* font-family: "Black Ops One", sans-serif; */
-  font-family: "Red Rose", "Optima", "Helvetica", sans-serif;
+  font-family: "Cal Sans", "Optima", "Helvetica", sans-serif;
   /* font-family: "Russo One", sans-serif; */
 }
 
@@ -66,11 +66,11 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
 
 @layer components {
   .page-title {
-    @apply uppercase font-bold text-xl md:text-xl flex items-center justify-center w-full md:mt-10 mt-5;
+    @apply uppercase font-bold text-xl md:text-2xl lg:text-3xl flex items-center justify-center w-full md:mt-10 mt-5;
   }
 
   .page-subtitle {
-    @apply font-bold text-base md:text-lg w-auto;
+    @apply font-bold text-base md:text-xl lg:text-2xl  w-auto;
   }
 
   .yourListConsole {
@@ -82,11 +82,15 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .toggleButton-label {
-    @apply w-[7rem] flex self-center mr-45 md:mr-0 md:ml-0 md:justify-end uppercase text-[11px] md:text-[11px];
+    @apply w-[7rem] flex self-center mr-45 md:mr-0 md:ml-0 md:justify-end uppercase text-xs lg:text-sm;
   }
 
   .toggleButton-buttonsContainer {
-    @apply relative bg-gray-200 rounded-full md:w-[20rem] w-[18rem] h-[2.5rem] text-[13px] md:text-[13px];
+    @apply relative bg-gray-200 rounded-full w-[20rem] h-[2.5rem] text-sm lg:text-base lg:w-[25rem];
+  }
+
+  .filterButton-container {
+    @apply w-[20rem] text-xs lg:text-sm lg:w-[25rem];
   }
 
   .toggleButton-bg {
@@ -102,7 +106,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .auth-whole {
-    @apply fixed flex flex-col items-center w-screen h-screen overflow-hidden;
+    @apply fixed flex flex-col items-center w-screen h-screen overflow-hidden bg-black;
   }
 
   .auth-svgContainer {
@@ -114,19 +118,19 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .auth-formContainer {
-    @apply mt-35 z-100 bg-white text-gray-900 border-[#b8d5e5] rounded-lg border-5 w-[18rem] relative;
+    @apply mt-35 z-100 bg-white text-gray-900 border-[#b8d5e5] rounded-lg border-5 w-[20rem] relative;
   }
 
   .auth-form {
-    @apply flex flex-col gap-2 w-full items-center text-[12px];
+    @apply flex flex-col gap-2 w-full items-center text-[16px];
   }
 
   .auth-formField {
-    @apply border-1 p-[10px] w-[15rem] rounded-lg border-gray-300;
+    @apply border-1 p-2 pl-3 w-[18rem] rounded-lg border-gray-300;
   }
 
   .auth-formSubmitButton {
-    @apply rounded-lg w-[15rem] p-[10px] bg-[#d5e5b8] text-stone-900 font-light;
+    @apply rounded-lg w-[18rem] p-2 bg-[#d5e5b8] text-stone-900 font-light hover:border-3 border-[#e5b8d5] transition-all ease-out duration-300;
   }
 
   .auth-formErrorMessage {
@@ -137,20 +141,24 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
     @apply flex items-center gap-1 border-1 rounded-full max-h-[2.5rem];
   }
 
-  .landing-page-title {
-    @apply font-black text-[20px]/6 md:text-[25px]/7 md:mt-5 md:ml-5;
-  }
-
   .landing-main-img-container {
     @apply overflow-hidden relative text-stone-200;
   }
 
   .landing-main-img {
-    @apply w-screen max-h-[30rem] aspect-2/3 object-cover scale-[1];
+    @apply w-screen max-h-[30rem] md:max-h-[40rem] lg:max-h-[45rem] xl:max-h-[50rem] aspect-2/3 object-cover scale-[1];
   }
 
   .landing-transparent-layer {
     @apply border-0 border-red-500 absolute top-0 left-0 h-[15rem] md:h-[15rem] w-full bg-linear-to-b from-black to-transparent;
+  }
+
+  .landing-page-title {
+    @apply font-black text-2xl/8 mt-0 md:text-3xl/8 2xl:text-4xl/8 md:mt-5 md:ml-5 lg:ml-7 lg:mb-2;
+  }
+
+  .landing-img-text-belowTitle {
+    @apply w-full flex mb-5 mt-1 text-sm md:text-base lg:text-lg font-extralight md:ml-5 lg:ml-7;
   }
 
   .landing-img-text-container {
@@ -158,26 +166,38 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-img-text-right {
-    @apply text-xs/5 font-extralight mb-2 text-right md:mr-5;
+    @apply text-sm md:text-base lg:text-lg font-extralight mb-0 text-right md:mr-5 lg:mr-7;
   }
 
   .landing-img-text-right-title {
-    @apply font-thin text-[10px] mr-0;
+    @apply font-thin text-xs md:text-sm lg:text-base mr-1;
   }
 
   .landing-img-text-right-content {
-    @apply border-b-2 border-r-4 p-[4px] pt-0 inline-block decoration-3 underline-offset-2 drop-shadow-md;
+    @apply p-1 pt-0 inline-block decoration-3 underline-offset-2 drop-shadow-md;
   }
 
   .landing-transparent-layer-bottom {
     @apply border-0 border-red-500 absolute bottom-0 left-0 h-[5rem] md:h-[15rem] w-full bg-gradient-to-t from-black/100 to-transparent;
   }
 
-  .landing-img-text-belowTitle {
-    @apply w-full flex mb-5 mt-1 text-xs font-extralight md:ml-5;
+  .landing-belowBackdropPadding {
+    @apply p-4 md:p-8 lg:pl-12 2xl:pl-20;
   }
 
   .landing-sectionTitle {
-    @apply uppercase font-extralight text-[9px] text-stone-900 md:text-xs;
+    @apply uppercase font-extralight text-[12px] text-stone-900 lg:text-base;
+  }
+
+  .landing-sectionContent {
+    @apply text-xl/6 lg:text-2xl/9 font-bold text-balance max-w-[60rem];
+  }
+
+  .filmGallery-grid {
+    @apply grid gap-6 grid-cols-1 md:grid-cols-2 md:gap-3 lg:gap-3 xl:grid-cols-3 xl:gap-4;
+  }
+
+  .filmCard-width {
+    @apply w-[22rem] min-w-[22rem] lg:w-[26rem] 2xl:w-[32rem];
   }
 }

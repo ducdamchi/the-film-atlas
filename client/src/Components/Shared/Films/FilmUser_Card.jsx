@@ -98,7 +98,7 @@ export default function FilmUser_Card({ filmObject, queryString }) {
   return (
     <div
       id={`film-card-${filmObject.id}`}
-      className="film-item w-[20rem] aspect-16/10 flex flex-col justify-center items-center gap-0 bg-gray-200 text-black rounded-none pt-0 relative">
+      className="filmCard-width aspect-16/10 flex flex-col justify-center items-center gap-0 bg-gray-200 text-black rounded-none pt-0 relative">
       {/* Poster */}
       <div
         className="group/thumbnail overflow-hidden relative"
@@ -110,7 +110,7 @@ export default function FilmUser_Card({ filmObject, queryString }) {
         }}>
         <img
           id={`thumbnail-${filmObject.id}`}
-          className="w-[20rem]  min-w-[20rem] aspect-16/10 object-cover transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03]"
+          className="filmCard-width aspect-16/10 object-cover transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03]"
           src={
             filmObject.backdrop_path !== null
               ? `${imgBaseUrl}${filmObject.backdrop_path}`
@@ -138,24 +138,24 @@ export default function FilmUser_Card({ filmObject, queryString }) {
       {/* Text below poster */}
       <div className="md:absolute md:bottom-0 md:left-0 md:p-3 md:bg-gradient-to-t md:from-black/80 md:to-transparent md:text-stone-100 w-full pt-1 pb-1 flex justify-between p-2">
         {/* Left side - Title, year, directors name*/}
-        <div className="border-amber-400 flex flex-col items-start justify-center gap-0 ml-1">
+        <div className="border-amber-400 flex flex-col items-start justify-center gap-0 ml-2">
           {/* Film Title */}
-          <div className="max-w-[18rem] text-wrap">
+          <div className="max-w-[18rem] text-wrap text-base">
             <span
               onClick={() => {
                 navigate(`/films/${filmObject.id}`)
               }}
-              className="text-sm font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800">
+              className=" font-bold uppercase transition-all duration-200 ease-out hover:text-blue-400">
               {`${filmObject.title.slice(0, 25)}`}
             </span>
             {filmObject.title.length >= 25 && (
-              <span className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-800 text-sm">
+              <span className="font-bold uppercase transition-all duration-200 ease-out hover:text-blue-400">
                 ...
               </span>
             )}
           </div>
-          {/* Release year & Director's name */}
-          <div className="flex items-center uppercase text-[10px] font-light gap-1">
+          {/* Release year & origin countries */}
+          <div className="flex items-center uppercase text-[12px] font-light gap-1">
             {filmObject.release_date && (
               <span className="">
                 {`${getReleaseYear(filmObject.release_date)}`}
@@ -165,19 +165,35 @@ export default function FilmUser_Card({ filmObject, queryString }) {
               <span className="">
                 <span className="flex gap-1">
                   <span>|</span>
+                  {/* {filmObject.origin_country[0].length >= 20 && (
+                    <span>{`${filmObject.origin_country[0]}...`}</span>
+                  )} */}
                   {filmObject.origin_country.map((country, key) => {
-                    return key < 2 ? (
-                      <span key={key}>
-                        <span>{`${getCountryName(country)}`}</span>
-                        {/* Add a comma if it's not the last country on the list */}
-                        {key < 1 && filmObject.origin_country.length > 1 && (
-                          <span>,</span>
-                        )}
-                        {key === 1 && <span> ...</span>}
-                      </span>
-                    ) : (
-                      <span key={key} className="hidden"></span>
-                    )
+                    if (key < 2) {
+                      return (
+                        <span key={key}>
+                          {filmObject.origin_country.length === 1 && (
+                            <span>{`${getCountryName(country)}`}</span>
+                          )}
+                          {filmObject.origin_country.length > 1 && (
+                            <span>
+                              <span>{`${getCountryName(country).slice(0, 10)}`}</span>
+                              {getCountryName(country).length >= 11 && (
+                                <span>...</span>
+                              )}
+                            </span>
+                          )}
+
+                          {/* Add a comma if it's not the last country on the list */}
+                          {key < 1 && filmObject.origin_country.length > 1 && (
+                            <span>,</span>
+                          )}
+                          {key === 1 && <span> ...</span>}
+                        </span>
+                      )
+                    } else {
+                      return <span key={key} className="hidden"></span>
+                    }
                   })}
                 </span>
               </span>
@@ -185,7 +201,7 @@ export default function FilmUser_Card({ filmObject, queryString }) {
           </div>
         </div>
         {/* Right side - director's photo*/}
-        <div className="flex flex-col items-center justify-center gap-1 max-w-[20rem] mr-1">
+        <div className="flex flex-col items-center justify-center gap-1 max-w-[22rem] mr-2 text-[12px] hover:text-blue-400">
           {queryString && filmObject.directors && (
             <div className="border-amber-400 flex items-start gap-1 justify-center">
               {filmObject.directors.map((dir, key) => {
@@ -193,7 +209,7 @@ export default function FilmUser_Card({ filmObject, queryString }) {
                   <div
                     key={key}
                     className="flex flex-col items-center justify-center gap-1">
-                    <div className="relative max-w-[8rem] h-[2rem] aspect-1/1 overflow-hidden rounded-full">
+                    <div className="relative max-w-[8rem] h-[2.5rem] aspect-1/1 overflow-hidden rounded-full">
                       <img
                         className="object-cover grayscale transform -translate-y-1 hover:scale-[1.05] transition-all duration-300 ease-out"
                         src={
@@ -204,7 +220,7 @@ export default function FilmUser_Card({ filmObject, queryString }) {
                         onClick={() => navigate(`/directors/${dir.tmdbId}`)}
                       />
                     </div>
-                    <div className="text-[9px] text-center">
+                    <div className="text-center">
                       {`${getNameParts(dir.name)?.firstNameInitial}. ${getNameParts(dir.name)?.lastName}`}
                     </div>
                   </div>
@@ -232,16 +248,16 @@ export default function FilmUser_Card({ filmObject, queryString }) {
             textColor: "black",
             hoverBg: "none",
             hoverTextColor: "none",
-            fontSize: "10px",
-            likeSize: "1.0rem",
-            saveSize: "1.4rem",
-            starSize: "1.2rem",
-            flexGap: "0rem",
+            fontSize: "13px",
+            likeSize: "1.1rem",
+            saveSize: "1.5rem",
+            starSize: "1.3rem",
+            flexGap: "2px",
             likeColor: "white",
             saveColor: "white",
             likedBgColor: "oklch(44.4% 0.177 26.899)",
             savedBgColor: "oklch(44.8% 0.119 151.328)",
-            buttonPadding: "4px",
+            buttonPadding: "2px",
             paddingTopBottom: "0px",
             paddingLeftRight: "10px",
             buttonHeight: "2rem",

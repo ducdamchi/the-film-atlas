@@ -143,16 +143,16 @@ export default function DirectorLanding() {
     // setScrollPosition(0)
   }, [tmdbId])
 
-  useEffect(() => {
-    console.log("Director Details:", directorDetails)
-  }, [directorDetails])
+  // useEffect(() => {
+  //   console.log("Director Details:", directorDetails)
+  // }, [directorDetails])
 
   if (!directorDetails) {
     return <div>Error loading director. Please try again.</div>
   }
 
   return (
-    <div className="font-primary mt-10">
+    <div className="font-primary mt-[4.5rem]">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
@@ -169,7 +169,7 @@ export default function DirectorLanding() {
       {/* Text over backdrop */}
       <div className="landing-main-img-container">
         <img
-          className="landing-main-img transform translate-y-0"
+          className="landing-main-img transform"
           src={
             directorDetails.profile_path !== null
               ? `${imgBaseUrl}${directorDetails.profile_path}`
@@ -237,7 +237,7 @@ export default function DirectorLanding() {
           </div>
         </div>
         <div className="landing-transparent-layer-bottom"></div>
-        <div className="absolute bottom-0 w-full flex items-center justify-center gap-2 text-stone-200 text-[10px] mb-4">
+        <div className="absolute bottom-0 w-full flex items-center justify-center gap-2 text-stone-200 text-[12px] mb-4 xl:text-[16px] xl:mb-6">
           <div className="border-1 p-2 rounded-full">{`Watched: ${numWatched}`}</div>
           <div className="border-1 p-2 rounded-full">{`Starred: ${numStarred}`}</div>
           <div className="border-1 p-2 rounded-full">{`Avg. Stars: ${avgRating}`}</div>
@@ -246,18 +246,18 @@ export default function DirectorLanding() {
       </div>
 
       {/* Text below backdrop */}
-      <div className="flex p-4 text-stone-900 bg-stone-100">
+      <div className="flex text-stone-900 bg-stone-100 landing-belowBackdropPadding">
         {directorDetails.biography && (
           <div className="flex flex-col items-start justify-start p-4 pt-2">
             <div className="landing-sectionTitle mb-1 ">Biography</div>
-            <div className="text-[17px]/6 font-extrabold p-2">{`${directorDetails.biography}`}</div>
+            <div className="landing-sectionContent">{`${directorDetails.biography}`}</div>
           </div>
         )}
       </div>
 
       {/* Directed Films */}
       <div className=" w-screen flex flex-col items-center justify-start bg-stone-100">
-        <div className="landing-sectionTitle mb-[-0.3rem] self-start pl-8">
+        <div className="landing-sectionTitle self-start ml-4 md:ml-8 lg:ml-12 2xl:ml-20 pl-4">
           filmography
         </div>
         <FilmTMDB_Gallery listOfFilmObjects={directedFilms} />

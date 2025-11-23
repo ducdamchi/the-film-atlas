@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react"
 
-export default function Toggle_Three({
-  state,
-  setState,
-  stateDetails,
-  width,
-  height,
-  label,
-}) {
+export default function Toggle_Three({ state, setState, stateDetails, label }) {
   const [activeOption, setActiveOption] = useState(1)
 
   const getSliderTransform = () => {

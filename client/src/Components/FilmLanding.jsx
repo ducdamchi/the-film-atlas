@@ -113,7 +113,7 @@ export default function FilmLanding() {
           }
         }
       })
-      console.log(listOfUniqueCrewMembers)
+      // console.log(listOfUniqueCrewMembers)
 
       // const backdropList = movieDetails.images.backdrops.slice(
       //   0,
@@ -133,7 +133,7 @@ export default function FilmLanding() {
         0,
         Math.min(15, castListFiltered.length)
       )
-      console.log("Main cast list:", mainCastList)
+      // console.log("Main cast list:", mainCastList)
 
       // Filter for YouTube trailers only
       const trailerLinks = movieDetails.videos.results.filter((video) => {
@@ -148,7 +148,7 @@ export default function FilmLanding() {
         const dateB = new Date(b.published_at)
         return dateB - dateA
       })
-      console.log("Trailers:", sortedTrailerLinks)
+      // console.log("Trailers:", sortedTrailerLinks)
 
       setDirectors(directorsList)
       setCrew(listOfUniqueCrewMembers)
@@ -199,16 +199,16 @@ export default function FilmLanding() {
     }
   }, [movieDetails])
 
-  useEffect(() => {
-    console.log("Trailer Link:", trailerLink)
-  }, [trailerLink])
+  // useEffect(() => {
+  //   console.log("Trailer Link:", trailerLink)
+  // }, [trailerLink])
 
   if (!movieDetails) {
     return <div>Error loading film. Please try again.</div>
   }
 
   return (
-    <div className="font-primary mt-10">
+    <div className="font-primary mt-[4.5rem]">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
@@ -221,7 +221,7 @@ export default function FilmLanding() {
 
       {/* Landing Page content */}
       <div className="w-screen h-auto flex flex-col justify-center ">
-        <div className="border-red-500 w-[100%] h-[90%] top-[5%] text-stone-200 text-[14px]">
+        <div className="border-red-500 w-[100%] h-[90%] top-[5%] text-stone-200">
           <NavBar />
 
           {/* Backdrop section */}
@@ -277,13 +277,13 @@ export default function FilmLanding() {
                       return (
                         <span key={key}>
                           <span
-                            className="landing-img-text-right-content"
+                            className="landing-img-text-right-content hover:text-blue-400 transition-all ease-out duration-200"
                             style={{ cursor: "pointer" }}
                             onClick={() => {
                               navigate(`/directors/${director.id}`)
                             }}>{`${director.name}`}</span>
                           {/* Add a comma if it's not the last country on the list */}
-                          {/* {key !== directors.length - 1 && <span>,&nbsp;</span>} */}
+                          {key !== directors.length - 1 && <span>,&nbsp;</span>}
                         </span>
                       )
                     })}
@@ -303,9 +303,9 @@ export default function FilmLanding() {
                           <span key={key} className="whitespace-nowrap">
                             <span className="landing-img-text-right-content">{`${getCountryName(country)}`}</span>
                             {/* Add a comma if it's not the last country on the list */}
-                            {/* {key !== movieDetails.origin_country.length - 1 && (
+                            {key !== movieDetails.origin_country.length - 1 && (
                               <span className="inline-block">,&nbsp;</span>
-                            )} */}
+                            )}
                           </span>
                         )
                       })}
@@ -323,8 +323,8 @@ export default function FilmLanding() {
                     style={{
                       "--backdropColor": `rgb(${backdropColor[0]}, ${backdropColor[1]}, ${backdropColor[2]})`,
                     }}>
-                    <BiPlay className="text-xl" />
-                    <span className="text-[11px]">Trailer</span>
+                    <BiPlay className="text-3xl" />
+                    <span className="text-base">Trailer</span>
                   </button>
                 </div>
               )}
@@ -334,7 +334,7 @@ export default function FilmLanding() {
             <div className="landing-transparent-layer-bottom"></div>
 
             {/* Interaction console */}
-            <div className="absolute bottom-0 w-full flex items-center justify-center mb-4">
+            <div className="xl:hidden absolute bottom-0 w-full flex items-center justify-center mb-4">
               <InteractionConsole
                 tmdbId={tmdbId}
                 directors={directors}
@@ -342,12 +342,12 @@ export default function FilmLanding() {
                 setIsLoading={setIsLoading}
                 css={{
                   textColor: "oklch(92.3% 0.003 48.717)",
-                  hoverBg: "oklch(92% 0.004 286.32 / 0.3)",
-                  hoverTextColor: "oklch(42.4% 0.199 265.638)",
-                  fontSize: "11px",
-                  likeSize: "1rem",
-                  saveSize: "1.5rem",
-                  starSize: "1.3rem",
+                  hoverBg: "none",
+                  hoverTextColor: "oklch(70.7% 0.165 254.624)",
+                  fontSize: "14px",
+                  likeSize: "1.1rem",
+                  saveSize: "1.6rem",
+                  starSize: "1.4rem",
                   flexGap: "10px",
                   likeColor: "white",
                   saveColor: "white",
@@ -355,8 +355,35 @@ export default function FilmLanding() {
                   savedBgColor: "oklch(44.8% 0.119 151.328)",
                   buttonPadding: "0px",
                   paddingTopBottom: "0px",
-                  paddingLeftRight: "12px",
-                  buttonHeight: "2.3rem",
+                  paddingLeftRight: "10px",
+                  buttonHeight: "2.5rem",
+                }}
+                showOverview={false}
+              />
+            </div>
+            <div className="hidden xl:block absolute bottom-0 w-full flex items-center justify-center mb-6">
+              <InteractionConsole
+                tmdbId={tmdbId}
+                directors={directors}
+                movieDetails={movieDetails}
+                setIsLoading={setIsLoading}
+                css={{
+                  textColor: "oklch(92.3% 0.003 48.717)",
+                  hoverBg: "none",
+                  hoverTextColor: "oklch(70.7% 0.165 254.624)",
+                  fontSize: "16px",
+                  likeSize: "1.3rem",
+                  saveSize: "1.8rem",
+                  starSize: "1.6rem",
+                  flexGap: "15px",
+                  likeColor: "white",
+                  saveColor: "white",
+                  likedBgColor: "oklch(44.4% 0.177 26.899)",
+                  savedBgColor: "oklch(44.8% 0.119 151.328)",
+                  buttonPadding: "0px",
+                  paddingTopBottom: "10px",
+                  paddingLeftRight: "15px",
+                  buttonHeight: "3rem",
                 }}
                 showOverview={false}
               />
@@ -364,7 +391,7 @@ export default function FilmLanding() {
           </div>
 
           {/* Section below main backdrop */}
-          <div className="flex flex-col items-start p-4 text-stone-900 gap-2 relative bg-stone-100">
+          <div className="flex flex-col items-start text-stone-900 gap-2 relative bg-stone-100 landing-belowBackdropPadding">
             <div className="flex flex-col">
               {/* Overview section */}
               <div className="flex flex-col items-start justify-start ">
@@ -372,7 +399,7 @@ export default function FilmLanding() {
                   <div className="p-4 pt-2">
                     {/* <span className="font-bold uppercase">Overview:&nbsp;</span> */}
                     <div className="landing-sectionTitle mb-1">overview</div>
-                    <div className="text-[17px]/6 font-bold text-balance">
+                    <div className="landing-sectionContent">
                       {movieDetails.overview}
                     </div>
                   </div>

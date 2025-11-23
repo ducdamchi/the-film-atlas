@@ -117,11 +117,11 @@ export default function QuickSearchModal({
         ref={modalRef}>
         {/* Search bar */}
         <div className="relative flex justify-start h-auto  border-stone-500/80">
-          <div className="relative w-full min-w-[10rem] h-[2.5rem] p-2 flex items-center gap-3 ">
-            <BiSearchAlt2 className="border-white text-base md:ml-2 ml-1 mt-1" />
+          <div className="relative w-full min-w-[10rem] h-[2.5rem] md:h-[3rem] xl:h-[3.5rem] p-2 flex items-center gap-3 ">
+            <BiSearchAlt2 className="border-white ml-1 text-lg md:text-xl" />
             <input
               ref={searchModalRef}
-              className="h-[4rem] w-full border-white focus:outline-0 input:bg-none text-sm"
+              className="h-[4rem] w-full border-white focus:outline-0 input:bg-none text-[14px] md:text-base lg:text-lg"
               type="text"
               name="search-bar"
               autoComplete="off"
@@ -139,7 +139,7 @@ export default function QuickSearchModal({
                 }
               }}></input>
             <button
-              className="border-1 p-[3px] md:pb-1 md:pl-2 md:pr-2 rounded-md text-[0.65rem]"
+              className="border-1 p-[3px] md:pb-1 md:pl-2 md:pr-2 rounded-md text-[12px] md:text-sm xl:text-base"
               onClick={() => setSearchModalOpen(false)}>
               esc
             </button>

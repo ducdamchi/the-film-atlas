@@ -141,17 +141,16 @@ export default function DirectorUser_Gallery({
               return (
                 <div
                   key={key}
-                  className="font-bold text-[3rem] flex items-center justify-center pb-5 h-[9rem] w-[5rem] animate-[spin-y_10s_linear_infinite] [transform-style:preserve-3d] text-shadow-lg"
+                  className="font-bold text-[3rem] sm:text-[4rem] 2xl:text-[5rem] flex items-center justify-center pb-5 w-[5rem] h-[9rem] sm:w-[7rem] sm:h-[12.6rem] 2xl:w-[8rem] 2xl:h-[14.4rem] animate-[spin-y_10s_linear_infinite] [transform-style:preserve-3d] text-shadow-lg"
                   style={{ animationDelay: `${key * 0.23}s` }}>
                   {groupObject}
                 </div>
               )
             } else {
               return (
-                <div className="flex justify-center">
+                <div key={key} className="flex justify-center">
                   <div
-                    key={key}
-                    className="flex flex-col gap-0 items-center justify-center h-[9rem] w-[5rem] group/thumbnail overflow-hidden mb-1"
+                    className="flex flex-col gap-0 items-center justify-center  w-[5rem] h-[9rem] sm:w-[7rem] sm:h-[12.6rem] 2xl:w-[8rem] 2xl:h-[14.4rem] group/thumbnail overflow-hidden mb-1"
                     onClick={() => {
                       navigate(`/directors/${groupObject.id}`)
                     }}>
@@ -164,7 +163,7 @@ export default function DirectorUser_Gallery({
                         setHoverId(null)
                       }}>
                       <img
-                        className="object-cover w-full h-full max-h-[7.5rem] md:max-h-[10.5rem] transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03] grayscale transform  brightness-110"
+                        className="object-cover w-full h-full max-h-[7.5rem] sm:max-h-[10.5rem] 2xl:max-h-[12rem] transition-all duration-300 ease-out group-hover/thumbnail:scale-[1.03] grayscale transform  brightness-110"
                         src={
                           groupObject.profile_path !== null
                             ? `${imgBaseUrl}${groupObject.profile_path}`
@@ -172,7 +171,7 @@ export default function DirectorUser_Gallery({
                         }
                       />
                       {hoverId === key && (
-                        <div className="absolute w-full text-[9px] w-full h-full bg-black/60 text-white p-1 flex flex-col justify-center items-center md:gap-2">
+                        <div className="absolute w-full text-[12px] w-full h-full bg-black/60 text-white p-1 flex flex-col justify-center items-center md:gap-2">
                           <span>
                             {`Watched: ${groupObject.WatchedDirectors.num_watched_films}`}
                           </span>
@@ -185,7 +184,7 @@ export default function DirectorUser_Gallery({
                         </div>
                       )}
                     </div>
-                    <div className="text-[10px] italic text-center whitespace-normal wrap-break-word break-all h-[2.5rem] w-[5rem] pt-1">
+                    <div className="text-[12px] sm:text-sm italic text-center whitespace-normal wrap-break-word break-all h-[2.5rem] w-[5rem] pt-1 sm:h-[3rem]">
                       {groupObject.name.split(" ").map((word, key) => {
                         if (key <= 1) {
                           return (
@@ -200,7 +199,7 @@ export default function DirectorUser_Gallery({
                             groupObject.name.split("").length > 2) ||
                           word.length >= 13
                         ) {
-                          return <span>...</span>
+                          return <span key={key}>...</span>
                         }
                       })}
                     </div>

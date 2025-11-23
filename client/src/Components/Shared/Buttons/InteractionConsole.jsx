@@ -300,7 +300,11 @@ export default function InteractionConsole({
                     // className={`text-${css.likeColor} text-${css.likeSize}`}
                   />
                   <span
-                    style={{ color: css.likeColor, fontSize: css.fontSize }}
+                    style={{
+                      color: css.likeColor,
+                      fontSize: css.fontSize,
+                      "--hover-text-color": css.hoverTextColor,
+                    }}
                     // className={`text-${css.likeColor} text-${css.fontSize}`}
                   >
                     Watched

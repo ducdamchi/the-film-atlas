@@ -541,7 +541,7 @@ export default function MapPage() {
   }, [onData])
 
   return (
-    <div className="font-primary flex flex-col justify-center w-[100vw] mt-10">
+    <div className="font-primary flex flex-col justify-center w-[100vw] mt-[4.5rem]">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
@@ -552,7 +552,7 @@ export default function MapPage() {
         />
       )}
       <NavBar />
-      <div className="w-screen h-[25rem] md:h-[30rem] relative border-[0.3rem] border-t-0 border-[#b8d5e5]">
+      <div className="w-screen h-[25rem] md:h-[30rem] lg:h-[35rem] 2xl:h-[45rem] relative border-[0.3rem] border-t-0 border-[#b8d5e5]">
         <Map
           className=""
           ref={mapRef}
@@ -667,11 +667,9 @@ export default function MapPage() {
             <div className="page-title font-heading">{`${getCountryName(popupInfo.iso_a2)}`}</div>
           )}
 
-        <div className="flex flex-col items-center justify-center mt-5 w-[90%] min-w-[20rem] md:w-[30rem]">
+        <div className="flex flex-col items-center justify-center mt-5 w-[90%] min-w-[20rem] md:w-[35rem]">
           <Toggle_Three
             label="View Mode"
-            width={`20rem`}
-            height={`2.5rem`}
             state={queryString}
             setState={setQueryString}
             stateDetails={{
@@ -773,8 +771,8 @@ export default function MapPage() {
               {/* Custom Slider */}
               <div className="toggleButton-whole">
                 <div className="toggleButton-label">Filter</div>
-                <div className="flex flex-col items-center justify-center gap-6 p-6 rounded-3xl bg-gray-200 w-[18rem] md:w-[20rem]">
-                  <div className="w-full flex flex-col items-center justify-center gap-2 text-[10px] md:text-[11px] uppercase font-semibold text-gray-600">
+                <div className="flex flex-col items-center justify-center gap-6 p-6 rounded-3xl bg-gray-200 filterButton-container">
+                  <div className="w-full flex flex-col items-center justify-center gap-2 uppercase font-semibold text-gray-600">
                     <div className="">
                       Average Rating &#x2265; {`${tempRatingRange[1]}`}
                     </div>
@@ -792,7 +790,7 @@ export default function MapPage() {
                       rangeSlideDisabled={true}
                     />
                   </div>
-                  <div className="w-full flex flex-col items-center justify-center gap-2 text-[10px] md:text-[11px] uppercase font-semibold text-gray-600">
+                  <div className="w-full flex flex-col items-center justify-center gap-2 uppercase font-semibold text-gray-600">
                     <div className="">
                       Vote Count &#x2265; {`${tempVoteCountRange[1]}`}
                     </div>

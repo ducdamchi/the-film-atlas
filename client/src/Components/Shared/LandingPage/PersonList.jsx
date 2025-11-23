@@ -1,7 +1,9 @@
 import React, { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function PersonList({ title, listOfPeople, type }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
+  const navigate = useNavigate()
 
   // useEffect(() => {
   //   console.log("overlay color: ", overlayColor)
@@ -10,20 +12,13 @@ export default function PersonList({ title, listOfPeople, type }) {
   return (
     <div className="flex flex-col justify-start items-center pl-3 pr-3 pt-2 drop-shadow-2xl mr-0 ">
       <div className="landing-sectionTitle mb-2 w-full">{title}</div>
-      <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 gap-2">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
         {listOfPeople.map((person, key) => {
           return (
             <div
               key={key}
-              className="relative w-[4.5rem] sm:w-[6rem] lg:w-[8rem] aspect-2/3 flex flex-col mb-1 bg-white rounded-none">
-              {/* <div className="overflow-hidden w-full relative text-wrap whitespace-wrap rounded-md bg-white border-1"> */}
-              {/* <div
-                className="absolute bottom-0 left-0 w-full h-full bg-linear-to-t from-[var(--overlayColor-bottom)] via-[var(--overlayColor-top)] via-45% to-transparent z-10"
-                style={{
-                  "--overlayColor-bottom": `rgba(${overlayColor[0]}, ${overlayColor[1]}, ${overlayColor[2]}, 1)`,
-                  "--overlayColor-top": `rgba(${overlayColor[0]}, ${overlayColor[1]}, ${overlayColor[2]}, 0.2)`,
-                }}></div> */}
-              <div className="w-full h-[70%] aspect-square overflow-hidden">
+              className="relative w-[6.4rem] lg:w-[8rem] 2xl:w-[10rem] aspect-2/3 flex flex-col mb-1 bg-white rounded-none">
+              <div className="w-full h-[70%] aspect-square overflow-hidden z-10">
                 <img
                   className="object-cover grayscale w-full transform hover:scale-[1.05] transition-all duration-300 ease-out drop-shadow-2xl rounded-t-none transform -translate-y-2"
                   src={
@@ -33,14 +28,24 @@ export default function PersonList({ title, listOfPeople, type }) {
                   }
                 />
               </div>
-              {/* <div className="border-red-500 absolute bottom-0 left-0 h-[2rem] w-full bg-gradient-to-t from-black/90 to-transparent z-20"></div> */}
-              <div className="font-bold h-auto w-full flex flex-col items-start justify-start text-[7px] sm:text-[10px] text-center text-left text-stone-900 p-[7px]">
-                <div className="uppercase w-full">{person.name}</div>
+              <div className="font-bold h-auto w-full flex flex-col items-start justify-start text-sm lg:text-base text-center text-left text-stone-900 p-2 z-20">
+                {person.jobs?.includes("Director") && (
+                  <div
+                    className="uppercase w-full hover:text-blue-800"
+                    onClick={() => {
+                      navigate(`/directors/${person.id}`)
+                    }}>
+                    {person.name}
+                  </div>
+                )}
+                {!person.jobs?.includes("Director") && (
+                  <div className="uppercase w-full">{person.name}</div>
+                )}
                 {type === "cast" && (
-                  <div className="font-extralight ">{`as ${person.character}`}</div>
+                  <div className="font-extralight text-xs lg:text-sm">{`as ${person.character}`}</div>
                 )}
                 {type === "crew" && (
-                  <div className="font-extralight text-[7px]/2 sm:text-[10px]/3">
+                  <div className="font-extralight text-xs lg:text-sm">
                     {person.jobs.map((job, key) => (
                       <span key={key}>
                         {job}
@@ -49,11 +54,6 @@ export default function PersonList({ title, listOfPeople, type }) {
                     ))}
                   </div>
                 )}
-                {/* {person.name.split(" ").map((word, key) => (
-                <div key={key} className="w-full uppercase text-stone-900">
-                  {word}
-                </div>
-              ))} */}
               </div>
             </div>
           )

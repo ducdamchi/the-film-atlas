@@ -163,7 +163,7 @@ export default function Films() {
   }, [sortBy, sortDirection, queryString, numStars])
 
   return (
-    <div className="font-primary mt-10">
+    <div className="font-primary mt-20">
       {/* {isLoading && <LoadingPage />} */}
       {/* Quick Search Modal */}
       {searchModalOpen && (
@@ -278,7 +278,7 @@ export default function Films() {
 
         {/* If user logged in and is not searching, show them list of liked films */}
         {!isSearching && authState.status && (
-          <div className="mt-10">
+          <div className="mt-0">
             <FilmUser_Gallery
               listOfFilmObjects={userFilmList}
               queryString={queryString}
@@ -290,7 +290,7 @@ export default function Films() {
 
         {/* If user logged in and is not searching, show them list of liked films */}
         {!authState.status && !isSearching && (
-          <div className="mt-10 mb-20 text-sm md:text-base">
+          <div className="mt-0 mb-20 text-sm md:text-base">
             Log in to interact with films!
           </div>
         )}
