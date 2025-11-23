@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "NODE_ENV=production nodemon index.js",
+    "startDev": "NODE_ENV=development nodemon index.js",
+    "migrate:export": "bash scripts/export-db.sh",
+    "migrate:transfer": "node scripts/transfer-db.js",
+    "migrate": "npm run migrate:export && npm run migrate:transfer",
+    "migrate:import": "bash scripts/import-db.sh"
   },
   "keywords": [],
   "author": "",

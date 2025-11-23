@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "ducdamchi",
+    "password": "Duwcsdamchi@1611",
+    "database": "the_film_atlas",
+    "host": "localhost",
     "dialect": "mysql"
   }
 }

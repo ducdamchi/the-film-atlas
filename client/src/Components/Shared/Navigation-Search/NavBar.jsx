@@ -56,6 +56,36 @@ export default function NavBar() {
 
   const logOut = () => {
     localStorage.removeItem("accessToken")
+    localStorage.removeItem("films-searchInput")
+    localStorage.removeItem("films-isSearching")
+    localStorage.removeItem("films-sortBy")
+    localStorage.removeItem("films-sortDirection")
+    localStorage.removeItem("films-numStars")
+    localStorage.removeItem("films-queryString")
+    localStorage.removeItem("films-scrollPosition")
+    localStorage.removeItem("map-popupInfo")
+    localStorage.removeItem("map-suggestedFilmList")
+    localStorage.removeItem("map-sortBy")
+    localStorage.removeItem("map-sortDirection")
+    localStorage.removeItem("map-queryString")
+    localStorage.removeItem("map-numStars")
+    localStorage.removeItem("map-discoverBy")
+    localStorage.removeItem("map-scrollPosition")
+    localStorage.removeItem("map-ratingRange")
+    localStorage.removeItem("map-tempRating")
+    localStorage.removeItem("map-voteCountRange")
+    localStorage.removeItem("map-tempVoteCount")
+    localStorage.removeItem("directors-searchInput")
+    localStorage.removeItem("directors-isSearching")
+    localStorage.removeItem("directors-numStars")
+    localStorage.removeItem("directors-sortBy")
+    localStorage.removeItem("directors-sortDirection")
+    localStorage.removeItem("directors-queryString")
+    localStorage.removeItem("directors-scrollPosition")
+    localStorage.removeItem("directorLanding-scrollPosition")
+    localStorage.removeItem("navbar-menuOpened")
+    localStorage.removeItem("navbar-settingsOpened")
+
     setAuthState({ username: "", id: 0, status: false })
     navigate("/login")
   }
@@ -148,7 +178,7 @@ export default function NavBar() {
 
   return (
     <div
-      className={`fixed top-0 left-0 font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black/95 text-stone-200 border-b-[0.3rem] border-[#b8d5e5] z-100`}
+      className={`fixed top-0 left-0 font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black text-stone-200 border-b-[0.3rem] border-[#b8d5e5] z-100`}
       style={{ height: `${navbarHeight}rem` }}>
       {/* LEFT SIDE */}
       <div className="flex items-center justify-center gap-7 min-w-[12rem] ml-0 md:ml-3">
@@ -277,7 +307,7 @@ export default function NavBar() {
               className="hidden absolute z-20 right-0 bg-black border-[#b8d5e5] pl-5 pb-5 pt-5 transition-all ease-out duration-200 font-light justify-end items-center"
               style={{
                 top: `${navbarHeight - borderWidth}rem`,
-                width: `calc(50vw - ${3.1 * borderWidth}rem)`,
+                width: `calc(50vw - ${borderWidth}rem)`,
                 height: `${setttingsHeight_Authed}rem`,
               }}
               ref={settingsRef}>
@@ -288,7 +318,7 @@ export default function NavBar() {
             <div
               className="hidden absolute right-0 bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
               style={{
-                width: `calc(50vw - ${2.1 * borderWidth}rem)`,
+                width: `50vw`,
                 height: `${borderWidth}rem`,
                 top: `${navbarHeight + setttingsHeight_Authed - borderWidth}rem`,
               }}

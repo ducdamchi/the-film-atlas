@@ -2,10 +2,14 @@ const express = require("express") //create an instance of express framework
 const app = express()
 const db = require("./models") //import database
 const cors = require("cors")
+const path = require("path")
 
 /* Automatically parses JSON data from incoming requests and makes it available in req.body. */
 app.use(express.json())
 app.use(cors())
+
+// Serve static files from React build
+app.use(express.static(path.join(__dirname, "../client/dist")))
 
 /* IMPORTANT:
 These terms are used interchangeably to adapt to different logic in frontend and backend:
@@ -22,6 +26,11 @@ app.use("/auth", authRouter)
 app.use("/profile/me/watched", watchedRouter)
 app.use("/profile/me/watchlisted", watchlistedRouter)
 app.use("/profile/me/directors", directorsRouter)
+
+// Catch-all handler: send back React's index.html for SPA
+app.get("/*splat", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist", "index.html"))
+})
 
 /* Notes:
 db.sequelize.sync() synchronizes Sequelize models with database tables by either:
