@@ -323,3 +323,17 @@ export function checkDirectorStatus(tmdbId) {
       throw err
     })
 }
+
+export function fetchFilmFromYTS(imdb_id) {
+  const ytsUrl = "https://yts.lt/api/v2/movie_details.json"
+
+  return axios
+    .get(`${ytsUrl}?imdb_id=${imdb_id}`)
+    .then((response) => {
+      return response.data
+    })
+    .catch((err) => {
+      console.log("Client: Error fetching film from YTS", err)
+      throw err
+    })
+}

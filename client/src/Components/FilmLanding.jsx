@@ -10,7 +10,7 @@ import {
   getContrastRatio,
   ensureContrast,
 } from "../Utils/helperFunctions"
-import { fetchFilmFromTMDB } from "../Utils/apiCalls"
+import { fetchFilmFromTMDB, fetchFilmFromYTS } from "../Utils/apiCalls"
 import useCommandKey from "../Hooks/useCommandKey"
 import { AuthContext } from "../Utils/authContext"
 
@@ -41,6 +41,7 @@ export default function FilmLanding() {
   const [backdropColor, setBackdropColor] = useState([0, 0, 0])
   const [openTrailer, setOpenTrailer] = useState(false)
   const [torrentVisible, setTorrentVisible] = useState(false)
+  const [ytsTorrents, setYtsTorrents] = useState([])
 
   const { authState, searchModalOpen, setSearchModalOpen } =
     useContext(AuthContext)
@@ -89,15 +90,12 @@ export default function FilmLanding() {
   }, [tmdbId])
 
   useEffect(() => {
-    // console.log("movieDetails: ", movieDetails)
+    console.log("movieDetails: ", movieDetails)
+
     if (movieDetails.credits) {
-      // const selectedJobs = ["Director of Photography", "Producer", "Production Design", "Editor", "Sound Designer", "Assistant Director", "Script Supervisor", "Screenplay", "Set Designer", "Co-producer", "Make"]
       const directorsList = movieDetails.credits.crew.filter(
         (crewMember) => crewMember.job === "Director"
       )
-      // const dopsList = movieDetails.credits.crew.filter(
-      //   (crewMember) => crewMember.job === "Director of Photography"
-      // )
 
       const crew = movieDetails.credits.crew
       const listOfUniqueCrewMembers = []
@@ -120,11 +118,13 @@ export default function FilmLanding() {
       })
       // console.log(listOfUniqueCrewMembers)
 
+      // const dopsList = movieDetails.credits.crew.filter(
+      //   (crewMember) => crewMember.job === "Director of Photography"
+      // )
       // const backdropList = movieDetails.images.backdrops.slice(
       //   0,
       //   Math.min(movieDetails.images.backdrops.length, 5)
       // )
-
       // const posterList = movieDetails.images.posters.slice(
       //   0,
       //   Math.min(movieDetails.images.posters.length, 5)
@@ -138,8 +138,6 @@ export default function FilmLanding() {
         0,
         Math.min(15, castListFiltered.length)
       )
-      // console.log("Main cast list:", mainCastList)
-
       // Filter for YouTube trailers only
       const trailerLinks = movieDetails.videos.results.filter((video) => {
         return (
@@ -153,14 +151,13 @@ export default function FilmLanding() {
         const dateB = new Date(b.published_at)
         return dateB - dateA
       })
-      // console.log("Trailers:", sortedTrailerLinks)
 
-      setDirectors(directorsList)
-      setCrew(listOfUniqueCrewMembers)
       // setDops(dopsList)
-      setMainCast(mainCastList)
       // setBackdropList(backdropList)
       // setPosterList(posterList)
+      setDirectors(directorsList)
+      setCrew(listOfUniqueCrewMembers)
+      setMainCast(mainCastList)
       if (sortedTrailerLinks.length >= 1) {
         setTrailerLink(sortedTrailerLinks[0].key) // pick newest trailer
       } else {
@@ -203,6 +200,25 @@ export default function FilmLanding() {
       console.log(err)
     }
   }, [movieDetails])
+
+  useEffect(() => {
+    console.log("in uef hook")
+    const fetchYtsData = async () => {
+      if (torrentVisible && movieDetails.imdb_id) {
+        try {
+          setIsLoading(true)
+          const result = await fetchFilmFromYTS(movieDetails.imdb_id)
+          console.log("YTS response:", result.data.movie.torrents)
+          setYtsTorrents(result.data.movie.torrents)
+        } catch (err) {
+          console.error("Error loading YTS data: ", err)
+        } finally {
+          setIsLoading(false)
+        }
+      }
+    }
+    fetchYtsData()
+  }, [torrentVisible, movieDetails])
 
   // useEffect(() => {
   //   console.log("Trailer Link:", trailerLink)
@@ -398,13 +414,38 @@ export default function FilmLanding() {
           {/* Section below main backdrop */}
           <div className="flex flex-col items-start text-stone-900 gap-2 relative bg-stone-100 landing-belowBackdropPadding">
             <div className="flex flex-col">
+              {/* Torrents will show here */}
               {torrentVisible && (
-                <div className="flex flex-col items-start justify-start">
+                <div className="hidden md:flex flex-col items-start justify-start">
                   <div className="p-4 pt-2">
                     <div className="landing-sectionTitle mb-1">torrents</div>
-                    <div className="landing-sectionContent">
-                      any torrent links will show here
-                    </div>
+                    {ytsTorrents.length === 0 && (
+                      <div className="landing-sectionContent">
+                        No torrents found.
+                      </div>
+                    )}
+                    {ytsTorrents.length > 0 && (
+                      <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+                        {ytsTorrents.map((torrent, key) => {
+                          return (
+                            <a key={key} href={torrent.url}>
+                              <div className="border-2 flex flex-col items-center justify-center gap-1 p-2 pr-2 pl-2 rounded-none hover:border-blue-800 hover:text-blue-800 transition-all ease-out duration-200 w-auto">
+                                <div className="flex items-center justify-center gap-1 border-b-1 pb-1 uppercase">
+                                  <span className="">{torrent?.type}</span>
+                                  <span className="">{torrent?.quality}</span>
+                                  <span>{`[${torrent?.size}]`}</span>
+                                </div>
+                                <div className="flex items-center justify-center gap-2 text-base">
+                                  {/* <span>{`${torrent?.video_codec}`}</span> */}
+                                  <span>{`peers: ${torrent?.peers}`}</span>
+                                  <span>{`seeds: ${torrent?.seeds}`}</span>
+                                </div>
+                              </div>
+                            </a>
+                          )
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
