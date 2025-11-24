@@ -5,6 +5,7 @@ import * as Yup from "yup"
 import axios from "axios"
 
 import NavBar from "./Shared/Navigation-Search/NavBar"
+import AuthBg from "./Shared/Navigation-Search/AuthBg"
 
 import { AuthContext } from "../Utils/authContext"
 
@@ -39,10 +40,7 @@ export default function LogIn() {
   })
   return (
     <div className="font-primary auth-whole mt-10">
-      <div className="auth-svgContainer">
-        <img src="worldmap.svg" alt="" className="auth-svg" />
-        <img src="worldmap.svg" alt="" className="auth-svg" />
-      </div>
+      <AuthBg />
 
       <NavBar />
       <div className="auth-formContainer">

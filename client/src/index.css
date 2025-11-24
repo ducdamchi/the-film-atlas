@@ -110,7 +110,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .auth-svgContainer {
-    @apply fixed top-0 h-screen bg-black overflow-visible flex flex-row gap-0 scale-200 overflow-hidden;
+    @apply fixed z-0 top-0 h-screen bg-black overflow-visible flex flex-row gap-0 scale-200 overflow-hidden;
   }
 
   .auth-svg {

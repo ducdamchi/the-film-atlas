@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import * as Yup from "yup"
 import axios from "axios"
 import NavBar from "./Shared/Navigation-Search/NavBar"
+import AuthBg from "./Shared/Navigation-Search/AuthBg"
 
 export default function Register() {
   const navigate = useNavigate()
@@ -31,66 +32,62 @@ export default function Register() {
       .required("Confirm Password is required."),
   })
   return (
-    <div className="font-primary mt-10">
-      <div className="auth-whole">
-        <div className="auth-svgContainer">
-          <img src="worldmap.svg" alt="" className="auth-svg" />
-          <img src="worldmap.svg" alt="" className="auth-svg" />
-        </div>
-        <NavBar />
-        <div className="auth-formContainer">
-          <div className="p-4">
-            <Formik
-              initialValues={initialValues}
-              onSubmit={onSubmit}
-              validationSchema={validationSchema}
-              enableReinitialize={true}>
-              <Form className="auth-form">
-                <Field
-                  className="auth-formField"
-                  id="username"
-                  name="username"
-                  placeholder="username"
-                />
-                <ErrorMessage
-                  name="username"
-                  component="error-div"
-                  className="auth-formErrorMessage"
-                />
+    <div className="font-primary mt-10 auth-whole">
+      <AuthBg />
 
-                <Field
-                  className="auth-formField"
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="password"
-                />
+      <NavBar />
+      <div className="auth-formContainer">
+        <div className="p-4">
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+            enableReinitialize={true}>
+            <Form className="auth-form">
+              <Field
+                className="auth-formField"
+                id="username"
+                name="username"
+                placeholder="username"
+              />
+              <ErrorMessage
+                name="username"
+                component="error-div"
+                className="auth-formErrorMessage"
+              />
 
-                <ErrorMessage
-                  name="password"
-                  component="error-div"
-                  className="auth-formErrorMessage"
-                />
+              <Field
+                className="auth-formField"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="password"
+              />
 
-                <Field
-                  className="auth-formField"
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  placeholder="confirm password"
-                />
+              <ErrorMessage
+                name="password"
+                component="error-div"
+                className="auth-formErrorMessage"
+              />
 
-                <ErrorMessage
-                  name="confirmPassword"
-                  component="error-div"
-                  className="auth-formErrorMessage"
-                />
-                <button type="submit" className="auth-formSubmitButton">
-                  create new account
-                </button>
-              </Form>
-            </Formik>
-          </div>
+              <Field
+                className="auth-formField"
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="confirm password"
+              />
+
+              <ErrorMessage
+                name="confirmPassword"
+                component="error-div"
+                className="auth-formErrorMessage"
+              />
+              <button type="submit" className="auth-formSubmitButton">
+                create new account
+              </button>
+            </Form>
+          </Formik>
         </div>
       </div>
     </div>

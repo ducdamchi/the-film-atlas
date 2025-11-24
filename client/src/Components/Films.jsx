@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 /* Custom functions */
 import { AuthContext } from "../Utils/authContext"
 import { queryFilmFromTMDB, fetchListByParams } from "../Utils/apiCalls"
-import useCommandK from "../Hooks/useCommandK"
+import useCommandKey from "../Hooks/useCommandKey"
 import { usePersistedState } from "../Hooks/usePersistedState"
 
 /* Components */
@@ -57,7 +57,7 @@ export default function Films() {
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
-  useCommandK(toggleSearchModal)
+  useCommandKey(toggleSearchModal, "k")
 
   /* Hook for scroll restoration */
   useEffect(() => {
@@ -290,7 +290,7 @@ export default function Films() {
 
         {/* If user logged in and is not searching, show them list of liked films */}
         {!authState.status && !isSearching && (
-          <div className="mt-0 mb-20 text-sm md:text-base">
+          <div className="mt-10 mb-20 text-sm md:text-base">
             Log in to interact with films!
           </div>
         )}

@@ -26,7 +26,7 @@ import {
   fetchListByParams,
   queryTopRatedFilmByCountryTMDB,
 } from "../Utils/apiCalls"
-import useCommandK from "../Hooks/useCommandK"
+import useCommandKey from "../Hooks/useCommandKey"
 import { usePersistedState } from "../Hooks/usePersistedState"
 
 import NavBar from "./Shared/Navigation-Search/NavBar"
@@ -256,7 +256,7 @@ export default function MapPage() {
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
-  useCommandK(toggleSearchModal)
+  useCommandKey(toggleSearchModal, "k")
 
   /*******************************************************************/
   /* HOOKS TO HANDLE DISCOVER MODE & SCROLL RESTORATION */

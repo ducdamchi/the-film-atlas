@@ -7,7 +7,7 @@ import { AuthContext } from "../Utils/authContext"
 
 import { getNiceMonthDateYear, getAge } from "../Utils/helperFunctions"
 import { fetchDirectorFromTMDB, checkDirectorStatus } from "../Utils/apiCalls"
-import useCommandK from "../Hooks/useCommandK"
+import useCommandKey from "../Hooks/useCommandKey"
 import { usePersistedState } from "../Hooks/usePersistedState"
 
 /* Components */
@@ -39,7 +39,7 @@ export default function DirectorLanding() {
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
-  useCommandK(toggleSearchModal)
+  useCommandKey(toggleSearchModal, "k")
 
   async function fetchPageData() {
     try {

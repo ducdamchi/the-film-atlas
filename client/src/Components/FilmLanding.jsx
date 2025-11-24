@@ -11,7 +11,7 @@ import {
   ensureContrast,
 } from "../Utils/helperFunctions"
 import { fetchFilmFromTMDB } from "../Utils/apiCalls"
-import useCommandK from "../Hooks/useCommandK"
+import useCommandKey from "../Hooks/useCommandKey"
 import { AuthContext } from "../Utils/authContext"
 
 /* Components */
@@ -22,7 +22,6 @@ import InteractionConsole from "./Shared/Buttons/InteractionConsole"
 import PersonList from "./Shared/LandingPage/PersonList"
 import TrailerModal from "./Shared/LandingPage/TrailerModal"
 
-import { MdSunny, MdOutlineTimelapse } from "react-icons/md"
 import { IoMdCalendar, IoIosTimer } from "react-icons/io"
 import { BiPlay } from "react-icons/bi"
 
@@ -41,6 +40,7 @@ export default function FilmLanding() {
   const [overlayTextColor, setOverlayTextColor] = useState([255, 255, 255])
   const [backdropColor, setBackdropColor] = useState([0, 0, 0])
   const [openTrailer, setOpenTrailer] = useState(false)
+  const [torrentVisible, setTorrentVisible] = useState(false)
 
   const { authState, searchModalOpen, setSearchModalOpen } =
     useContext(AuthContext)
@@ -53,7 +53,12 @@ export default function FilmLanding() {
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
-  useCommandK(toggleSearchModal)
+  useCommandKey(toggleSearchModal, "k")
+
+  function toggleTorrentView() {
+    setTorrentVisible((status) => !status)
+  }
+  useCommandKey(toggleTorrentView, "j")
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -393,6 +398,17 @@ export default function FilmLanding() {
           {/* Section below main backdrop */}
           <div className="flex flex-col items-start text-stone-900 gap-2 relative bg-stone-100 landing-belowBackdropPadding">
             <div className="flex flex-col">
+              {torrentVisible && (
+                <div className="flex flex-col items-start justify-start">
+                  <div className="p-4 pt-2">
+                    <div className="landing-sectionTitle mb-1">torrents</div>
+                    <div className="landing-sectionContent">
+                      any torrent links will show here
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Overview section */}
               <div className="flex flex-col items-start justify-start ">
                 {movieDetails.overview && (

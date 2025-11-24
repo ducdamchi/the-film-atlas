@@ -8,7 +8,7 @@ import {
   queryDirectorFromTMDB,
   fetchDirectorListByParams,
 } from "../Utils/apiCalls"
-import useCommandK from "../Hooks/useCommandK"
+import useCommandKey from "../Hooks/useCommandKey"
 import { usePersistedState } from "../Hooks/usePersistedState"
 
 /* Components */
@@ -62,7 +62,7 @@ export default function Directors() {
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
-  useCommandK(toggleSearchModal)
+  useCommandKey(toggleSearchModal, "k")
 
   /* Hook for scroll restoration */
   useEffect(() => {
