@@ -170,7 +170,6 @@ export default function Films() {
         <QuickSearchModal
           searchModalOpen={searchModalOpen}
           setSearchModalOpen={setSearchModalOpen}
-          queryString={queryString}
         />
       )}
       {/* Wrapper for entire page */}

@@ -119,7 +119,8 @@ export default function InteractionConsole({
       }
       /* If user not logged in, alert */
     } else {
-      // alert("Log in to interact with films!")
+      alert("Log in to interact with films!")
+      return
     }
   }
   async function handleSave() {
@@ -158,7 +159,8 @@ export default function InteractionConsole({
 
       /* If user not logged in, alert */
     } else {
-      // alert("Log in to interact with films!")
+      alert("Log in to interact with films!")
+      return
     }
   }
   async function handleRate() {
@@ -208,11 +210,16 @@ export default function InteractionConsole({
       }
       /* If user not logged in, alert */
     } else {
-      // alert("Log in to interact with films!")
+      if (requestedRating !== -1 && requestedRating !== null) {
+        console.log(requestedRating)
+        alert("Log in to interact with films!")
+        return
+      }
     }
   }
 
   useEffect(() => {
+    // console.log("hook triggered")
     handleRate()
   }, [requestedRating])
 

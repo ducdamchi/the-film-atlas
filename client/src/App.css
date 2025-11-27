@@ -45,3 +45,52 @@
   width: 0;
   border: none;
 }
+
+.swal2-popup {
+  border-radius: 0px;
+  font-family: "Outfit", "Optima", "Helvetica", sans-serif;
+}
+
+.swal2-html-container {
+  color: black;
+  font-size: clamp(0.8rem, calc(1.5vw + 0.4rem), 1rem);
+  text-align: left;
+}
+
+.swal2-title {
+  color: black;
+  /* font-style: italic; */
+  font-size: clamp(1.3rem, calc(1.5vw + 0.4rem), 1.4rem);
+  text-align: left;
+}
+
+.swal2-actions {
+  /* display: flex !important;
+  justify-content: end !important;
+  align-items: end !important; */
+  margin-right: 2rem;
+}
+.swal2-actions button {
+  font-size: clamp(0.8rem, calc(1.5vw + 0.4rem), 1rem);
+}
+
+.swal2-actions:hover .swal2-actions button {
+  scale: 1.03;
+}
+
+.swal2-confirm {
+  transition: 200ms ease-in-out;
+  border: 1px solid black !important;
+  border-radius: 0px;
+  /* border-width: ; */
+  background-color: white;
+  padding: 0.4rem;
+  width: 5rem;
+  color: black;
+  font-size: clamp(0.8rem, calc(1.5vw + 0.4rem), 1rem);
+}
+
+.swal2-confirm:hover {
+  background-color: black;
+  color: white;
+}

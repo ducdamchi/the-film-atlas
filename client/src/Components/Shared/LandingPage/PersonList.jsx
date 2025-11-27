@@ -28,7 +28,7 @@ export default function PersonList({ title, listOfPeople, type }) {
                   }
                 />
               </div>
-              <div className="font-bold h-auto w-full flex flex-col items-start justify-start text-sm lg:text-base text-center text-left text-stone-900 p-2 z-20">
+              <div className="font-bold h-auto w-full flex flex-col items-start justify-start text-sm lg:text-base text-center text-left text-stone-900 p-2 z-20 inline-block wrap-anywhere">
                 {person.jobs?.includes("Director") && (
                   <div
                     className="uppercase w-full hover:text-blue-800"

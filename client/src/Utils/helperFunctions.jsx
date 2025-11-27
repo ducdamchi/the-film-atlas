@@ -58,13 +58,17 @@ export function getNiceMonthDateYear(dateString) {
 
 /* Calculate age from birthday and deathday in the string format yyyy-mm-dd. If deathday left empty, person is not deceased -> use current year. */
 export function getAge(birthday, deathday) {
-  const birth = new Date(birthday)
-  if (deathday) {
-    const death = new Date(deathday)
-    return death.getFullYear() - birth.getFullYear()
+  if (birthday) {
+    const birth = new Date(birthday)
+    if (deathday) {
+      const death = new Date(deathday)
+      return death.getFullYear() - birth.getFullYear()
+    } else {
+      const currentDate = new Date()
+      return currentDate.getFullYear() - birth.getFullYear()
+    }
   } else {
-    const currentDate = new Date()
-    return currentDate.getFullYear() - birth.getFullYear()
+    return "N/A"
   }
 }
 

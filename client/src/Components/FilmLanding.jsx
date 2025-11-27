@@ -90,7 +90,7 @@ export default function FilmLanding() {
   }, [tmdbId])
 
   useEffect(() => {
-    console.log("movieDetails: ", movieDetails)
+    // console.log("movieDetails: ", movieDetails)
 
     if (movieDetails.credits) {
       const directorsList = movieDetails.credits.crew.filter(
@@ -202,13 +202,13 @@ export default function FilmLanding() {
   }, [movieDetails])
 
   useEffect(() => {
-    console.log("in uef hook")
+    // console.log("in uef hook")
     const fetchYtsData = async () => {
       if (torrentVisible && movieDetails.imdb_id) {
         try {
           setIsLoading(true)
           const result = await fetchFilmFromYTS(movieDetails.imdb_id)
-          console.log("YTS response:", result.data.movie.torrents)
+          // console.log("YTS response:", result.data.movie.torrents)
           setYtsTorrents(result.data.movie.torrents)
         } catch (err) {
           console.error("Error loading YTS data: ", err)
@@ -271,67 +271,68 @@ export default function FilmLanding() {
                   </div>
                 )}
 
-                {/* Release Date */}
-                <div className="landing-img-text-belowTitle gap-2">
-                  {movieDetails.release_date && (
-                    <div className="flex gap-1 items-center">
-                      <IoMdCalendar />
-                      <span className="">{`${getReleaseYear(movieDetails.release_date)}`}</span>
-                    </div>
-                  )}
-                  {movieDetails.runtime && (
-                    <div className="flex gap-1 items-center">
-                      <IoIosTimer />
-                      <span className="">{`${movieDetails.runtime} minutes`}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Director name(s) */}
-                {directors.length > 0 && (
-                  <div className="landing-img-text-right z-100">
-                    {/* <span className="font-black text-base">|&nbsp;</span> */}
-                    <span className="landing-img-text-right-title">
-                      directed by
-                    </span>
-                    {directors.map((director, key) => {
-                      return (
-                        <span key={key}>
-                          <span
-                            className="landing-img-text-right-content hover:text-blue-400 transition-all ease-out duration-200"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              navigate(`/directors/${director.id}`)
-                            }}>{`${director.name}`}</span>
-                          {/* Add a comma if it's not the last country on the list */}
-                          {key !== directors.length - 1 && <span>,&nbsp;</span>}
-                        </span>
-                      )
-                    })}
+                <div className="flex flex-col justify-start">
+                  {/* Release Date */}
+                  <div className="landing-img-text-belowTitle gap-2">
+                    {movieDetails.release_date && (
+                      <div className="flex gap-1 items-center">
+                        <IoMdCalendar />
+                        <span className="">{`${getReleaseYear(movieDetails.release_date)}`}</span>
+                      </div>
+                    )}
+                    {movieDetails.runtime && (
+                      <div className="flex gap-1 items-center">
+                        <IoIosTimer />
+                        <span className="">{`${movieDetails.runtime} minutes`}</span>
+                      </div>
+                    )}
                   </div>
-                )}
 
-                {/* Origin Country */}
-                {movieDetails.origin_country &&
-                  movieDetails.origin_country.length > 0 && (
+                  {/* Director name(s) */}
+                  {directors.length > 0 && (
                     <div className="landing-img-text-right">
-                      <span className="landing-img-text-right-title">
-                        origin
-                      </span>
-
-                      {movieDetails.origin_country.map((country, key) => {
+                      {/* <span className="font-black text-base">|&nbsp;</span> */}
+                      <span className="">Directed by:&nbsp;</span>
+                      {directors.map((director, key) => {
                         return (
-                          <span key={key} className="whitespace-nowrap">
-                            <span className="landing-img-text-right-content">{`${getCountryName(country)}`}</span>
+                          <span key={key}>
+                            <span
+                              className=" hover:text-blue-400 transition-all ease-out duration-200"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                navigate(`/directors/${director.id}`)
+                              }}>{`${director.name}`}</span>
                             {/* Add a comma if it's not the last country on the list */}
-                            {key !== movieDetails.origin_country.length - 1 && (
-                              <span className="inline-block">,&nbsp;</span>
+                            {key !== directors.length - 1 && (
+                              <span>,&nbsp;</span>
                             )}
                           </span>
                         )
                       })}
                     </div>
                   )}
+
+                  {/* Origin Country */}
+                  {movieDetails.origin_country &&
+                    movieDetails.origin_country.length > 0 && (
+                      <div className="landing-img-text-right">
+                        <span className="">Origin:&nbsp;</span>
+
+                        {movieDetails.origin_country.map((country, key) => {
+                          return (
+                            <span key={key} className="whitespace-nowrap">
+                              <span className="landing-img-text-right-content">{`${getCountryName(country)}`}</span>
+                              {/* Add a comma if it's not the last country on the list */}
+                              {key !==
+                                movieDetails.origin_country.length - 1 && (
+                                <span className="inline-block">,&nbsp;</span>
+                              )}
+                            </span>
+                          )
+                        })}
+                      </div>
+                    )}
+                </div>
               </div>
               {/* trailer play button */}
               {trailerLink !== null && (

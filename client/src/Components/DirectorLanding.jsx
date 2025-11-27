@@ -211,7 +211,7 @@ export default function DirectorLanding() {
             {/* Birthplace*/}
             {directorDetails.place_of_birth && (
               <div className="landing-img-text-right">
-                <span className="landing-img-text-right-title">born in</span>
+                <span className="">Born in</span>
 
                 <span className="landing-img-text-right-content">
                   {`${directorDetails.place_of_birth.slice(0, 40)}`}

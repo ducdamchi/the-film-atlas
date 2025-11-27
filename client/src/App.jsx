@@ -12,6 +12,8 @@ import Register from "./Components/Register"
 import LogIn from "./Components/LogIn"
 import MapPage from "./Components/MapPage"
 import Footer from "./Components/Shared/Navigation-Search/Footer"
+import About from "./Components/About"
+import Contact from "./Components/Contact"
 
 import { AuthContext } from "./Utils/authContext"
 
@@ -77,6 +79,8 @@ function App() {
             <Route path="/map" element={<MapPage />} />
             <Route path="/films" element={<Films />} />
             <Route path="/directors" element={<Directors />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/films/:tmdbId" element={<FilmLanding />} />
             <Route path="/directors/:tmdbId" element={<DirectorLanding />} />
             <Route path="/register" element={<Register />} />

@@ -118,19 +118,19 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .auth-formContainer {
-    @apply mt-35 z-100 bg-white text-gray-900 border-[#b8d5e5] rounded-lg border-5 w-[20rem] relative;
+    @apply mt-35 z-100 bg-white text-gray-900 border-[#b8d5e5] border-5 w-auto min-w-[20rem] relative p-5;
   }
 
   .auth-form {
-    @apply flex flex-col gap-2 w-full items-center text-[16px];
+    @apply flex flex-col gap-3 w-full items-center text-[16px];
   }
 
   .auth-formField {
-    @apply border-1 p-2 pl-3 w-[18rem] rounded-lg border-gray-300;
+    @apply border-1 p-2 pl-3 w-[18rem] border-gray-300;
   }
 
   .auth-formSubmitButton {
-    @apply rounded-lg w-[18rem] p-2 bg-[#d5e5b8] text-stone-900 font-light hover:border-3 border-[#e5b8d5] transition-all ease-out duration-300;
+    @apply w-[18rem] p-2 text-stone-900 font-light border-1 border-black hover:text-white hover:bg-black transition-all ease-out duration-300;
   }
 
   .auth-formErrorMessage {
@@ -146,7 +146,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-main-img {
-    @apply w-screen max-h-[30rem] md:max-h-[40rem] lg:max-h-[45rem] xl:max-h-[50rem] aspect-2/3 object-cover scale-[1];
+    @apply w-screen max-h-[30rem] md:max-h-[40rem] aspect-2/3 object-cover scale-[1];
   }
 
   .landing-transparent-layer {
@@ -158,7 +158,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-img-text-belowTitle {
-    @apply w-full flex mb-5 mt-1 text-sm md:text-base lg:text-lg font-extralight md:ml-5 lg:ml-7;
+    @apply w-full flex mb-0 mt-1 text-sm md:text-base lg:text-lg font-extralight md:ml-5 lg:ml-7;
   }
 
   .landing-img-text-container {
@@ -166,7 +166,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-img-text-right {
-    @apply text-sm md:text-base lg:text-lg font-extralight mb-0 text-right md:mr-5 lg:mr-7;
+    @apply text-sm md:text-base lg:text-lg font-extralight mb-0 text-left md:mr-5 lg:mr-7 z-100 md:ml-5 lg:ml-7;
   }
 
   .landing-img-text-right-title {
@@ -174,7 +174,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-img-text-right-content {
-    @apply p-1 pt-0 inline-block decoration-3 underline-offset-2 drop-shadow-md;
+    @apply inline-block decoration-3;
   }
 
   .landing-transparent-layer-bottom {
