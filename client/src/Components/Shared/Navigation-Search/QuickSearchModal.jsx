@@ -121,7 +121,7 @@ export default function QuickSearchModal({
             <BiSearchAlt2 className="border-white ml-1 text-lg md:text-xl" />
             <input
               ref={searchModalRef}
-              className="h-[4rem] w-full border-white focus:outline-0 input:bg-none text-[14px] md:text-base lg:text-lg"
+              className="h-[4rem] w-full border-white focus:outline-0 input:bg-none text-base lg:text-lg"
               type="text"
               name="search-bar"
               autoComplete="off"
@@ -177,7 +177,7 @@ export default function QuickSearchModal({
                     </div>
 
                     {/* Text next to backdrop */}
-                    <div className="text-[12px] w-full p-3">
+                    <div className="text-sm lg:text-base w-full p-3">
                       <span className="font-bold uppercase transition-all duration-200 ease-out peer-hover:text-blue-800">
                         {}
                         {`${filmObject.title.slice(0, 20)}`}
@@ -195,9 +195,11 @@ export default function QuickSearchModal({
                       )}
                     </div>
 
-                    <div className="text-[12px] flex w-[3rem] md:w-[12rem] items-center justify-center gap-1">
-                      <span className="hidden md:block">Go to Film</span>
-                      <BiSolidRightArrowSquare className="text-lg" />
+                    <div className=" flex w-[3rem] md:w-[12rem] items-center justify-center gap-1">
+                      <span className="hidden md:block text-base">
+                        Go to Film
+                      </span>
+                      <BiSolidRightArrowSquare className="text-xl" />
                     </div>
                   </Link>
                 ))}
