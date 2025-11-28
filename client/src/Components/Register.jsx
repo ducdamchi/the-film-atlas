@@ -15,13 +15,15 @@ export default function Register() {
   }
 
   const onSubmit = (data) => {
-    axios.post("http://localhost:3002/auth/register", data).then((response) => {
-      if (response.data.error) {
-        alert("Error Registering User.")
-      } else {
-        navigate("/login")
-      }
-    })
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/auth/register`, data)
+      .then((response) => {
+        if (response.data.error) {
+          alert("Error Registering User.")
+        } else {
+          navigate("/login")
+        }
+      })
   }
 
   const validationSchema = Yup.object({

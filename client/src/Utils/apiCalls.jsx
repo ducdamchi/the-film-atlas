@@ -127,7 +127,7 @@ export function fetchListByParams({
   countryCode = null,
 } = {}) {
   return axios
-    .get(`http://localhost:3002/profile/me/${queryString}`, {
+    .get(`${import.meta.env.VITE_API_URL}/profile/me/${queryString}`, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },
@@ -154,7 +154,7 @@ export function fetchDirectorListByParams({
   numStars = null,
 } = {}) {
   return axios
-    .get(`http://localhost:3002/profile/me/${queryString}`, {
+    .get(`${import.meta.env.VITE_API_URL}/profile/me/${queryString}`, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },
@@ -180,7 +180,7 @@ export function fetchDirectorListByParams({
 */
 export function checkLikeStatus(tmdbId) {
   return axios
-    .get(`http://localhost:3002/profile/me/watched/${tmdbId}`, {
+    .get(`${import.meta.env.VITE_API_URL}/profile/me/watched/${tmdbId}`, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },
@@ -200,7 +200,7 @@ export function checkLikeStatus(tmdbId) {
 */
 export function checkSaveStatus(tmdbId) {
   return axios
-    .get(`http://localhost:3002/profile/me/watchlisted/${tmdbId}`, {
+    .get(`${import.meta.env.VITE_API_URL}/profile/me/watchlisted/${tmdbId}`, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },
@@ -217,7 +217,7 @@ export function checkSaveStatus(tmdbId) {
 /* Make API call to App's DB when user 'like' a film */
 export function likeFilm(req) {
   return axios
-    .post(`http://localhost:3002/profile/me/watched`, req, {
+    .post(`${import.meta.env.VITE_API_URL}/profile/me/watched`, req, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },
@@ -234,7 +234,7 @@ export function likeFilm(req) {
 /* Make API call to App's DB when user 'unlike' a film */
 export function unlikeFilm(tmdbId) {
   return axios
-    .delete(`http://localhost:3002/profile/me/watched`, {
+    .delete(`${import.meta.env.VITE_API_URL}/profile/me/watched`, {
       data: {
         tmdbId: tmdbId,
       },
@@ -254,7 +254,7 @@ export function unlikeFilm(tmdbId) {
 /* Make API call to App's DB when user 'save' a film */
 export function saveFilm(req) {
   return axios
-    .post(`http://localhost:3002/profile/me/watchlisted`, req, {
+    .post(`${import.meta.env.VITE_API_URL}/profile/me/watchlisted`, req, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },
@@ -270,7 +270,7 @@ export function saveFilm(req) {
 /* Make API call to App's DB when user 'unsave' a film */
 export function unsaveFilm(tmdbId) {
   return axios
-    .delete(`http://localhost:3002/profile/me/watchlisted`, {
+    .delete(`${import.meta.env.VITE_API_URL}/profile/me/watchlisted`, {
       data: {
         tmdbId: tmdbId,
       },
@@ -290,7 +290,7 @@ export function unsaveFilm(tmdbId) {
 /* Make API call to App's DB to rate a film that has already been liked */
 export function rateFilm(req) {
   return axios
-    .put(`http://localhost:3002/profile/me/watched`, req, {
+    .put(`${import.meta.env.VITE_API_URL}/profile/me/watched`, req, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },
@@ -310,7 +310,7 @@ export function rateFilm(req) {
 */
 export function checkDirectorStatus(tmdbId) {
   return axios
-    .get(`http://localhost:3002/profile/me/directors/${tmdbId}`, {
+    .get(`${import.meta.env.VITE_API_URL}/profile/me/directors/${tmdbId}`, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },

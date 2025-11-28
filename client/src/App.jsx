@@ -62,6 +62,9 @@ function App() {
     return <LoadingPage />
   }
 
+  console.log("Vite Environment:", import.meta.env.MODE)
+  console.log("API URL:", import.meta.env.VITE_API_URL)
+
   return (
     <>
       <AuthContext.Provider

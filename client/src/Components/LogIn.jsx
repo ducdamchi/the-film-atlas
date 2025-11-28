@@ -19,19 +19,21 @@ export default function LogIn() {
 
   const onSubmit = (data) => {
     // console.log(data)
-    axios.post("http://localhost:3002/auth/login", data).then((response) => {
-      if (response.data.error) {
-        alert(response.data.error)
-      } else {
-        localStorage.setItem("accessToken", response.data.token)
-        setAuthState({
-          username: response.data.username,
-          id: response.data.id,
-          status: true,
-        })
-        navigate("/")
-      }
-    })
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/auth/login`, data)
+      .then((response) => {
+        if (response.data.error) {
+          alert(response.data.error)
+        } else {
+          localStorage.setItem("accessToken", response.data.token)
+          setAuthState({
+            username: response.data.username,
+            id: response.data.id,
+            status: true,
+          })
+          navigate("/")
+        }
+      })
   }
 
   const validationSchema = Yup.object({

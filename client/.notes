@@ -1,3 +1,52 @@
+# Packages to be installed manually
+
 npm install react-icons
 npm install @maptiler/sdk
 npm install react-range-slider-input
+npm install sweetalert2
+
+# IF RUNNING INTO MEMORY PROBLEMS IN VM:
+
+# Set higher memory limit
+
+export NODE_OPTIONS="--max-old-space-size=2048"
+
+# Clean cache and build
+
+rm -rf node_modules/.vite dist
+npm run build
+
+# CHANGING SWAP SPACE
+
+# Turn off current swap
+
+sudo swapoff /swapfile
+
+# Remove the old swap file
+
+sudo rm /swapfile
+
+# Create 4GB swap file
+
+sudo fallocate -l 4G /swapfile
+
+# Set correct permissions
+
+sudo chmod 600 /swapfile
+
+# Set up as swap space
+
+sudo mkswap /swapfile
+
+# Enable the new swap file
+
+sudo swapon /swapfile
+
+# Update fstab to use the new swap file
+
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
+# Check new swap space
+
+free -h
+sudo swapon --show
