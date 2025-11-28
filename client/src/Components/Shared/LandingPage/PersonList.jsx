@@ -5,6 +5,10 @@ export default function PersonList({ title, listOfPeople, type }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
   const navigate = useNavigate()
 
+  useEffect(() => {
+    console.log(listOfPeople)
+  }, [listOfPeople])
+
   // useEffect(() => {
   //   console.log("overlay color: ", overlayColor)
   // }, [overlayColor])
@@ -33,14 +37,24 @@ export default function PersonList({ title, listOfPeople, type }) {
                   <div
                     className="uppercase w-full hover:text-blue-800"
                     onClick={() => {
-                      navigate(`/directors/${person.id}`)
+                      navigate(`/person/Director/${person.id}`)
                     }}>
                     {person.name}
                   </div>
                 )}
-                {!person.jobs?.includes("Director") && (
-                  <div className="uppercase w-full">{person.name}</div>
+                {person.known_for_department?.includes("Acting") && (
+                  <div
+                    className="uppercase w-full hover:text-blue-800"
+                    onClick={() => {
+                      navigate(`/person/Actor/${person.id}`)
+                    }}>
+                    {person.name}
+                  </div>
                 )}
+                {!person.jobs?.includes("Director") &&
+                  !person.known_for_department?.includes("Acting") && (
+                    <div className="uppercase w-full">{person.name}</div>
+                  )}
                 {type === "cast" && (
                   <div className="font-extralight text-xs lg:text-sm">{`as ${person.character}`}</div>
                 )}

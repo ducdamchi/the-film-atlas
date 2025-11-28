@@ -7,7 +7,7 @@ import LoadingPage from "./Components/Shared/Navigation-Search/LoadingPage"
 import Films from "./Components/Films"
 import Directors from "./Components/Directors"
 import FilmLanding from "./Components/FilmLanding"
-import DirectorLanding from "./Components/DirectorLanding"
+import PersonLanding from "./Components/PersonLanding"
 import Register from "./Components/Register"
 import LogIn from "./Components/LogIn"
 import MapPage from "./Components/MapPage"
@@ -85,7 +85,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/films/:tmdbId" element={<FilmLanding />} />
-            <Route path="/directors/:tmdbId" element={<DirectorLanding />} />
+            <Route path="/person/:job/:tmdbId" element={<PersonLanding />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LogIn />} />
           </Routes>

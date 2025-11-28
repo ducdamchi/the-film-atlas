@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 import { AuthContext } from "../Utils/authContext"
 
 import { getNiceMonthDateYear, getAge } from "../Utils/helperFunctions"
-import { fetchDirectorFromTMDB, checkDirectorStatus } from "../Utils/apiCalls"
+import { fetchPersonFromTMDB, checkDirectorStatus } from "../Utils/apiCalls"
 import useCommandKey from "../Hooks/useCommandKey"
 import { usePersistedState } from "../Hooks/usePersistedState"
 
@@ -16,15 +16,15 @@ import LoadingPage from "./Shared/Navigation-Search/LoadingPage"
 import QuickSearchModal from "./Shared/Navigation-Search/QuickSearchModal"
 import FilmTMDB_Gallery from "./Shared/Films/FilmTMDB_Gallery"
 
-export default function DirectorLanding() {
+export default function PersonLanding() {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
   const [isLoading, setIsLoading] = useState(false)
-  const [directorDetails, setDirectorDetails] = useState({})
-  const [directedFilms, setDirectedFilms] = useState({})
+  const [personDetails, setPersonDetails] = useState({})
+  const [filmography, setFilmography] = useState({})
   // const [searchModalOpen, setSearchModalOpen] = useState(false)
-  const { tmdbId } = useParams()
+  const { job, tmdbId } = useParams()
   const [scrollPosition, setScrollPosition] = usePersistedState(
-    "directorLanding-scrollPosition",
+    `${job}Landing-scrollPosition`,
     0
   )
   const [numWatched, setNumWatched] = useState(0)
@@ -45,21 +45,31 @@ export default function DirectorLanding() {
     try {
       setSearchModalOpen(false)
       setIsLoading(true)
-      const result = await fetchDirectorFromTMDB(tmdbId)
+      const result = await fetchPersonFromTMDB(tmdbId)
+      let filmography
       // Filter out films where the director's job is not 'director'
-      const directedFilms = result.movie_credits.crew.filter(
-        (film) => film.job === "Director"
-      )
+
+      console.log("Films done:", result.movie_credits)
+
+      if (job === "Director") {
+        filmography = result.movie_credits.crew.filter(
+          (film) => film.job === job
+        )
+      }
+
+      if (job === "Actor") {
+        filmography = result.movie_credits.cast
+      }
 
       // Filter out films without backdrop or poster path
-      let filteredDirectedFilms = directedFilms.filter(
+      let filteredFilmography = filmography.filter(
         (film) => !(film.backdrop_path === null || film.poster_path === null)
       )
 
       // If director is deceased, filter out films released after their deathdate
       if (result.deathday !== null) {
         const deathDate = new Date(result.deathday)
-        filteredDirectedFilms = filteredDirectedFilms.filter((film) => {
+        filteredFilmography = filteredFilmography.filter((film) => {
           if (!film.release_date) return false
           const filmDate = new Date(film.release_date)
           return filmDate <= deathDate
@@ -67,14 +77,14 @@ export default function DirectorLanding() {
       }
 
       // Sort by most recent release date -> least recent
-      const sortedDirectedFilms = filteredDirectedFilms.sort((a, b) => {
+      const sortedFilmography = filteredFilmography.sort((a, b) => {
         const dateA = parseInt(a.release_date?.replace("-", ""))
         const dateB = parseInt(b.release_date?.replace("-", ""))
         return dateB - dateA
       })
 
-      setDirectorDetails(result)
-      setDirectedFilms(sortedDirectedFilms)
+      setPersonDetails(result)
+      setFilmography(sortedFilmography)
     } catch (err) {
       console.error("Error loading film data: ", err)
     } finally {
@@ -136,7 +146,7 @@ export default function DirectorLanding() {
   useEffect(() => {
     if (tmdbId) {
       fetchPageData()
-      if (authState.status) {
+      if (authState.status && job === "Director") {
         fetchUserInteraction()
       }
     }
@@ -144,11 +154,11 @@ export default function DirectorLanding() {
   }, [tmdbId])
 
   // useEffect(() => {
-  //   console.log("Director Details:", directorDetails)
-  // }, [directorDetails])
+  //   console.log("Director Details:", personDetails)
+  // }, [personDetails])
 
-  if (!directorDetails) {
-    return <div>Error loading director. Please try again.</div>
+  if (!personDetails) {
+    return <div>{`Error loading ${job} landing page. Please try again.`}</div>
   }
 
   return (
@@ -171,8 +181,8 @@ export default function DirectorLanding() {
         <img
           className="landing-main-img transform"
           src={
-            directorDetails.profile_path !== null
-              ? `${imgBaseUrl}${directorDetails.profile_path}`
+            personDetails.profile_path !== null
+              ? `${imgBaseUrl}${personDetails.profile_path}`
               : `profilepicnotfound.jpg`
           }
           alt=""
@@ -181,48 +191,48 @@ export default function DirectorLanding() {
         <div className="">
           <div className="landing-img-text-container">
             {/* Title */}
-            {directorDetails.name && (
+            {personDetails.name && (
               <div className="landing-page-title font-heading">
-                {directorDetails.name}
+                {personDetails.name}
               </div>
             )}
 
             {/* Birthday, deathday, age */}
             <div className="landing-img-text-belowTitle gap-0">
-              {directorDetails.birthday && (
+              {personDetails.birthday && (
                 <div className="">
-                  <span>{`${getNiceMonthDateYear(directorDetails.birthday)}`}</span>
+                  <span>{`${getNiceMonthDateYear(personDetails.birthday)}`}</span>
                 </div>
               )}
 
-              {directorDetails.deathday && (
+              {personDetails.deathday && (
                 <div className="">
                   <span className="">&nbsp;-&nbsp;</span>
-                  <span>{`${getNiceMonthDateYear(directorDetails.deathday)}`}</span>
+                  <span>{`${getNiceMonthDateYear(personDetails.deathday)}`}</span>
                 </div>
               )}
 
               <span>
                 &nbsp;
-                {`(${getAge(directorDetails.birthday, directorDetails.deathday)})`}
+                {`(${getAge(personDetails.birthday, personDetails.deathday)})`}
               </span>
             </div>
 
             {/* Birthplace*/}
-            {directorDetails.place_of_birth && (
+            {personDetails.place_of_birth && (
               <div className="landing-img-text-right">
-                <span className="">Born in</span>
+                <span className="">Born in&nbsp;</span>
 
                 <span className="landing-img-text-right-content">
-                  {`${directorDetails.place_of_birth.slice(0, 40)}`}
-                  {directorDetails.place_of_birth.length >= 40 && (
+                  {`${personDetails.place_of_birth.slice(0, 40)}`}
+                  {personDetails.place_of_birth.length >= 40 && (
                     <span>...</span>
                   )}
                 </span>
               </div>
             )}
 
-            {/* {directorDetails.known_for.map((filmObject, key) => (
+            {/* {personDetails.known_for.map((filmObject, key) => (
               <span key={key}>
                 <span className="">
                   {filmObject?.title ||
@@ -247,10 +257,10 @@ export default function DirectorLanding() {
 
       {/* Text below backdrop */}
       <div className="flex text-stone-900 bg-stone-100 landing-belowBackdropPadding">
-        {directorDetails.biography && (
+        {personDetails.biography && (
           <div className="flex flex-col items-start justify-start p-4 pt-2">
             <div className="landing-sectionTitle mb-1 ">Biography</div>
-            <div className="landing-sectionContent">{`${directorDetails.biography}`}</div>
+            <div className="landing-sectionContent">{`${personDetails.biography}`}</div>
           </div>
         )}
       </div>
@@ -260,7 +270,7 @@ export default function DirectorLanding() {
         <div className="landing-sectionTitle self-start ml-4 md:ml-8 lg:ml-12 2xl:ml-20 pl-4">
           filmography
         </div>
-        <FilmTMDB_Gallery listOfFilmObjects={directedFilms} />
+        <FilmTMDB_Gallery listOfFilmObjects={filmography} />
       </div>
     </div>
   )

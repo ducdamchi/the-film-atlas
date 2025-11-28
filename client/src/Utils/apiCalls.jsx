@@ -68,7 +68,7 @@ export function queryDirectorFromTMDB(searchInput) {
     })
 }
 
-export function fetchDirectorFromTMDB(tmdbId) {
+export function fetchPersonFromTMDB(tmdbId) {
   const personDetailsUrl = "https://api.themoviedb.org/3/person/"
   const apiKey = "14b22a55c02218f84058041c5f553d3d"
 
