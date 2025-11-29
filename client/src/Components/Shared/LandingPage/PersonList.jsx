@@ -5,14 +5,6 @@ export default function PersonList({ title, listOfPeople, type }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
   const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log(listOfPeople)
-  }, [listOfPeople])
-
-  // useEffect(() => {
-  //   console.log("overlay color: ", overlayColor)
-  // }, [overlayColor])
-
   return (
     <div className="flex flex-col justify-start items-center pl-3 pr-3 pt-2 drop-shadow-2xl mr-0 ">
       <div className="landing-sectionTitle mb-2 w-full">{title}</div>
@@ -37,7 +29,7 @@ export default function PersonList({ title, listOfPeople, type }) {
                   <div
                     className="uppercase w-full hover:text-blue-800"
                     onClick={() => {
-                      navigate(`/person/Director/${person.id}`)
+                      navigate(`/person/director/${person.id}`)
                     }}>
                     {person.name}
                   </div>
@@ -46,7 +38,7 @@ export default function PersonList({ title, listOfPeople, type }) {
                   <div
                     className="uppercase w-full hover:text-blue-800"
                     onClick={() => {
-                      navigate(`/person/Actor/${person.id}`)
+                      navigate(`/person/actor/${person.id}`)
                     }}>
                     {person.name}
                   </div>

@@ -38,7 +38,7 @@ export default function NavBar() {
 
   //unit: rem
   const navbarHeight = 4.5
-  const menuHeight = 9.5
+  const menuHeight = 11.5
   const laptopMenuHeight = 5
   const setttingsHeight_Authed = 2.5
   const setttingsHeight_Unauthed = 4.2
@@ -149,7 +149,7 @@ export default function NavBar() {
       menuBorderBottom,
       menuBorderRight,
       -500,
-      -200
+      -400
     )
   }, [menuOpened])
 
@@ -182,7 +182,7 @@ export default function NavBar() {
       {/* LEFT SIDE */}
       <div className="flex items-center justify-center gap-3 lg:gap-5 min-w-[12rem] ml-4">
         {/* MOBILE - APP NAME */}
-        <div className="md:hidden h-full flex items-center justify-center pt-0 z-30">
+        <div className="lg:hidden h-full flex items-center justify-center pt-0 z-30">
           <button className="mr-2">
             {menuOpened ? (
               <MdClose
@@ -196,7 +196,11 @@ export default function NavBar() {
               />
             )}
           </button>
-          <span className="font-logo text-base uppercase font-black flex items-center justify-center p-1">
+          <span
+            onClick={() => {
+              navigate("/about")
+            }}
+            className="font-logo text-base uppercase font-black flex items-center justify-center p-1 cursor-pointer">
             The Film Atlas
           </span>
           <button
@@ -216,7 +220,7 @@ export default function NavBar() {
             top: `${navbarHeight - borderWidth}rem`,
           }}
           ref={menuRef}>
-          <ul className="flex flex-col gap-2 text-[13px]">
+          <ul className="flex flex-col gap-2 text-sm">
             <CustomLink
               to="/map"
               exact={false}
@@ -262,6 +266,15 @@ export default function NavBar() {
               }}>
               CONTACT
             </CustomLink>
+            <CustomLink
+              to="/docs"
+              exact={false}
+              onClick={() => {
+                setMenuOpened(false)
+                setSettingsOpened(false)
+              }}>
+              DOCS
+            </CustomLink>
           </ul>
         </div>
         <div
@@ -282,7 +295,7 @@ export default function NavBar() {
           ref={menuBorderRight}></div>
 
         {/* LAPTOP - APP NAME*/}
-        <div className="hidden md:flex h-full items-center justify-center">
+        <div className="hidden lg:flex h-full items-center justify-center">
           {/* <button className="mr-2">
             {laptopMenuOpened ? (
               <MdClose
@@ -296,7 +309,11 @@ export default function NavBar() {
               />
             )}
           </button> */}
-          <span className="font-logo font-black uppercase text-lg lg:text-xl">
+          <span
+            onClick={() => {
+              navigate("/about")
+            }}
+            className="font-logo font-black uppercase text-lg lg:text-xl cursor-pointer">
             The Film Atlas
           </span>
         </div>
@@ -350,7 +367,7 @@ export default function NavBar() {
           ref={laptopMenuBorderRight}></div> */}
 
         {/* LAPTOP - HORIZONTAL MENU */}
-        <div className="hidden md:flex text-sm font-extralight flex h-full mt-1 items-center gap-2 lg:gap-5 pb-1">
+        <div className="hidden lg:flex text-sm font-extralight flex h-full mt-1 items-center gap-2 lg:gap-5 pb-1">
           <ul className="flex gap-4 lg:gap-5 p-2">
             <CustomLink to="/map" exact={false}>
               MAP
@@ -367,6 +384,9 @@ export default function NavBar() {
             <CustomLink to="/contact" exact={false}>
               CONTACT
             </CustomLink>
+            <CustomLink to="/docs" exact={false}>
+              DOCS
+            </CustomLink>
           </ul>
           <button
             className="flex items-center justify-center gap-1 border-0 p-1 pl-2 pr-2 rounded-full bg-stone-200 text-gray-600 cursor-pointer"
@@ -381,7 +401,7 @@ export default function NavBar() {
 
       {/* RIGHT SIDE */}
       {/* MOBILE - USER INFO / AUTH */}
-      <div className="md:hidden flex items-center justify-end gap-1 mr-4 text-[13px] md:text-basez-100">
+      <div className="lg:hidden flex items-center justify-end gap-1 mr-4 text-sm md:text-base z-100">
         {authState.status ? (
           <div>
             <div className="h-full flex items-center justify-center">
@@ -454,12 +474,12 @@ export default function NavBar() {
 
         {!settingsOpened ? (
           <MdOutlineSettings
-            className="text-xl mb-[2px]"
+            className="text-xl"
             onClick={() => setSettingsOpened(true)}
           />
         ) : (
           <MdClose
-            className="text-xl mb-[2px]"
+            className="text-xl"
             onClick={() => setSettingsOpened(false)}
           />
         )}
@@ -467,7 +487,7 @@ export default function NavBar() {
 
       {/* LAPTOP - USER INFO / AUTH */}
       {authState.status ? (
-        <div className="hidden md:flex items-center justify-end gap-2 text-sm lg:text-base font-extralight">
+        <div className="hidden lg:flex items-center justify-end gap-2 text-sm lg:text-base font-extralight">
           <div className="h-full flex items-center justify-center">
             <span>welcome,&nbsp;</span>
             <span className="font-bold">{`${authState.username}!`}</span>
@@ -478,7 +498,7 @@ export default function NavBar() {
           </button>
         </div>
       ) : (
-        <div className="hidden md:flex flex items-center justify-end gap-2 text-base font-extralight">
+        <div className="hidden lg:flex flex items-center justify-end gap-2 text-base font-extralight">
           <CustomLink className="" to="/login">
             log in
           </CustomLink>

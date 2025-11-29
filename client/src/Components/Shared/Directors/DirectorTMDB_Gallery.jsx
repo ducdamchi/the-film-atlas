@@ -36,7 +36,7 @@ export default function DirectorTMDB_Gallery({ listOfDirectorObjects }) {
                     }
                     alt=""
                     onClick={() => {
-                      navigate(`/person/Director/${directorObject.id}`)
+                      navigate(`/person/director/${directorObject.id}`)
                     }}
                   />
                   <div className="border-red-500 absolute bottom-0 left-0 h-[10rem] md:h-[15rem] w-full bg-gradient-to-t from-black/90 to-transparent"></div>

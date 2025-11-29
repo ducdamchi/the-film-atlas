@@ -14,6 +14,7 @@ import MapPage from "./Components/MapPage"
 import Footer from "./Components/Shared/Navigation-Search/Footer"
 import About from "./Components/About"
 import Contact from "./Components/Contact"
+import Docs from "./Components/Docs"
 
 import { AuthContext } from "./Utils/authContext"
 
@@ -62,9 +63,6 @@ function App() {
     return <LoadingPage />
   }
 
-  console.log("Vite Environment:", import.meta.env.MODE)
-  console.log("API URL:", import.meta.env.VITE_API_URL)
-
   return (
     <>
       <AuthContext.Provider
@@ -84,6 +82,7 @@ function App() {
             <Route path="/directors" element={<Directors />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/docs" element={<Docs />} />
             <Route path="/films/:tmdbId" element={<FilmLanding />} />
             <Route path="/person/:job/:tmdbId" element={<PersonLanding />} />
             <Route path="/register" element={<Register />} />

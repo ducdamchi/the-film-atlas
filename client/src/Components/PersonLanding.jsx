@@ -51,13 +51,13 @@ export default function PersonLanding() {
 
       console.log("Films done:", result.movie_credits)
 
-      if (job === "Director") {
+      if (job === "director") {
         filmography = result.movie_credits.crew.filter(
-          (film) => film.job === job
+          (film) => film.job === "Director"
         )
       }
 
-      if (job === "Actor") {
+      if (job === "actor") {
         filmography = result.movie_credits.cast
       }
 
@@ -247,12 +247,14 @@ export default function PersonLanding() {
           </div>
         </div>
         <div className="landing-transparent-layer-bottom"></div>
-        <div className="absolute bottom-0 w-full flex items-center justify-center gap-2 text-stone-200 text-[12px] mb-4 xl:text-[16px] xl:mb-6">
-          <div className="border-1 p-2 rounded-full">{`Watched: ${numWatched}`}</div>
-          <div className="border-1 p-2 rounded-full">{`Starred: ${numStarred}`}</div>
-          <div className="border-1 p-2 rounded-full">{`Avg. Stars: ${avgRating}`}</div>
-          <div className="border-1 p-2 rounded-full">{`Score: ${score}`}</div>
-        </div>
+        {job === "director" && (
+          <div className="absolute bottom-0 w-full flex items-center justify-center gap-2 text-stone-200 text-[12px] mb-4 xl:text-[16px] xl:mb-6">
+            <div className="border-1 p-2 rounded-full">{`Watched: ${numWatched}`}</div>
+            <div className="border-1 p-2 rounded-full">{`Starred: ${numStarred}`}</div>
+            <div className="border-1 p-2 rounded-full">{`Avg. Stars: ${avgRating}`}</div>
+            <div className="border-1 p-2 rounded-full">{`Score: ${score}`}</div>
+          </div>
+        )}
       </div>
 
       {/* Text below backdrop */}
