@@ -724,7 +724,7 @@ export default function MapPage() {
 
       {/* Entire page below map */}
       <div
-        className="absolute flex flex-col items-center w-full bg-white z-200 top-[30rem] xl:top-[42rem] rounded-t-4xl transition-all ease-out duration-300 drop-shadow-xl"
+        className="absolute flex flex-col items-center w-full bg-white z-90 top-[30rem] xl:top-[42rem] rounded-t-4xl transition-all ease-out duration-300 drop-shadow-xl"
         ref={belowMapRef}>
         <div className="text-4xl mt-0 mb-2 flex items-center justify-center text-gray-300">
           {showBelowMapContent ? (
@@ -746,13 +746,13 @@ export default function MapPage() {
         {popupInfo &&
           popupInfo.iso_a2 !== null &&
           popupInfo.iso_a2 !== undefined && (
-            <div className="page-title font-heading">{`${getCountryName(popupInfo.iso_a2)}`}</div>
+            <div className="page-title-map font-heading">{`${getCountryName(popupInfo.iso_a2)}`}</div>
           )}
 
         {(!popupInfo ||
           popupInfo.iso_a2 === null ||
           popupInfo.iso_a2 === undefined) && (
-          <div className="page-title font-heading">select region</div>
+          <div className="page-title-map font-heading">select region</div>
         )}
 
         <div className="flex flex-col items-center justify-center mt-5 w-[90%] min-w-[20rem] md:w-[35rem]">

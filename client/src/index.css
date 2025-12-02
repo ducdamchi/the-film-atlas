@@ -66,6 +66,10 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
 
 @layer components {
   .page-title {
+    @apply uppercase font-bold text-xl md:text-2xl lg:text-3xl flex items-center justify-center w-full md:mt-10 mt-5;
+  }
+
+  .page-title-map {
     @apply uppercase font-bold text-xl md:text-2xl lg:text-3xl flex items-center justify-center w-full;
   }
 
@@ -199,5 +203,25 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
 
   .filmCard-width {
     @apply w-[22rem] min-w-[22rem] lg:w-[26rem] 2xl:w-[32rem];
+  }
+
+  .guide-sectionTitle {
+    @apply inline-block text-3xl font-bold;
+  }
+
+  .guide-sectionCategory {
+    @apply font-thin text-sm border-t-1 pt-5;
+  }
+
+  .guide-subtitle {
+    @apply font-bold text-xl;
+  }
+
+  .guide-img {
+    @apply border-2 w-full object-cover mt-4 mb-4;
+  }
+
+  .guide-list {
+    @apply m-2 font-light flex flex-col gap-4;
   }
 }
