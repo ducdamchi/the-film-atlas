@@ -42,6 +42,7 @@ export default function NavBar() {
   const laptopMenuHeight = 5
   const setttingsHeight_Authed = 2.5
   const setttingsHeight_Unauthed = 4.2
+  const navbarBorderWidth = 0
   const borderWidth = 0.3
 
   function CustomLink({ to, children, exact = true, ...props }) {
@@ -177,7 +178,7 @@ export default function NavBar() {
 
   return (
     <div
-      className={`fixed top-0 left-0 font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black text-stone-200 border-b-[0.3rem] border-[#b8d5e5] z-100`}
+      className={`fixed top-0 left-0 font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black text-stone-200 border-[#b8d5e5] z-100`}
       style={{ height: `${navbarHeight}rem` }}>
       {/* LEFT SIDE */}
       <div className="flex items-center justify-center gap-3 lg:gap-5 min-w-[12rem] ml-4">
@@ -217,7 +218,7 @@ export default function NavBar() {
           className={`hidden absolute z-20 left-0 bg-black border-[#b8d5e5] w-[50vw] pl-5 pb-5 pt- transition-all ease-out duration-200 font-light z-100`}
           style={{
             height: `${menuHeight}rem`,
-            top: `${navbarHeight - borderWidth}rem`,
+            top: `${navbarHeight - navbarBorderWidth}rem`,
           }}
           ref={menuRef}>
           <ul className="flex flex-col gap-2 text-sm">
@@ -267,13 +268,13 @@ export default function NavBar() {
               CONTACT
             </CustomLink>
             <CustomLink
-              to="/docs"
+              to="/guide"
               exact={false}
               onClick={() => {
                 setMenuOpened(false)
                 setSettingsOpened(false)
               }}>
-              DOCS
+              GUIDE
             </CustomLink>
           </ul>
         </div>
@@ -282,7 +283,7 @@ export default function NavBar() {
           style={{
             height: `${borderWidth}rem`,
             width: `calc(50vw + ${borderWidth}rem)`,
-            top: `${navbarHeight + menuHeight - borderWidth}rem`,
+            top: `${navbarHeight + menuHeight - navbarBorderWidth}rem`,
           }}
           ref={menuBorderBottom}></div>
         <div
@@ -290,7 +291,7 @@ export default function NavBar() {
           style={{
             height: `${menuHeight}rem`,
             width: `${borderWidth}rem`,
-            top: `${navbarHeight - borderWidth}rem`,
+            top: `${navbarHeight - navbarBorderWidth}rem`,
           }}
           ref={menuBorderRight}></div>
 
@@ -384,8 +385,8 @@ export default function NavBar() {
             <CustomLink to="/contact" exact={false}>
               CONTACT
             </CustomLink>
-            <CustomLink to="/docs" exact={false}>
-              DOCS
+            <CustomLink to="/guide" exact={false}>
+              GUIDE
             </CustomLink>
           </ul>
           <button
@@ -410,7 +411,7 @@ export default function NavBar() {
             <div
               className="hidden absolute z-20 right-0 bg-black border-[#b8d5e5] pl-5 pb-5 pt-2 transition-all ease-out duration-200 font-light justify-end items-center"
               style={{
-                top: `${navbarHeight - borderWidth}rem`,
+                top: `${navbarHeight - navbarBorderWidth}rem`,
                 width: `calc(50vw - ${borderWidth}rem)`,
                 height: `${setttingsHeight_Authed}rem`,
               }}
@@ -424,7 +425,7 @@ export default function NavBar() {
               style={{
                 width: `50vw`,
                 height: `${borderWidth}rem`,
-                top: `${navbarHeight + setttingsHeight_Authed - borderWidth}rem`,
+                top: `${navbarHeight + setttingsHeight_Authed - navbarBorderWidth}rem`,
               }}
               ref={settingsBorderBottom}></div>
             <div
@@ -432,7 +433,7 @@ export default function NavBar() {
               style={{
                 width: `${borderWidth}rem`,
                 height: `${setttingsHeight_Authed}rem`,
-                top: `${navbarHeight - borderWidth}rem`,
+                top: `${navbarHeight - navbarBorderWidth}rem`,
                 left: "50vw",
               }}
               ref={settingsBorderRight}></div>
@@ -442,7 +443,7 @@ export default function NavBar() {
             <div
               className="absolute hidden z-20 right-0 bg-black border-[#b8d5e5]  pl-5 pb-5 pt-0 transition-all ease-out duration-200 font-light justify-end"
               style={{
-                top: `${navbarHeight - borderWidth}rem`,
+                top: `${navbarHeight - navbarBorderWidth}rem`,
                 width: `calc(50vw - ${borderWidth}rem)`,
                 height: `${setttingsHeight_Unauthed}rem`,
               }}
@@ -457,7 +458,7 @@ export default function NavBar() {
               style={{
                 width: `50vw`,
                 height: `${borderWidth}rem`,
-                top: `${navbarHeight + setttingsHeight_Unauthed - borderWidth}rem`,
+                top: `${navbarHeight + setttingsHeight_Unauthed - navbarBorderWidth}rem`,
               }}
               ref={settingsBorderBottom}></div>
             <div
@@ -465,7 +466,7 @@ export default function NavBar() {
               style={{
                 width: `${borderWidth}rem`,
                 height: `${setttingsHeight_Unauthed}rem`,
-                top: `${navbarHeight - borderWidth}rem`,
+                top: `${navbarHeight - navbarBorderWidth}rem`,
                 left: "50vw",
               }}
               ref={settingsBorderRight}></div>

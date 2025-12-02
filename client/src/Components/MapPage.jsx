@@ -40,17 +40,20 @@ import CustomSlider from "./Shared/Buttons/CustomSlider"
 import LoadingPage from "./Shared/Navigation-Search/LoadingPage"
 
 import { FaSortNumericDown, FaSortNumericDownAlt } from "react-icons/fa"
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md"
+import { RiArrowDownWideLine, RiArrowUpWideLine } from "react-icons/ri"
 
 export default function MapPage() {
   /* Map const */
   const mapRef = useRef(null)
+  const belowMapRef = useRef(null)
   const MAPTILER_API_KEY = "0bsarBRVUOINHDtiYsY0"
   const [firstSymbolId, setFirstSymbolId] = useState(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
   const [popupInfo, setPopupInfo] = usePersistedState("map-popupInfo", null)
   const [filmsPerCountryData, setFilmsPerCountryData] = useState({})
-
-  // const [hoverInfo, setHoverInfo] = useState(null)
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+  const [isXlBreakpoint, setIsXlBreakpoint] = useState(false) // true when window width is >= 80rem (1280px)
 
   /* API request const */
   const [mapFilmData, setMapFilmData] = useState([])
@@ -116,6 +119,11 @@ export default function MapPage() {
     loadMore: false,
     hasMore: true,
   })
+
+  const [showBelowMapContent, setShowBelowMapContent] = usePersistedState(
+    "map-showBelowMapContent",
+    false
+  )
 
   // const [hasMore, setHasMore] = useState(true)
   const isPageRefresh = useRef(true)
@@ -456,6 +464,19 @@ export default function MapPage() {
   }, [isDiscoverMode, popupInfo, discoverBy, ratingRange, voteCountRange])
   /*******************************************************************/
 
+  /* Dynamically obtain screen width of window */
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth)
+      // setScreenHeight(window.innerHeight)
+    }
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
   /* Fetch User's film list (liked or watchlisted) from App's DB when page first loads */
   useEffect(() => {
     if (authState.status) {
@@ -502,9 +523,19 @@ export default function MapPage() {
 
   /* Hook to handle querying & sorting User Watched Films */
   useEffect(() => {
-    if (authState.status) {
-      // console.log("Handle sort doing something")
+    /* Check if selected region is valid */
+    if (
+      popupInfo &&
+      popupInfo.iso_a2 !== null &&
+      popupInfo.iso_a2 !== undefined
+    ) {
+      setShowBelowMapContent(true)
+    } else {
+      setShowBelowMapContent(false)
+    }
 
+    /* Process console selections */
+    if (authState.status) {
       if (popupInfo && popupInfo.iso_a2 !== undefined) {
         const fetchLikedFilmsByCountry = async () => {
           try {
@@ -540,8 +571,37 @@ export default function MapPage() {
     }
   }, [onData])
 
+  /* Hook to handle belowMapRef position based on whether region is valid or not */
+  useEffect(() => {
+    let timer
+    if (belowMapRef.current) {
+      if (showBelowMapContent) {
+        belowMapRef.current.style.top = "2rem"
+        timer = setTimeout(() => {}, 200)
+      } else {
+        if (isXlBreakpoint) {
+          belowMapRef.current.style.top = "42rem"
+        } else {
+          belowMapRef.current.style.top = "30rem"
+        }
+      }
+    }
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [showBelowMapContent])
+
+  useEffect(() => {
+    if (screenWidth >= 1280) {
+      setIsXlBreakpoint(true)
+    } else {
+      setIsXlBreakpoint(false)
+    }
+  }, [screenWidth])
+
   return (
-    <div className="font-primary flex flex-col justify-center w-[100vw] mt-[4.5rem]">
+    <div className="font-primary flex flex-col justify-center w-[100vw] mt-[4.5rem] relative">
       {isLoading && <LoadingPage />}
 
       {/* Quick Search Modal */}
@@ -552,7 +612,9 @@ export default function MapPage() {
         />
       )}
       <NavBar />
-      <div className="w-screen h-[25rem] md:h-[30rem] lg:h-[35rem] 2xl:h-[45rem] relative border-[0.3rem] border-t-0 border-[#b8d5e5]">
+
+      {/* Entire map */}
+      <div className="w-screen h-[40rem] xl:h-[55rem] relative border-[0.3rem] border-[#b8d5e5]">
         <Map
           className=""
           ref={mapRef}
@@ -660,12 +722,38 @@ export default function MapPage() {
         </Map>
       </div>
 
-      <div className="flex flex-col items-center">
+      {/* Entire page below map */}
+      <div
+        className="absolute flex flex-col items-center w-full bg-white z-200 top-[30rem] xl:top-[42rem] rounded-t-4xl transition-all ease-out duration-300 drop-shadow-xl"
+        ref={belowMapRef}>
+        <div className="text-4xl mt-0 mb-2 flex items-center justify-center text-gray-300">
+          {showBelowMapContent ? (
+            <button
+              onClick={() => {
+                setShowBelowMapContent(false)
+              }}>
+              <RiArrowDownWideLine />
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                setShowBelowMapContent(true)
+              }}>
+              <RiArrowUpWideLine />
+            </button>
+          )}
+        </div>
         {popupInfo &&
           popupInfo.iso_a2 !== null &&
           popupInfo.iso_a2 !== undefined && (
             <div className="page-title font-heading">{`${getCountryName(popupInfo.iso_a2)}`}</div>
           )}
+
+        {(!popupInfo ||
+          popupInfo.iso_a2 === null ||
+          popupInfo.iso_a2 === undefined) && (
+          <div className="page-title font-heading">select region</div>
+        )}
 
         <div className="flex flex-col items-center justify-center mt-5 w-[90%] min-w-[20rem] md:w-[35rem]">
           <Toggle_Three

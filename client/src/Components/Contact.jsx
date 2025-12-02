@@ -50,7 +50,7 @@ export default function Contact() {
           <div className="m-2 p-4">
             For all inquiries, please contact us using the form below.
           </div>
-          <div className="m-2 gap-1 border-5 border-[#b8d5e5] p-7 min-w-[20rem] w-[50%] max-w-[40rem]">
+          <div className="m-2 gap-1 border-5 border-black p-7 min-w-[20rem] w-[50%] max-w-[40rem]">
             <form onSubmit={onSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
                 <label htmlFor="name">Name</label>
