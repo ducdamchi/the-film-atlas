@@ -249,7 +249,7 @@ export default function MapPage() {
       }
     }
 
-    console.log("PopupInfo being set")
+    // console.log("PopupInfo being set")
 
     setPopupInfo({
       longitude: event.lngLat.lng,
@@ -724,11 +724,12 @@ export default function MapPage() {
 
       {/* Entire page below map */}
       <div
-        className="absolute flex flex-col items-center w-full bg-white z-90 top-[30rem] xl:top-[42rem] rounded-t-4xl transition-all ease-out duration-300 drop-shadow-xl"
+        className="absolute flex flex-col items-center w-full bg-white z-90 top-[30rem] min-h-[40rem] xl:top-[42rem] xl:min-h-[55rem] rounded-t-4xl transition-all ease-in-out duration-500 drop-shadow-xl"
         ref={belowMapRef}>
-        <div className="text-4xl mt-0 mb-2 flex items-center justify-center text-gray-300">
+        <div className="text-4xl mt-0 mb-2 flex items-center justify-center text-gray-300 w-full">
           {showBelowMapContent ? (
             <button
+              className="w-full flex items-center justify-center"
               onClick={() => {
                 setShowBelowMapContent(false)
               }}>
@@ -736,6 +737,7 @@ export default function MapPage() {
             </button>
           ) : (
             <button
+              className="w-full flex items-center justify-center"
               onClick={() => {
                 setShowBelowMapContent(true)
               }}>
@@ -932,7 +934,7 @@ export default function MapPage() {
         )}
 
         {isDiscoverMode && !page.hasMore && (
-          <div className="w-full flex items-center justify-center m-10 text-sm">
+          <div className="w-full flex items-center justify-center m-10 text-base text-black">
             You've reached the end!
           </div>
         )}

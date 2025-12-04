@@ -268,13 +268,13 @@ export default function NavBar() {
               CONTACT
             </CustomLink>
             <CustomLink
-              to="/guide"
+              to="/docs"
               exact={false}
               onClick={() => {
                 setMenuOpened(false)
                 setSettingsOpened(false)
               }}>
-              GUIDE
+              DOCS
             </CustomLink>
           </ul>
         </div>
@@ -385,8 +385,8 @@ export default function NavBar() {
             <CustomLink to="/contact" exact={false}>
               CONTACT
             </CustomLink>
-            <CustomLink to="/guide" exact={false}>
-              GUIDE
+            <CustomLink to="/docs" exact={false}>
+              DOCS
             </CustomLink>
           </ul>
           <button

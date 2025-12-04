@@ -49,7 +49,7 @@ export default function PersonLanding() {
       let filmography
       // Filter out films where the director's job is not 'director'
 
-      console.log("Films done:", result.movie_credits)
+      // console.log("Films done:", result.movie_credits)
 
       if (job === "director") {
         filmography = result.movie_credits.crew.filter(
@@ -99,6 +99,7 @@ export default function PersonLanding() {
       if (result.error) {
         console.error("Server: ", saveResult.error)
       } else {
+        // console.log("Result:", result)
         setNumWatched(result.watched)
         setNumStarred(result.starred)
         setHighestStar(result.highest_star)
@@ -146,7 +147,7 @@ export default function PersonLanding() {
   useEffect(() => {
     if (tmdbId) {
       fetchPageData()
-      if (authState.status && job === "Director") {
+      if (authState.status && job === "director") {
         fetchUserInteraction()
       }
     }

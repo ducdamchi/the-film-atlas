@@ -4,9 +4,14 @@ import QuickSearchModal from "./Shared/Navigation-Search/QuickSearchModal"
 import { AuthContext } from "../Utils/authContext"
 import "../App.css"
 import Swal from "sweetalert2"
+import useCommandKey from "../Hooks/useCommandKey"
 
 export default function Contact() {
   const { searchModalOpen, setSearchModalOpen } = useContext(AuthContext)
+  function toggleSearchModal() {
+    setSearchModalOpen((status) => !status)
+  }
+  useCommandKey(toggleSearchModal, "k")
   const [sent, setSent] = useState(false)
   const onSubmit = async (event) => {
     event.preventDefault()

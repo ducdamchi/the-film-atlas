@@ -46,10 +46,6 @@ export default function Directors() {
     "directors-sortDirection",
     "desc"
   )
-  const [queryString, setQueryString] = usePersistedState(
-    "directors-queryString",
-    "directors"
-  )
   const [scrollPosition, setScrollPosition] = usePersistedState(
     "directors-scrollPosition",
     0
@@ -140,7 +136,6 @@ export default function Directors() {
         try {
           setIsLoading(true)
           const result = await fetchDirectorListByParams({
-            queryString: queryString,
             sortBy: sortBy,
             sortDirection: sortDirection,
             numStars: numStars,
@@ -157,7 +152,7 @@ export default function Directors() {
     // else {
     //   alert("Log in to interact with directors!")
     // }
-  }, [sortDirection, sortBy, queryString, numStars])
+  }, [sortDirection, sortBy, numStars])
 
   return (
     <div className="font-primary mt-20">
@@ -166,7 +161,6 @@ export default function Directors() {
         <QuickSearchModal
           searchModalOpen={searchModalOpen}
           setSearchModalOpen={setSearchModalOpen}
-          queryString={queryString}
         />
       )}
       {/* Wrapper for entire page */}

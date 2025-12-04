@@ -1,12 +1,20 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import { Link, useNavigate } from "react-router-dom"
 import * as Yup from "yup"
 import axios from "axios"
 import NavBar from "./Shared/Navigation-Search/NavBar"
 import AuthBg from "./Shared/Navigation-Search/AuthBg"
+import QuickSearchModal from "./Shared/Navigation-Search/QuickSearchModal"
+import { AuthContext } from "../Utils/authContext"
+import useCommandKey from "../Hooks/useCommandKey"
 
 export default function Register() {
+  const { searchModalOpen, setSearchModalOpen } = useContext(AuthContext)
+  function toggleSearchModal() {
+    setSearchModalOpen((status) => !status)
+  }
+  useCommandKey(toggleSearchModal, "k")
   const navigate = useNavigate()
   const initialValues = {
     username: "",
@@ -36,6 +44,13 @@ export default function Register() {
   return (
     <div className="font-primary mt-10 auth-whole">
       <AuthBg />
+
+      {searchModalOpen && (
+        <QuickSearchModal
+          searchModalOpen={searchModalOpen}
+          setSearchModalOpen={setSearchModalOpen}
+        />
+      )}
 
       <NavBar />
       <div className="auth-formContainer">

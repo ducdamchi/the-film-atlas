@@ -5,9 +5,9 @@ export default function DirectorTMDB_Gallery({ listOfDirectorObjects }) {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original"
   const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log(listOfDirectorObjects)
-  }, [listOfDirectorObjects])
+  // useEffect(() => {
+  //   console.log(listOfDirectorObjects)
+  // }, [listOfDirectorObjects])
 
   return (
     <div>

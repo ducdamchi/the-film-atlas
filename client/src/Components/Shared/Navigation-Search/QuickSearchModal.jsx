@@ -90,6 +90,7 @@ export default function QuickSearchModal({
 
   /* Hook to detect if Quick Search Bar is being used, and handle page logic according */
   useEffect(() => {
+    // console.log("Search Input: ", searchInput)
     const queryFilm = async () => {
       if (
         /* If search modal is open and is non-empty, user is searching */
@@ -101,7 +102,7 @@ export default function QuickSearchModal({
           const result = await queryFilmFromTMDB(searchInput)
           setSearchResult(result)
         } catch (err) {
-          console.err("Error Querying Film with Quick Search Modal: ", err)
+          console.log("Error Querying Film with Quick Search Modal: ", err)
         }
       } else {
         setIsSearching(false)
@@ -111,7 +112,7 @@ export default function QuickSearchModal({
   }, [searchModalOpen, searchInput])
 
   return (
-    <div className="font-primary fixed top-[30%] left-0 border-green-700 w-screen h-auto z-100 flex justify-center ">
+    <div className="font-primary fixed top-[30%] left-0 border-green-700 w-screen h-auto z-500 flex justify-center ">
       <div
         className="relative w-[60%] h-auto min-w-[20rem] max-w-[32rem] bg-stone-900/80 text-stone-200 backdrop-blur-sm border-1 border-stone-500/80 rounded-md"
         ref={modalRef}>
@@ -133,7 +134,7 @@ export default function QuickSearchModal({
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
                   const inputValue = event.target.value
-                  navigate("/", {
+                  navigate("/films", {
                     state: { searchInputFromQuickSearch: inputValue },
                   })
                 }

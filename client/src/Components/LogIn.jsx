@@ -6,8 +6,10 @@ import axios from "axios"
 
 import NavBar from "./Shared/Navigation-Search/NavBar"
 import AuthBg from "./Shared/Navigation-Search/AuthBg"
+import QuickSearchModal from "./Shared/Navigation-Search/QuickSearchModal"
 
 import { AuthContext } from "../Utils/authContext"
+import useCommandKey from "../Hooks/useCommandKey"
 
 export default function LogIn() {
   const navigate = useNavigate()
@@ -15,7 +17,12 @@ export default function LogIn() {
     username: "",
     password: "",
   }
-  const { setAuthState } = useContext(AuthContext)
+  const { setAuthState, searchModalOpen, setSearchModalOpen } =
+    useContext(AuthContext)
+  function toggleSearchModal() {
+    setSearchModalOpen((status) => !status)
+  }
+  useCommandKey(toggleSearchModal, "k")
 
   const onSubmit = (data) => {
     // console.log(data)
@@ -43,6 +50,13 @@ export default function LogIn() {
   return (
     <div className="font-primary auth-whole mt-10">
       <AuthBg />
+
+      {searchModalOpen && (
+        <QuickSearchModal
+          searchModalOpen={searchModalOpen}
+          setSearchModalOpen={setSearchModalOpen}
+        />
+      )}
 
       <NavBar />
       <div className="auth-formContainer">

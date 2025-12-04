@@ -5,10 +5,15 @@ import { GoSquareFill } from "react-icons/go"
 import { AuthContext } from "../Utils/authContext"
 import { RiProgress8Line, RiProgress4Line } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
+import useCommandKey from "../Hooks/useCommandKey"
 
 export default function About() {
   const navigate = useNavigate()
   const { searchModalOpen, setSearchModalOpen } = useContext(AuthContext)
+  function toggleSearchModal() {
+    setSearchModalOpen((status) => !status)
+  }
+  useCommandKey(toggleSearchModal, "k")
   return (
     <div className="font-primary mt-20 mb-20">
       {searchModalOpen && (

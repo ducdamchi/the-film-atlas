@@ -241,7 +241,7 @@ export default function FilmLanding() {
       )}
 
       {/* Landing Page content */}
-      <div className="w-screen h-auto flex flex-col justify-center ">
+      <div className="w-screen h-auto flex flex-col justify-center">
         <div className="border-red-500 w-[100%] h-[90%] top-[5%] text-stone-200">
           <NavBar />
 
@@ -300,7 +300,7 @@ export default function FilmLanding() {
                               className=" hover:text-blue-400 transition-all ease-out duration-200"
                               style={{ cursor: "pointer" }}
                               onClick={() => {
-                                navigate(`/directors/${director.id}`)
+                                navigate(`/person/director/${director.id}`)
                               }}>{`${director.name}`}</span>
                             {/* Add a comma if it's not the last country on the list */}
                             {key !== directors.length - 1 && (
@@ -413,10 +413,10 @@ export default function FilmLanding() {
           </div>
 
           {/* Section below main backdrop */}
-          <div className="flex flex-col items-start text-stone-900 gap-2 relative bg-stone-100 landing-belowBackdropPadding">
+          <div className="flex flex-col items-start text-stone-900 gap-2 relative bg-stone-100 landing-belowBackdropPadding pb-30">
             <div className="flex flex-col">
               {/* Torrents will show here */}
-              {torrentVisible && (
+              {torrentVisible && ytsTorrents && (
                 <div className="hidden md:flex flex-col items-start justify-start">
                   <div className="p-4 pt-2">
                     <div className="landing-sectionTitle mb-1">torrents</div>

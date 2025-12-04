@@ -148,13 +148,12 @@ export function fetchListByParams({
 }
 
 export function fetchDirectorListByParams({
-  queryString = null,
   sortBy = null,
   sortDirection = null,
   numStars = null,
 } = {}) {
   return axios
-    .get(`${import.meta.env.VITE_API_URL}/profile/me/${queryString}`, {
+    .get(`${import.meta.env.VITE_API_URL}/profile/me/directors`, {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
       },

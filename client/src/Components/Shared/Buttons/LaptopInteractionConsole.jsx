@@ -22,7 +22,9 @@ export default function LaptopInteractionConsole({
               className="w-full text-white pr-7 pl-7 pb-5 lg:pb-6"
               onClick={() => {
                 navigate(`/films/${filmObject.id}`)
-                setPage((prevPage) => ({ ...prevPage, loadMore: false }))
+                if (setPage) {
+                  setPage((prevPage) => ({ ...prevPage, loadMore: false }))
+                }
               }}>
               <span className="text-sm lg:text-base italic font-light">
                 {filmObject.overview?.slice(0, 160)}
@@ -158,7 +160,9 @@ export default function LaptopInteractionConsole({
               className="border-red-500 absolute w-full h-full z-0 bottom-0"
               onClick={() => {
                 navigate(`/films/${filmObject.id}`)
-                setPage((prevPage) => ({ ...prevPage, loadMore: false }))
+                if (setPage) {
+                  setPage((prevPage) => ({ ...prevPage, loadMore: false }))
+                }
               }}></div>
           </div>
         )}

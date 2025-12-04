@@ -14,7 +14,7 @@ import MapPage from "./Components/MapPage"
 import Footer from "./Components/Shared/Navigation-Search/Footer"
 import About from "./Components/About"
 import Contact from "./Components/Contact"
-import Guide from "./Components/Guide"
+import Docs from "./Components/Docs"
 
 import { AuthContext } from "./Utils/authContext"
 
@@ -82,7 +82,7 @@ function App() {
             <Route path="/directors" element={<Directors />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/guide" element={<Guide />} />
+            <Route path="/docs" element={<Docs />} />
             <Route path="/films/:tmdbId" element={<FilmLanding />} />
             <Route path="/person/:job/:tmdbId" element={<PersonLanding />} />
             <Route path="/register" element={<Register />} />
@@ -90,7 +90,6 @@ function App() {
           </Routes>
         </HashRouter>
       </AuthContext.Provider>
-      {/* <Footer /> */}
     </>
   )
 }

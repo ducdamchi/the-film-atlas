@@ -48,7 +48,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
 
 .font-logo {
   /* font-family: "Black Ops One", sans-serif; */
-  font-family: "Goldman", "Optima", "Helvetica", sans-serif;
+  font-family: "Rammetto One", "Optima", "Helvetica", sans-serif;
   /* font-family: "Russo One", sans-serif; */
 }
 
@@ -154,11 +154,14 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-transparent-layer {
-    @apply border-0 border-red-500 absolute top-0 left-0 h-[15rem] md:h-[15rem] w-full bg-linear-to-b from-black to-transparent;
+    @apply border-0 border-red-500 absolute top-0 left-0 h-[10rem] w-full bg-linear-to-b from-black to-transparent;
+  }
+  .landing-transparent-layer-bottom {
+    @apply border-0 border-red-500 absolute bottom-0 left-0 h-[5rem] w-full bg-gradient-to-t from-black/100 to-transparent;
   }
 
   .landing-page-title {
-    @apply font-black text-2xl/8 mt-0 md:text-3xl/8 2xl:text-4xl/8 md:mt-5 md:ml-5 lg:ml-7 lg:mb-2;
+    @apply uppercase font-black text-2xl/8 mt-0 md:text-3xl/8 2xl:text-4xl/8 md:mt-5 md:ml-5 lg:ml-7 lg:mb-2;
   }
 
   .landing-img-text-belowTitle {
@@ -181,10 +184,6 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
     @apply inline-block decoration-3;
   }
 
-  .landing-transparent-layer-bottom {
-    @apply border-0 border-red-500 absolute bottom-0 left-0 h-[5rem] md:h-[15rem] w-full bg-gradient-to-t from-black/100 to-transparent;
-  }
-
   .landing-belowBackdropPadding {
     @apply p-4 md:p-8 lg:pl-12 2xl:pl-20;
   }
@@ -205,23 +204,23 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
     @apply w-[22rem] min-w-[22rem] lg:w-[26rem] 2xl:w-[32rem];
   }
 
-  .guide-sectionTitle {
+  .docs-sectionTitle {
     @apply inline-block text-3xl font-bold;
   }
 
-  .guide-sectionCategory {
+  .docs-sectionCategory {
     @apply font-thin text-sm border-t-1 pt-5;
   }
 
-  .guide-subtitle {
+  .docs-subtitle {
     @apply font-bold text-xl;
   }
 
-  .guide-img {
+  .docs-img {
     @apply border-2 w-full object-cover mt-4 mb-4;
   }
 
-  .guide-list {
+  .docs-list {
     @apply m-2 font-light flex flex-col gap-4;
   }
 }
