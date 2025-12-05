@@ -48,7 +48,7 @@ export default function Contact() {
           setSearchModalOpen={setSearchModalOpen}
         />
       )}
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center text-base md:text-lg ">
         <NavBar />
         <div className="font-heading page-title">Contact</div>
         <div className="relative mt-[4rem] mb-[4rem] flex h-auto w-full flex-col items-center justify-center gap-1">

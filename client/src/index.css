@@ -223,4 +223,12 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   .docs-list {
     @apply m-2 font-light flex flex-col gap-4;
   }
+
+  .docs-menu-heading {
+    @apply hover:text-blue-800 uppercase font-extralight text-sm md:text-base;
+  }
+
+  .docs-menu-content {
+    @apply flex flex-col pl-4 justify-center items-start gap-1 border-l-1 border-stone-900/30;
+  }
 }

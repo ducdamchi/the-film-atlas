@@ -21,7 +21,6 @@ export default function PersonLanding() {
   const [isLoading, setIsLoading] = useState(false)
   const [personDetails, setPersonDetails] = useState({})
   const [filmography, setFilmography] = useState({})
-  // const [searchModalOpen, setSearchModalOpen] = useState(false)
   const { job, tmdbId } = useParams()
   const [scrollPosition, setScrollPosition] = usePersistedState(
     `${job}Landing-scrollPosition`,
@@ -153,10 +152,6 @@ export default function PersonLanding() {
     }
     // setScrollPosition(0)
   }, [tmdbId])
-
-  // useEffect(() => {
-  //   console.log("Director Details:", personDetails)
-  // }, [personDetails])
 
   if (!personDetails) {
     return <div>{`Error loading ${job} landing page. Please try again.`}</div>

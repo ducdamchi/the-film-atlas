@@ -26,7 +26,7 @@ export default function About() {
         <NavBar />
         <div className="font-heading page-title">About</div>
 
-        <div className="md:p-10 max-w-[40rem]">
+        <div className="md:p-10 max-w-[40rem] md:text-lg md:max-w-[45rem] flex flex-col gap-10">
           <section className="p-5">
             {/* <div className="landing-sectionTitle">OVERVIEW</div> */}
             <div className="">
@@ -40,9 +40,9 @@ export default function About() {
               appreciation of cinema from underrepresented regions in the world.
             </div>
           </section>
-          <section className="flex flex-col p-5 gap-2">
-            <div className="uppercase inline-block">
-              <span className="inline-block">
+          <section className="flex flex-col p-5 gap-5">
+            <div className="uppercase inline-block text-lg md:text-xl">
+              <span className="inline-block ">
                 PHASE ONE&nbsp;&nbsp;|&nbsp;&nbsp;
               </span>
               <span className="inline font-bold">
@@ -51,10 +51,10 @@ export default function About() {
             </div>
             <div className="w-[10rem] flex items-center justify-start">
               <RiProgress8Line className="text-green-600" />
-              <span className="italic">&nbsp; Completed</span>
+              <span className="italic ">&nbsp; Completed</span>
             </div>
             <div>
-              <div className="font-bold">Overview</div>
+              <div className="font-bold text-lg md:text-xl">Overview</div>
               <div>
                 In the initial phase, The Film Atlas aims to function as (1) an
                 interactive map that promotes engagement with world cinema, and
@@ -74,7 +74,7 @@ export default function About() {
             </div>
             <div className="flex flex-col">
               <div className="flex flex-col">
-                <div className="font-bold">Key features</div>
+                <div className="font-bold text-lg md:text-xl">Key features</div>
                 <ul className="ml-2">
                   <li className="">
                     <span>
@@ -109,8 +109,8 @@ export default function About() {
               </div>
             </div>
           </section>
-          <section className="flex flex-col p-5 gap-2">
-            <div className="uppercase">
+          <section className="flex flex-col p-5 gap-5">
+            <div className="uppercase text-lg md:text-xl">
               <span className="">PHASE TWO&nbsp;&nbsp;|&nbsp;&nbsp;</span>
               <span className="font-bold">REGIONAL FOCUS</span>
             </div>
@@ -118,8 +118,8 @@ export default function About() {
               <RiProgress4Line className="text-amber-500" />
               <span className="italic">&nbsp; In progress</span>
             </div>
-            <div>
-              <div className="font-bold">Overview</div>
+            <div className="">
+              <div className="font-bold text-lg md:text-xl">Overview</div>
               <div>
                 In the second phase, The Film Atlas aims to granularize its map
                 to serve as an archiver of films from culturally rich and
@@ -135,7 +135,7 @@ export default function About() {
             </div>
             <div className="flex flex-col">
               <div className="flex flex-col">
-                <div className="font-bold">Key tasks</div>
+                <div className="font-bold text-lg md:text-xl">Key tasks</div>
                 <ul className="ml-2">
                   <li className="">
                     <GoSquareFill className="text-lg inline mb-1" />
