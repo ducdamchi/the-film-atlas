@@ -2,6 +2,7 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { HashRouter, Route, Routes } from "react-router-dom"
 import "./App.css"
+import ScrollToAnchor from "./Hooks/scrollToAnchor"
 
 import LoadingPage from "./Components/Shared/Navigation-Search/LoadingPage"
 import Films from "./Components/Films"
@@ -75,6 +76,7 @@ function App() {
           setSearchModalOpen,
         }}>
         <HashRouter>
+          <ScrollToAnchor />
           <Routes>
             <Route path="/" element={<MapPage />} />
             <Route path="/map" element={<MapPage />} />

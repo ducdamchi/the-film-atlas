@@ -1,4 +1,5 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import NavBar from "./Shared/Navigation-Search/NavBar"
 import QuickSearchModal from "./Shared/Navigation-Search/QuickSearchModal"
 import { GoSquareFill } from "react-icons/go"
@@ -8,10 +9,13 @@ import { useNavigate } from "react-router-dom"
 import useCommandKey from "../Hooks/useCommandKey"
 
 import { MathJax, MathJaxContext } from "better-react-mathjax"
+import { MdMenuBook } from "react-icons/md"
 
 export default function Docs() {
   const navigate = useNavigate()
   const { searchModalOpen, setSearchModalOpen } = useContext(AuthContext)
+  const [menuOpened, setMenuOpened] = useState(false)
+
   function toggleSearchModal() {
     setSearchModalOpen((status) => !status)
   }
@@ -29,12 +33,126 @@ export default function Docs() {
           <NavBar />
           <div className="font-heading page-title mb-10">DOCUMENTATION</div>
 
+          {/* <div className="w-full relative border-1"> */}
+          <button
+            onClick={() => {
+              setMenuOpened((prevState) => !prevState)
+            }}
+            className="ml-5 fixed left-0 bg-white p-3 rounded-full drop-shadow-md z-50 border-1 border-stone-900/30 w-auto transition-all ease-out">
+            <div className="flex items-center justify-start gap-2">
+              <MdMenuBook className="text-3xl" />
+              {menuOpened && (
+                <div className="font-bold uppercase">Table of Contents</div>
+              )}
+            </div>
+          </button>
+          {/* </div> */}
+
+          {menuOpened && (
+            <div className="fixed left-0 top-[4rem] h-auto border-1 border-stone-900/50 w-[70vw] bg-white p-5 min-w-[18rem] cursor-pointer">
+              <div className="mt-18">
+                {/* Getting started */}
+                <div>
+                  <Link
+                    to="/docs#getting-started"
+                    className="hover:text-blue-800">
+                    Getting Started
+                  </Link>
+                  <ul className="flex flex-col ml-4">
+                    <Link
+                      to="/docs#getting-started-glance"
+                      className="hover:text-blue-800">
+                      At a glance
+                    </Link>
+                    <Link
+                      to="/docs#getting-started-account"
+                      className="hover:text-blue-800">
+                      Creating an account
+                    </Link>
+                  </ul>
+                  {/* Getting started */}
+                </div>
+                {/* Feature Highlights */}
+                <div>
+                  <Link to="/docs#feature" className="hover:text-blue-800">
+                    Feature Highlights
+                  </Link>
+                  <ul className="flex flex-col ml-4">
+                    <Link
+                      to="/docs#feature-map"
+                      className="hover:text-blue-800">
+                      Map Page
+                    </Link>
+                    <Link
+                      to="/docs#feature-film"
+                      className="hover:text-blue-800">
+                      Films Page
+                    </Link>
+                    <Link
+                      to="/docs#feature-director"
+                      className="hover:text-blue-800">
+                      Directors Page
+                    </Link>
+                    <Link
+                      to="/docs#feature-search"
+                      className="hover:text-blue-800">
+                      Quick Search
+                    </Link>
+                  </ul>
+                </div>
+                {/* Curation System */}
+                <div>
+                  <Link to="/docs#curation" className="hover:text-blue-800">
+                    Curation System
+                  </Link>
+                  <ul className="flex flex-col ml-4">
+                    <Link
+                      to="/docs#curation-stars"
+                      className="hover:text-blue-800">
+                      Stars (Films)
+                    </Link>
+                    <Link
+                      to="/docs#curation-score"
+                      className="hover:text-blue-800">
+                      Score (Directors)
+                    </Link>
+                  </ul>
+                </div>
+                {/* Crit review */}
+                <div>
+                  <Link to="/docs#crit-review" className="hover:text-blue-800">
+                    Critical Review
+                  </Link>
+                  <ul className="flex flex-col ml-4">
+                    <Link
+                      to="/docs#crit-review-bias"
+                      className="hover:text-blue-800">
+                      Voting Bias
+                    </Link>
+                  </ul>
+                </div>
+                {/* Acknowledgement */}
+                <div>
+                  <Link
+                    to="/docs#acknowledgement"
+                    className="hover:text-blue-800">
+                    Acknowledgement
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="md:p-10 max-w-[40rem] md:text-lg md:max-w-[45rem]">
             {/* Getting started - At a glance*/}
             <section className="flex flex-col p-5 gap-10 mb-20">
               <div className="uppercase flex flex-col gap-2">
-                <div className="docs-sectionCategory">Getting started</div>
-                <div className="docs-sectionTitle">AT A GLANCE</div>
+                <div id="getting-started" className="docs-sectionCategory">
+                  Getting started
+                </div>
+                <div id="getting-started-glance" className="docs-sectionTitle">
+                  AT A GLANCE
+                </div>
               </div>
               <div className="flex flex-col gap-20">
                 <div className="flex flex-col gap-2">
@@ -110,7 +228,9 @@ export default function Docs() {
             <section className="flex flex-col p-5 gap-10 mb-20">
               <div className="uppercase flex flex-col gap-2">
                 <div className="docs-sectionCategory">Getting started</div>
-                <div className="docs-sectionTitle">Creating an account</div>
+                <div id="getting-started-account" className="docs-sectionTitle">
+                  Creating an account
+                </div>
               </div>
               <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-2">
@@ -143,8 +263,12 @@ export default function Docs() {
             {/* Feature highlights - MAP page*/}
             <section className="flex flex-col p-5 gap-10 mb-20 font-light">
               <div className="uppercase flex flex-col gap-2">
-                <div className="docs-sectionCategory">Feature Highlights</div>
-                <div className="docs-sectionTitle">MAP PAGE</div>
+                <div id="feature" className="docs-sectionCategory">
+                  Feature Highlights
+                </div>
+                <div id="feature-map" className="docs-sectionTitle">
+                  MAP PAGE
+                </div>
               </div>
               <div className="flex flex-col gap-20">
                 <div className="flex flex-col gap-2">
@@ -252,7 +376,9 @@ export default function Docs() {
             <section className="flex flex-col p-5 gap-10 mb-20 font-light">
               <div className="uppercase flex flex-col gap-2">
                 <div className="docs-sectionCategory">Feature Highlights</div>
-                <div className="docs-sectionTitle">FILMS PAGE</div>
+                <div id="feature-film" className="docs-sectionTitle">
+                  FILMS PAGE
+                </div>
               </div>
               <div className="flex flex-col gap-20">
                 <div className="flex flex-col gap-2">
@@ -323,7 +449,9 @@ export default function Docs() {
             <section className="flex flex-col p-5 gap-10 mb-20 font-light">
               <div className="uppercase flex flex-col gap-2">
                 <div className="docs-sectionCategory">Feature Highlights</div>
-                <div className="docs-sectionTitle">DIRECTORS PAGE</div>
+                <div id="feature-director" className="docs-sectionTitle">
+                  DIRECTORS PAGE
+                </div>
               </div>
               <div className="flex flex-col gap-20">
                 <div className="flex flex-col gap-2">
@@ -427,7 +555,7 @@ export default function Docs() {
             <section className="flex flex-col p-5 gap-10 mb-20 font-light">
               <div className="uppercase flex flex-col gap-2">
                 <div className="docs-sectionCategory">Feature Highlights</div>
-                <div className="docs-sectionTitle">
+                <div id="feature-search" className="docs-sectionTitle">
                   QUICK SEARCH ({`\u2318K`})
                 </div>
               </div>
@@ -480,8 +608,12 @@ export default function Docs() {
             {/* Curation system - Stars*/}
             <section className="flex flex-col p-5 gap-10 mb-20 font-light">
               <div className="uppercase flex flex-col gap-2">
-                <div className="docs-sectionCategory">Curation system</div>
-                <div className="docs-sectionTitle">STARS (FILMS)</div>
+                <div id="curation" className="docs-sectionCategory">
+                  Curation system
+                </div>
+                <div id="curation-stars" className="docs-sectionTitle">
+                  STARS (FILMS)
+                </div>
               </div>
               <div className="flex flex-col gap-20">
                 <div className="flex flex-col gap-2">
@@ -591,7 +723,9 @@ export default function Docs() {
             <section className="flex flex-col p-5 gap-10 mb-20 font-light">
               <div className="uppercase flex flex-col gap-2">
                 <div className="docs-sectionCategory">Curation system</div>
-                <div className="docs-sectionTitle">SCORE (DIRECTORS)</div>
+                <div id="curation-score" className="docs-sectionTitle">
+                  SCORE (DIRECTORS)
+                </div>
               </div>
               <div className="flex flex-col gap-20">
                 <div className="flex flex-col gap-2">
@@ -767,8 +901,12 @@ export default function Docs() {
             {/* Critical review - voting bias*/}
             <section className="flex flex-col p-5 gap-10 mb-20 font-light">
               <div className="uppercase flex flex-col gap-2">
-                <div className="docs-sectionCategory">Critical review</div>
-                <div className="docs-sectionTitle">VOTING BIAS</div>
+                <div id="crit-review" className="docs-sectionCategory">
+                  Critical review
+                </div>
+                <div id="crit-review-bias" className="docs-sectionTitle">
+                  VOTING BIAS
+                </div>
               </div>
               <div className="flex flex-col gap-20">
                 <div className="flex flex-col gap-2">
@@ -1158,7 +1296,9 @@ export default function Docs() {
             {/* Acknowledgment */}
             <section className="flex flex-col p-5 gap-10 mb-20 font-light">
               <div className="uppercase flex flex-col gap-2">
-                <div className="docs-sectionCategory">Acknowledgement</div>
+                <div id="acknowledgement" className="docs-sectionCategory">
+                  Acknowledgement
+                </div>
                 <div className="docs-sectionTitle">SPECIAL THANKS TO</div>
               </div>
               <div className="flex flex-col gap-20">
