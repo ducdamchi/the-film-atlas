@@ -179,15 +179,36 @@ export default function PersonLanding() {
 
       {/* Text over backdrop */}
       <div className="landing-main-img-container">
-        <img
-          className="landing-main-img transform"
-          src={
-            personDetails.profile_path !== null
-              ? `${imgBaseUrl}${personDetails.profile_path}`
-              : `profilepicnotfound.jpg`
-          }
-          alt=""
-        />
+        <div className="flex w-screen grayscale">
+          <img
+            className="landing-main-img w-screen sm:w-[50%] xl:w-[33.3333%]"
+            src={
+              personDetails.profile_path !== null
+                ? `${imgBaseUrl}${personDetails.profile_path}`
+                : `profilepicnotfound.jpg`
+            }
+            alt=""
+          />
+          <img
+            className="hidden sm:block landing-main-img w-screen sm:w-[50%] xl:w-[33.3333%]"
+            src={
+              personDetails.profile_path !== null
+                ? `${imgBaseUrl}${personDetails.profile_path}`
+                : `profilepicnotfound.jpg`
+            }
+            alt=""
+          />
+          <img
+            className="hidden xl:block landing-main-img w-screen sm:w-[50%] xl:w-[33.3333%]"
+            src={
+              personDetails.profile_path !== null
+                ? `${imgBaseUrl}${personDetails.profile_path}`
+                : `profilepicnotfound.jpg`
+            }
+            alt=""
+          />
+        </div>
+
         <div className="landing-transparent-layer"></div>
         <div className="">
           <div className="landing-img-text-container">

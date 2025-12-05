@@ -249,7 +249,7 @@ export default function FilmLanding() {
           <div className="landing-main-img-container">
             {/* Main backdrop */}
             <img
-              className="landing-main-img"
+              className="landing-main-img w-screen"
               src={
                 movieDetails.backdrop_path !== null
                   ? `${imgBaseUrl}${movieDetails.backdrop_path}`

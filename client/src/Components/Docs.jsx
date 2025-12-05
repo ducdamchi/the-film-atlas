@@ -29,7 +29,7 @@ export default function Docs() {
           <NavBar />
           <div className="font-heading page-title mb-10">DOCUMENTATION</div>
 
-          <div className="md:p-10 max-w-[40rem]">
+          <div className="md:p-10 max-w-[40rem] md:text-lg md:max-w-[45rem]">
             {/* Getting started - At a glance*/}
             <section className="flex flex-col p-5 gap-10 mb-20">
               <div className="uppercase flex flex-col gap-2">
@@ -39,9 +39,9 @@ export default function Docs() {
               <div className="flex flex-col gap-20">
                 <div className="flex flex-col gap-2">
                   <div
-                    className="docs-subtitle hover:text-blue-800 transition-all ease-out duration-200"
+                    className="docs-subtitle hover:text-blue-800 cursor-pointer transition-all ease-out duration-200"
                     onClick={() => {
-                      navigate("/maps")
+                      navigate("/map")
                     }}>
                     Map
                   </div>
@@ -59,7 +59,7 @@ export default function Docs() {
 
                 <div className="flex flex-col gap-2">
                   <div
-                    className="docs-subtitle hover:text-blue-800 transition-all ease-out duration-200"
+                    className="docs-subtitle hover:text-blue-800 cursor-pointer transition-all ease-out duration-200"
                     onClick={() => {
                       navigate("/films")
                     }}>
@@ -69,7 +69,7 @@ export default function Docs() {
                     Automatically, collections of films (watched, watchlist,
                     rated) will also appear on the{" "}
                     <span
-                      className="text-blue-800"
+                      className="text-blue-800 cursor-pointer"
                       onClick={() => {
                         navigate("/films")
                       }}>
@@ -87,7 +87,7 @@ export default function Docs() {
 
                 <div className="flex flex-col gap-2">
                   <div
-                    className="docs-subtitle hover:text-blue-800 transition-all ease-out duration-200"
+                    className="docs-subtitle hover:text-blue-800 cursor-pointer transition-all ease-out duration-200"
                     onClick={() => {
                       navigate("/directors")
                     }}>
@@ -177,7 +177,7 @@ export default function Docs() {
                       href="https://www.themoviedb.org/?language=en-US"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-800">
+                      className="text-blue-800 cursor-pointer">
                       The Movies Database
                     </a>{" "}
                     (TMDB), and currently we include three sort options:
@@ -217,7 +217,9 @@ export default function Docs() {
                     that are rated below 7 and has less than 100 votes. We
                     highly recommend users to adjust these values for different
                     countries, as{" "}
-                    <span className="text-blue-800 inline">voting biases</span>{" "}
+                    <span className="text-blue-800 cursor-pointer inline">
+                      voting biases
+                    </span>{" "}
                     may be present within the database that we use.
                   </div>
                   <img
@@ -413,7 +415,7 @@ export default function Docs() {
                     recent.
                   </div>
                   <img
-                    src="/filmlanding1.png"
+                    src="/directorlanding.png"
                     alt="Image of Films Page when search bar is being actively used."
                     className="docs-img"
                   />
@@ -751,7 +753,7 @@ export default function Docs() {
                     This scoring system is by no means perfect. If you have any
                     thoughts, we'd love to{" "}
                     <span
-                      className="text-blue-800"
+                      className="text-blue-800 cursor-pointer"
                       onClick={() => {
                         navigate("/contact")
                       }}>
@@ -777,7 +779,7 @@ export default function Docs() {
                       href="https://www.themoviedb.org/?language=en-US"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-800">
+                      className="text-blue-800 cursor-pointer">
                       The Movies Database
                     </a>{" "}
                     does not publicly release the demographics of its voters, we
@@ -794,7 +796,7 @@ export default function Docs() {
                         href="https://www.wipo.int/en/web/global-innovation-index/w/blogs/2025/global-film-production"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-800">
+                        className="text-blue-800 cursor-pointer">
                         <sup> 1</sup>
                       </a>
                       . In 2023, 2562 feature films were produced in India,
@@ -804,7 +806,7 @@ export default function Docs() {
                         href="https://www.wipo.int/en/web/global-innovation-index/w/blogs/2025/global-film-production"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-800">
+                        className="text-blue-800 cursor-pointer">
                         <sup> 2</sup>
                       </a>
                       . This, together with the fact that India currently has
@@ -814,7 +816,7 @@ export default function Docs() {
                         href="https://www.worldometers.info/world-population/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-800">
+                        className="text-blue-800 cursor-pointer">
                         <sup> 3</sup>
                       </a>
                       ), would make one think that there must be a lot of Indian
@@ -840,7 +842,7 @@ export default function Docs() {
                         href="https://thefilmatlas.org/#/films/157336"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="italic text-blue-800">
+                        className="italic text-blue-800 cursor-pointer">
                         Interstellar
                       </a>
                       , 2014, dir. Christopher Nolan, 8.5 average rating),
@@ -849,7 +851,7 @@ export default function Docs() {
                         href="https://thefilmatlas.org/#/films/19404"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="italic text-blue-800">
+                        className="italic text-blue-800 cursor-pointer">
                         Dilwale Dulhania Le Jayenge
                       </a>
                       , 1995, dir. Aditya Chopra, 8.5 average rating).
@@ -860,7 +862,7 @@ export default function Docs() {
                         href="https://www.boxofficemojo.com/chart/top_lifetime_gross/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-800">
+                        className="text-blue-800 cursor-pointer">
                         <sup> 4</sup>
                       </a>
                       ), must have gathered a lot of attention from TMDB users.
@@ -876,7 +878,7 @@ export default function Docs() {
                         href="https://www.cnn.com/2025/10/20/style/ddlj-bollywood-30-years-anniversary-intl-hnk-dst"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-800">
+                        className="text-blue-800 cursor-pointer">
                         <sup> 5</sup>
                       </a>
                       .
@@ -927,7 +929,7 @@ export default function Docs() {
                           href="https://thefilmatlas.org/#/films/1585"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="italic text-blue-800">
+                          className="italic text-blue-800 cursor-pointer">
                           It's A Wonderful Life
                         </a>{" "}
                         (4600+ votes, 8.3 average rating). While both films are
@@ -973,7 +975,7 @@ export default function Docs() {
                           href="https://thefilmatlas.org/#/films/980477"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="italic text-blue-800">
+                          className="italic text-blue-800 cursor-pointer">
                           Ne Zha II
                         </a>
                         , the highest grossing Chinese film of all time, highest
@@ -985,7 +987,7 @@ export default function Docs() {
                           href="https://www.nytimes.com/2025/02/10/business/china-box-office-ne-zha-2.html"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-800">
+                          className="text-blue-800 cursor-pointer">
                           <sup> 6</sup>
                         </a>
                         . It currently has less than 500 votes on TMDB. What's
@@ -995,7 +997,7 @@ export default function Docs() {
                           href="https://thefilmatlas.org/#/person/director/2367353"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-800">
+                          className="text-blue-800 cursor-pointer">
                           Jiao Zi
                         </a>
                         , there's no biography available (as this is being

@@ -11,26 +11,21 @@ export default function NavBar() {
   const { authState, setAuthState, searchModalOpen, setSearchModalOpen } =
     useContext(AuthContext)
 
-  const [menuOpened, setMenuOpened] = usePersistedState(
-    "navbar-menuOpened",
-    false
-  )
-
-  const [laptopMenuOpened, setLaptopMenuOpened] = usePersistedState(
-    "navbar-laptopMenuOpened",
-    false
-  )
+  const [menuOpened, setMenuOpened] = usePersistedState("navbar-menuOpened", {
+    isOpened: false,
+    isNeutral: true, //set to true when menu is closed passively (when browsing, etc.), set to false when user actively clicked close. Initial value should be set to false for user first click.
+  })
 
   const [settingsOpened, setSettingsOpened] = usePersistedState(
     "navbar-settingsOpened",
-    false
+    {
+      isOpened: false,
+      isNeutral: true, //set to true when menu is closed passively (when browsing, etc.), set to false when user actively clicked close. Initial value should be set to false for user first click.
+    }
   )
   const menuRef = useRef(null)
   const menuBorderBottom = useRef(null)
   const menuBorderRight = useRef(null)
-  const laptopMenuRef = useRef(null)
-  const laptopMenuBorderBottom = useRef(null)
-  const laptopMenuBorderRight = useRef(null)
   const settingsRef = useRef(null)
   const settingsBorderBottom = useRef(null)
   const settingsBorderRight = useRef(null)
@@ -39,7 +34,6 @@ export default function NavBar() {
   //unit: rem
   const navbarHeight = 4.5
   const menuHeight = 11.5
-  const laptopMenuHeight = 5
   const setttingsHeight_Authed = 2.5
   const setttingsHeight_Unauthed = 4.2
   const navbarBorderWidth = 0
@@ -67,6 +61,7 @@ export default function NavBar() {
 
   function animateMenu(
     menuState,
+    setMenuState,
     menuRef,
     borderBottomRef,
     borderSideRef,
@@ -74,32 +69,38 @@ export default function NavBar() {
     translateYValue
   ) {
     if (menuRef.current && borderBottomRef.current && borderSideRef.current) {
-      // console.log("Menu Opened: ", menuOpened)
+      // console.log("all refs current")
       let timer1, timer2
-      if (menuState) {
-        menuRef.current.style.display = "flex"
-        borderBottomRef.current.style.display = "block"
-        borderSideRef.current.style.display = "block"
-        timer1 = setTimeout(() => {
-          menuRef.current.style.transform = "translateY(0px)"
-        }, 400)
+      if (!menuState.isNeutral) {
+        if (menuState.isOpened) {
+          menuRef.current.style.display = "flex"
+          borderBottomRef.current.style.display = "block"
+          borderSideRef.current.style.display = "block"
+          timer1 = setTimeout(() => {
+            menuRef.current.style.transform = "translateX(0px)"
+          }, 400)
 
-        timer2 = setTimeout(() => {
-          borderBottomRef.current.style.transform = "translateY(0px)"
-          borderSideRef.current.style.transform = "translateY(0px)"
-        }, 200)
-      } else {
-        timer1 = setTimeout(() => {
-          menuRef.current.style.transform = `translateX(${translateXValue}px)`
-        }, 200)
-        timer2 = setTimeout(() => {
-          menuRef.current.style.display = "none"
-          borderBottomRef.current.style.display = "none"
-          borderSideRef.current.style.display = "none"
-        }, 400)
-        borderBottomRef.current.style.transform = `translateX(${translateXValue}px)`
-        borderSideRef.current.style.transform = `translateY(${translateYValue}px)`
+          timer2 = setTimeout(() => {
+            borderBottomRef.current.style.transform = "translateX(0px)"
+            borderSideRef.current.style.transform = "translateY(0px)"
+          }, 200)
+          setMenuState((prevState) => ({ ...prevState, isNeutral: true }))
+        } else {
+          // console.log("trying to transition close menu")
+          timer1 = setTimeout(() => {
+            menuRef.current.style.transform = `translateX(${translateXValue}px)`
+          }, 200)
+          timer2 = setTimeout(() => {
+            menuRef.current.style.display = "none"
+            borderBottomRef.current.style.display = "none"
+            borderSideRef.current.style.display = "none"
+          }, 400)
+          borderBottomRef.current.style.transform = `translateX(${translateXValue}px)`
+          borderSideRef.current.style.transform = `translateY(${translateYValue}px)`
+          setMenuState((prevState) => ({ ...prevState, isNeutral: true }))
+        }
       }
+
       return () => {
         clearTimeout(timer1)
         clearTimeout(timer2)
@@ -144,8 +145,10 @@ export default function NavBar() {
   }
 
   useEffect(() => {
+    // console.log("Before menu animation: ", menuOpened)
     animateMenu(
       menuOpened,
+      setMenuOpened,
       menuRef,
       menuBorderBottom,
       menuBorderRight,
@@ -154,20 +157,10 @@ export default function NavBar() {
     )
   }, [menuOpened])
 
-  // useEffect(() => {
-  //   animateMenu(
-  //     laptopMenuOpened,
-  //     laptopMenuRef,
-  //     laptopMenuBorderBottom,
-  //     laptopMenuBorderRight,
-  //     -500,
-  //     -200
-  //   )
-  // }, [laptopMenuOpened])
-
   useEffect(() => {
     animateMenu(
       settingsOpened,
+      setSettingsOpened,
       settingsRef,
       settingsBorderBottom,
       settingsBorderRight,
@@ -178,22 +171,32 @@ export default function NavBar() {
 
   return (
     <div
-      className={`fixed top-0 left-0 font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black text-stone-200 border-[#b8d5e5] z-100`}
+      className={`fixed top-0 left-0 font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black text-stone-200 border-[#b8d5e5] z-400`}
       style={{ height: `${navbarHeight}rem` }}>
       {/* LEFT SIDE */}
       <div className="flex items-center justify-center gap-3 lg:gap-5 min-w-[12rem] ml-4">
         {/* MOBILE - APP NAME */}
         <div className="lg:hidden h-full flex items-center justify-center pt-0 z-30">
           <button className="mr-2">
-            {menuOpened ? (
+            {menuOpened.isOpened ? (
               <MdClose
                 className="text-xl mb-[2px]"
-                onClick={() => setMenuOpened(false)}
+                onClick={() =>
+                  setMenuOpened({
+                    isOpened: false,
+                    isNeutral: false,
+                  })
+                }
               />
             ) : (
               <MdMenu
                 className="text-xl mb-[2px]"
-                onClick={() => setMenuOpened(true)}
+                onClick={() =>
+                  setMenuOpened({
+                    isOpened: true,
+                    isNeutral: false,
+                  })
+                }
               />
             )}
           </button>
@@ -215,7 +218,7 @@ export default function NavBar() {
 
         {/* MOBILE - HAMBURGER MENU CONTENT */}
         <div
-          className={`hidden absolute z-20 left-0 bg-black border-[#b8d5e5] w-[50vw] pl-5 pb-5 pt- transition-all ease-out duration-200 font-light z-100`}
+          className={`hidden absolute z-20 left-0 bg-black border-[#b8d5e5] w-[50vw] pl-5 pb-5 pt- transition-all ease-out duration-200 font-light z-100 md:pl-12`}
           style={{
             height: `${menuHeight}rem`,
             top: `${navbarHeight - navbarBorderWidth}rem`,
@@ -226,8 +229,8 @@ export default function NavBar() {
               to="/map"
               exact={false}
               onClick={() => {
-                setMenuOpened(false)
-                setSettingsOpened(false)
+                setMenuOpened({ isOpened: false, isNeutral: true })
+                setSettingsOpened({ isOpened: false, isNeutral: true })
               }}>
               MAP
             </CustomLink>
@@ -235,8 +238,11 @@ export default function NavBar() {
               to="/films"
               exact={false}
               onClick={() => {
-                setMenuOpened(false)
-                setSettingsOpened(false)
+                setMenuOpened({ isOpened: false, isNeutral: true })
+                setSettingsOpened({
+                  isOpened: false,
+                  isNeutral: true,
+                })
               }}>
               FILMS
             </CustomLink>
@@ -244,8 +250,8 @@ export default function NavBar() {
               to="/directors"
               exact={false}
               onClick={() => {
-                setMenuOpened(false)
-                setSettingsOpened(false)
+                setMenuOpened({ isOpened: false, isNeutral: true })
+                setSettingsOpened({ isOpened: false, isNeutral: true })
               }}>
               DIRECTORS
             </CustomLink>
@@ -253,8 +259,12 @@ export default function NavBar() {
               to="/about"
               exact={false}
               onClick={() => {
-                setMenuOpened(false)
-                setSettingsOpened(false)
+                setMenuOpened({ isOpened: false, isNeutral: true })
+
+                setSettingsOpened({
+                  isOpened: false,
+                  isNeutral: true,
+                })
               }}>
               ABOUT
             </CustomLink>
@@ -262,8 +272,12 @@ export default function NavBar() {
               to="/contact"
               exact={false}
               onClick={() => {
-                setMenuOpened(false)
-                setSettingsOpened(false)
+                setMenuOpened({ isOpened: false, isNeutral: true })
+
+                setSettingsOpened({
+                  isOpened: false,
+                  isNeutral: true,
+                })
               }}>
               CONTACT
             </CustomLink>
@@ -271,8 +285,8 @@ export default function NavBar() {
               to="/docs"
               exact={false}
               onClick={() => {
-                setMenuOpened(false)
-                setSettingsOpened(false)
+                setMenuOpened({ isOpened: false, isNeutral: true })
+                setSettingsOpened({ isOpened: false, isNeutral: true })
               }}>
               DOCS
             </CustomLink>
@@ -297,19 +311,6 @@ export default function NavBar() {
 
         {/* LAPTOP - APP NAME*/}
         <div className="hidden lg:flex h-full items-center justify-center">
-          {/* <button className="mr-2">
-            {laptopMenuOpened ? (
-              <MdClose
-                className="text-2xl mb-0"
-                onClick={() => setLaptopMenuOpened(false)}
-              />
-            ) : (
-              <MdMenu
-                className="text-2xl mb-0"
-                onClick={() => setLaptopMenuOpened(true)}
-              />
-            )}
-          </button> */}
           <span
             onClick={() => {
               navigate("/about")
@@ -318,54 +319,6 @@ export default function NavBar() {
             The Film Atlas
           </span>
         </div>
-
-        {/* LAPTOP - HAMBURGER MENU CONTENT */}
-        {/* <div
-          className={`hidden absolute z-20 left-0 bg-black border-[#b8d5e5] w-[50vw] pl-5 pb-5 pt- transition-all ease-out duration-200 font-light z-100`}
-          style={{
-            height: `${laptopMenuHeight}rem`,
-            top: `${navbarHeight - borderWidth}rem`,
-          }}
-          ref={laptopMenuRef}>
-          <ul className="flex flex-col gap-2 text-[13px]">
-            <CustomLink
-              to="/about"
-              exact={false}
-              onClick={() => {
-                setMenuOpened(false)
-                setLaptopMenuOpened(false)
-                setSettingsOpened(false)
-              }}>
-              ABOUT
-            </CustomLink>
-            <CustomLink
-              to="/contact"
-              exact={false}
-              onClick={() => {
-                setMenuOpened(false)
-                setLaptopMenuOpened(false)
-                setSettingsOpened(false)
-              }}>
-              CONTACT
-            </CustomLink>
-          </ul>
-        </div>
-        <div
-          className={`hidden absolute left-0 bg-[#d5e5b8] z-20 transition-all ease-out duration-400`}
-          style={{
-            height: `${borderWidth}rem`,
-            width: `calc(50vw + ${borderWidth}rem)`,
-            top: `${navbarHeight + laptopMenuHeight - borderWidth}rem`,
-          }}
-          ref={laptopMenuBorderBottom}></div>
-        <div
-          className="hidden absolute w-[0.4rem] h-[6rem] left-[50vw] top-[3rem] bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
-          style={{
-            height: `${laptopMenuHeight}rem`,
-            width: `${borderWidth}rem`,
-            top: `${navbarHeight - borderWidth}rem`,
-          }}
-          ref={laptopMenuBorderRight}></div> */}
 
         {/* LAPTOP - HORIZONTAL MENU */}
         <div className="hidden lg:flex text-sm font-extralight flex h-full mt-1 items-center gap-2 lg:gap-5 pb-1">
@@ -402,7 +355,7 @@ export default function NavBar() {
 
       {/* RIGHT SIDE */}
       {/* MOBILE - USER INFO / AUTH */}
-      <div className="lg:hidden flex items-center justify-end gap-1 mr-4 text-sm md:text-base z-100">
+      <div className="lg:hidden flex items-center justify-end gap-1 mr-4 text-sm z-100">
         {authState.status ? (
           <div>
             <div className="h-full flex items-center justify-center">
@@ -416,7 +369,9 @@ export default function NavBar() {
                 height: `${setttingsHeight_Authed}rem`,
               }}
               ref={settingsRef}>
-              <button className="mr-5 gap-2 uppercase" onClick={logOut}>
+              <button
+                className="mr-5 md:mr-12 gap-2 uppercase"
+                onClick={logOut}>
                 log out
               </button>
             </div>
@@ -441,7 +396,7 @@ export default function NavBar() {
         ) : (
           <div>
             <div
-              className="absolute hidden z-20 right-0 bg-black border-[#b8d5e5]  pl-5 pb-5 pt-0 transition-all ease-out duration-200 font-light justify-end"
+              className="absolute hidden z-20 right-0 bg-black border-[#b8d5e5] pl-5 pb-5 pt-0 transition-all ease-out duration-200 font-light justify-end"
               style={{
                 top: `${navbarHeight - navbarBorderWidth}rem`,
                 width: `calc(50vw - ${borderWidth}rem)`,
@@ -473,15 +428,25 @@ export default function NavBar() {
           </div>
         )}
 
-        {!settingsOpened ? (
+        {!settingsOpened.isOpened ? (
           <MdOutlineSettings
             className="text-xl"
-            onClick={() => setSettingsOpened(true)}
+            onClick={() =>
+              setSettingsOpened({
+                isOpened: true,
+                isNeutral: false,
+              })
+            }
           />
         ) : (
           <MdClose
             className="text-xl"
-            onClick={() => setSettingsOpened(false)}
+            onClick={() =>
+              setSettingsOpened({
+                isOpened: false,
+                isNeutral: false,
+              })
+            }
           />
         )}
       </div>

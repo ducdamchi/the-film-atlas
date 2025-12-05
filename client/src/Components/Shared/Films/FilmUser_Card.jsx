@@ -201,26 +201,26 @@ export default function FilmUser_Card({ filmObject, queryString }) {
           </div>
         </div>
         {/* Right side - director's photo*/}
-        <div className="flex flex-col items-center justify-center gap-1 max-w-[22rem] mr-2 text-[12px] hover:text-blue-400">
+        <div className="flex flex-col items-center justify-center gap-1 max-w-[22rem] mr-2 text-[12px] hover:text-blue-800 transition-all duration-300 ease-out">
           {queryString && filmObject.directors && (
             <div className="border-amber-400 flex items-start gap-1 justify-center">
               {filmObject.directors.map((dir, key) => {
                 return key < 2 ? (
                   <div
                     key={key}
-                    className="flex flex-col items-center justify-center gap-1">
-                    <div className="relative max-w-[8rem] h-[2.5rem] aspect-1/1 overflow-hidden rounded-full">
+                    className="flex flex-col items-center justify-center gap-1 "
+                    onClick={() => navigate(`/person/director/${dir.tmdbId}`)}>
+                    <div className="relative max-w-[8rem] h-[2.5rem] aspect-1/1 overflow-hidden rounded-full ">
                       <img
-                        className="object-cover grayscale transform -translate-y-1 hover:scale-[1.05] transition-all duration-300 ease-out"
+                        className="object-cover grayscale transform -translate-y-1 hover:scale-[1.05] "
                         src={
                           dir.profile_path !== null
                             ? `${imgBaseUrl}${dir.profile_path}`
                             : "profilepicnotfound.jpg"
                         }
-                        onClick={() => navigate(`/directors/${dir.tmdbId}`)}
                       />
                     </div>
-                    <div className="text-center">
+                    <div className="text-center cursor-pointer">
                       {`${getNameParts(dir.name)?.firstNameInitial}. ${getNameParts(dir.name)?.lastName}`}
                     </div>
                   </div>
