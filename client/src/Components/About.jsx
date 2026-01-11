@@ -6,6 +6,8 @@ import { AuthContext } from "../Utils/authContext"
 import { RiProgress8Line, RiProgress4Line } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
 import useCommandKey from "../Hooks/useCommandKey"
+import { Link } from "react-router-dom"
+import { BiLogoGithub } from "react-icons/bi"
 
 export default function About() {
   const navigate = useNavigate()
@@ -65,11 +67,17 @@ export default function About() {
                 each director as the{" "}
                 <span className="italic">auteur principal</span> of a film, and
                 implementing a strict{" "}
-                <a className="text-blue-800">3-star rating system</a> on each of
-                their creation. These two functionalities work together to to
-                minimize user input, while maximizing the visualization of their
-                engagement with cinema from a cultural, geographical, and even
-                gendered perspective.
+                <Link
+                  to="/docs#curation-stars"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 cursor-pointer">
+                  3-star rating system
+                </Link>{" "}
+                on each of their creation. These two functionalities work
+                together to to minimize user input, while maximizing the
+                visualization of their engagement with cinema from a cultural,
+                geographical, and even gendered perspective.
               </div>
             </div>
             <div className="flex flex-col">
@@ -82,6 +90,8 @@ export default function About() {
                       &nbsp;Search, filter, and sort over 1 million films and
                       associated directors from{" "}
                       <a
+                        target="_blank"
+                        rel="noopener noreferrer"
                         href="https://www.themoviedb.org/?language=en-US"
                         className="text-blue-800">
                         The Movie Database
@@ -102,8 +112,14 @@ export default function About() {
                   <li className="">
                     <GoSquareFill className="text-lg inline" />
                     &nbsp;Each director gets assigned a{" "}
-                    <a className="text-blue-800">score</a> based on the user's
-                    interaction with their films.
+                    <Link
+                      to="/docs#curation-score"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-800 cursor-pointer">
+                      score
+                    </Link>{" "}
+                    based on the user's interaction with their films.
                   </li>
                 </ul>
               </div>
@@ -164,6 +180,18 @@ export default function About() {
                 className="text-blue-800 cursor-pointer">
                 Join our team!
               </span>
+            </div>
+          </section>
+          <section className="mt-20">
+            <div className="flex items-center justify-center gap-2">
+              Developed by
+              <a
+                href="https://github.com/ducdamchi"
+                target="_blank"
+                rel="noopener noreferrer">
+                <BiLogoGithub className="text-3xl hover:text-blue-800" />
+              </a>
+              Duc Dam
             </div>
           </section>
         </div>

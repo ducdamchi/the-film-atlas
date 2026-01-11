@@ -185,7 +185,7 @@ export default function PersonLanding() {
             alt=""
           />
           <img
-            className="hidden sm:block landing-main-img w-screen sm:w-[50%] xl:w-[33.3333%]"
+            className="hidden sm:block landing-main-img w-[50%] xl:w-[33.3333%]"
             src={
               personDetails.profile_path !== null
                 ? `${imgBaseUrl}${personDetails.profile_path}`
@@ -194,7 +194,7 @@ export default function PersonLanding() {
             alt=""
           />
           <img
-            className="hidden xl:block landing-main-img w-screen sm:w-[50%] xl:w-[33.3333%]"
+            className="hidden xl:block landing-main-img w-[33.3333%]"
             src={
               personDetails.profile_path !== null
                 ? `${imgBaseUrl}${personDetails.profile_path}`
@@ -214,40 +214,42 @@ export default function PersonLanding() {
               </div>
             )}
 
-            {/* Birthday, deathday, age */}
-            <div className="landing-img-text-belowTitle gap-0">
-              {personDetails.birthday && (
-                <div className="">
-                  <span>{`${getNiceMonthDateYear(personDetails.birthday)}`}</span>
-                </div>
-              )}
+            <div className="flex flex-col justify-start items-start gap-2">
+              {/* Birthday, deathday, age */}
+              <div className="landing-img-text-belowTitle gap-0">
+                {personDetails.birthday && (
+                  <div className="">
+                    <span>{`${getNiceMonthDateYear(personDetails.birthday)}`}</span>
+                  </div>
+                )}
 
-              {personDetails.deathday && (
-                <div className="">
-                  <span className="">&nbsp;-&nbsp;</span>
-                  <span>{`${getNiceMonthDateYear(personDetails.deathday)}`}</span>
-                </div>
-              )}
+                {personDetails.deathday && (
+                  <div className="">
+                    <span className="">&nbsp;-&nbsp;</span>
+                    <span>{`${getNiceMonthDateYear(personDetails.deathday)}`}</span>
+                  </div>
+                )}
 
-              <span>
-                &nbsp;
-                {`(${getAge(personDetails.birthday, personDetails.deathday)})`}
-              </span>
-            </div>
-
-            {/* Birthplace*/}
-            {personDetails.place_of_birth && (
-              <div className="landing-img-text-right">
-                <span className="">Born in&nbsp;</span>
-
-                <span className="landing-img-text-right-content">
-                  {`${personDetails.place_of_birth.slice(0, 40)}`}
-                  {personDetails.place_of_birth.length >= 40 && (
-                    <span>...</span>
-                  )}
+                <span>
+                  &nbsp;
+                  {`(${getAge(personDetails.birthday, personDetails.deathday)})`}
                 </span>
               </div>
-            )}
+
+              {/* Birthplace*/}
+              {personDetails.place_of_birth && (
+                <div className="landing-img-text-right">
+                  <span className="">Born in&nbsp;</span>
+
+                  <span className="landing-img-text-right-content">
+                    {`${personDetails.place_of_birth.slice(0, 40)}`}
+                    {personDetails.place_of_birth.length >= 40 && (
+                      <span>...</span>
+                    )}
+                  </span>
+                </div>
+              )}
+            </div>
 
             {/* {personDetails.known_for.map((filmObject, key) => (
               <span key={key}>

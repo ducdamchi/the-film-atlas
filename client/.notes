@@ -43,3 +43,8 @@ echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 
 free -h
 sudo swapon --show
+
+
+rsync -avz --exclude 'client/node_modules' --exclude 'server/node_modules' --exclude '.git' \
+-e "ssh -i ~/.ssh/philadelphia-duc-mbp.pem" \
+. ubuntu@ec2-18-220-89-123.us-east-2.compute.amazonaws.com:~/app

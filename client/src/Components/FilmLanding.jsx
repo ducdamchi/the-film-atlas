@@ -21,6 +21,7 @@ import QuickSearchModal from "./Shared/Navigation-Search/QuickSearchModal"
 import InteractionConsole from "./Shared/Buttons/InteractionConsole"
 import PersonList from "./Shared/LandingPage/PersonList"
 import TrailerModal from "./Shared/LandingPage/TrailerModal"
+import Torrents from "./Torrents"
 
 import { IoMdCalendar, IoIosTimer } from "react-icons/io"
 import { BiPlay } from "react-icons/bi"
@@ -266,12 +267,15 @@ export default function FilmLanding() {
               <div className="landing-img-text-container z-30">
                 {/* Title */}
                 {movieDetails.title && (
-                  <div className="landing-page-title font-heading">
-                    {movieDetails.title}
+                  <div className="landing-page-title font-heading pb-2">
+                    {movieDetails.title} &nbsp;
+                    {/* {movieDetails.release_date && (
+                      <span className="inline-block sm:hidden">{`(${getReleaseYear(movieDetails.release_date)})`}</span>
+                    )} */}
                   </div>
                 )}
 
-                <div className="flex flex-col justify-start">
+                <div className="flex-col justify-start items-start gap-2 hidden sm:flex">
                   {/* Release Date */}
                   <div className="landing-img-text-belowTitle gap-2">
                     {movieDetails.release_date && (
@@ -315,7 +319,7 @@ export default function FilmLanding() {
                   {/* Origin Country */}
                   {movieDetails.origin_country &&
                     movieDetails.origin_country.length > 0 && (
-                      <div className="landing-img-text-right">
+                      <div className="landing-img-text-right ">
                         <span className="">Origin:&nbsp;</span>
 
                         {movieDetails.origin_country.map((country, key) => {
@@ -417,39 +421,84 @@ export default function FilmLanding() {
             <div className="flex flex-col">
               {/* Torrents will show here */}
               {torrentVisible && ytsTorrents && (
-                <div className="hidden md:flex flex-col items-start justify-start">
-                  <div className="p-4 pt-2">
-                    <div className="landing-sectionTitle mb-1">torrents</div>
-                    {ytsTorrents.length === 0 && (
-                      <div className="landing-sectionContent">
-                        No torrents found.
-                      </div>
-                    )}
-                    {ytsTorrents.length > 0 && (
-                      <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
-                        {ytsTorrents.map((torrent, key) => {
+                <Torrents ytsTorrents={ytsTorrents} />
+              )}
+
+              {/* Basic info -- sm breakpoint */}
+              <div className="flex sm:hidden">
+                <div className="p-4 pt-2">
+                  {/* <span className="font-bold uppercase">Overview:&nbsp;</span> */}
+                  <div className="landing-sectionTitle mb-1">Basic Info</div>
+                  <div className="landing-sectionContent">
+                    {/* Director name(s) */}
+                    {directors.length > 0 && (
+                      <div className="">
+                        {/* <span className="font-black text-base">|&nbsp;</span> */}
+                        <span className="font-thin lowercase">
+                          Directed by:&nbsp;
+                        </span>
+                        {directors.map((director, key) => {
                           return (
-                            <a key={key} href={torrent.url}>
-                              <div className="border-2 flex flex-col items-center justify-center gap-1 p-2 pr-2 pl-2 rounded-none hover:border-blue-800 hover:text-blue-800 transition-all ease-out duration-200 w-auto">
-                                <div className="flex items-center justify-center gap-1 border-b-1 pb-1 uppercase">
-                                  <span className="">{torrent?.type}</span>
-                                  <span className="">{torrent?.quality}</span>
-                                  <span>{`[${torrent?.size}]`}</span>
-                                </div>
-                                <div className="flex items-center justify-center gap-2 text-base">
-                                  {/* <span>{`${torrent?.video_codec}`}</span> */}
-                                  <span>{`peers: ${torrent?.peers}`}</span>
-                                  <span>{`seeds: ${torrent?.seeds}`}</span>
-                                </div>
-                              </div>
-                            </a>
+                            <span key={key}>
+                              <span
+                                className=" hover:text-blue-800 transition-all ease-out duration-200"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  navigate(`/person/director/${director.id}`)
+                                }}>{`${director.name}`}</span>
+                              {/* Add a comma if it's not the last country on the list */}
+                              {key !== directors.length - 1 && (
+                                <span>,&nbsp;</span>
+                              )}
+                            </span>
                           )
                         })}
                       </div>
                     )}
+                    {/* Release Date */}
+                    <div className="">
+                      {movieDetails.release_date && (
+                        <div className="flex gap-1 items-center">
+                          <span className="font-thin lowercase">
+                            Release year:
+                          </span>
+                          <span className="">{`${getReleaseYear(movieDetails.release_date)}`}</span>
+                        </div>
+                      )}
+                      {movieDetails.runtime && (
+                        <div className="flex gap-1 items-center">
+                          <span className="font-thin lowercase">Runtime:</span>
+
+                          <span className="">{`${movieDetails.runtime} minutes`}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Origin Country */}
+                    {movieDetails.origin_country &&
+                      movieDetails.origin_country.length > 0 && (
+                        <div className="">
+                          <span className="font-thin lowercase">
+                            Origin:&nbsp;
+                          </span>
+
+                          {movieDetails.origin_country.map((country, key) => {
+                            return (
+                              <span key={key} className="whitespace-nowrap">
+                                <span className="landing-img-text-right-content">{`${getCountryName(country)}`}</span>
+                                {/* Add a comma if it's not the last country on the list */}
+                                {key !==
+                                  movieDetails.origin_country.length - 1 && (
+                                  <span className="inline-block">,&nbsp;</span>
+                                )}
+                              </span>
+                            )
+                          })}
+                        </div>
+                      )}
                   </div>
                 </div>
-              )}
+              </div>
 
               {/* Overview section */}
               <div className="flex flex-col items-start justify-start ">
@@ -463,6 +512,7 @@ export default function FilmLanding() {
                   </div>
                 )}
               </div>
+
               {/* Cast and crew section */}
               <div className="flex flex-col items-start justify-start gap-2">
                 {mainCast.length > 0 && (

@@ -128,6 +128,11 @@ export default function Docs() {
                     </Link>
                     <ul className="docs-menu-content">
                       <Link
+                        to="/docs#curation-origin"
+                        className="hover:text-blue-800">
+                        Origin Country
+                      </Link>
+                      <Link
                         to="/docs#curation-stars"
                         className="hover:text-blue-800">
                         Stars (Films)
@@ -184,13 +189,13 @@ export default function Docs() {
                   </div>
                   <div className="flex flex-col gap-20">
                     <div className="flex flex-col gap-2">
-                      <div
+                      <Link
                         className="docs-subtitle hover:text-blue-800 cursor-pointer transition-all ease-out duration-200"
-                        onClick={() => {
-                          navigate("/map")
-                        }}>
+                        to="/map"
+                        target="_blank"
+                        rel="noopener noreferrer">
                         Map
-                      </div>
+                      </Link>
                       <div className="font-light">
                         Once users start adding films to their watched list,
                         their map will be colored based on the corresponding
@@ -204,23 +209,23 @@ export default function Docs() {
                     </div>
 
                     <div className="flex flex-col gap-2">
-                      <div
+                      <Link
                         className="docs-subtitle hover:text-blue-800 cursor-pointer transition-all ease-out duration-200"
-                        onClick={() => {
-                          navigate("/films")
-                        }}>
+                        to="/films"
+                        target="_blank"
+                        rel="noopener noreferrer">
                         Films
-                      </div>
+                      </Link>
                       <div className="font-light">
                         Automatically, collections of films (watched, watchlist,
                         rated) will also appear on the{" "}
-                        <span
-                          className="text-blue-800 cursor-pointer"
-                          onClick={() => {
-                            navigate("/films")
-                          }}>
+                        <Link
+                          className="text-blue-800"
+                          to="/films"
+                          target="_blank"
+                          rel="noopener noreferrer">
                           films
-                        </span>{" "}
+                        </Link>{" "}
                         main page, which can be sorted and displayed in several
                         ways.
                       </div>
@@ -232,13 +237,13 @@ export default function Docs() {
                     </div>
 
                     <div className="flex flex-col gap-2">
-                      <div
+                      <Link
                         className="docs-subtitle hover:text-blue-800 cursor-pointer transition-all ease-out duration-200"
-                        onClick={() => {
-                          navigate("/directors")
-                        }}>
+                        to="/directors"
+                        target="_blank"
+                        rel="noopener noreferrer">
                         Directors
-                      </div>
+                      </Link>
                       <div className="font-light">
                         A list of directors whose films users have watched will
                         also be formed.
@@ -379,9 +384,11 @@ export default function Docs() {
                         films that are rated below 7 and has less than 100
                         votes. We highly recommend users to adjust these values
                         for different countries, as{" "}
-                        <span className="text-blue-800 cursor-pointer inline">
+                        <Link
+                          to="/docs#crit-review-bias"
+                          className="text-blue-800 cursor-pointer inline">
                           voting biases
-                        </span>{" "}
+                        </Link>{" "}
                         may be present within the database that we use.
                       </div>
                       <img
@@ -431,9 +438,11 @@ export default function Docs() {
                         recently they were added, or by their release year. An
                         additional 'rating' filter can be applied to films in
                         the Rated collection. Refer to{" "}
-                        <span className="text-blue-800 cursor-pointer">
+                        <Link
+                          to="/docs#curation-stars"
+                          className="text-blue-800 cursor-pointer inline">
                           this section
-                        </span>{" "}
+                        </Link>{" "}
                         for more details on the rating system.
                       </div>
                       <img
@@ -452,9 +461,11 @@ export default function Docs() {
                         console again, simply clear the search bar. Note that
                         you can only search for films with this search bar. Use
                         the{" "}
-                        <span className="text-blue-800 cursor-pointer">
-                          director page's search bar
-                        </span>{" "}
+                        <Link
+                          to="/docs#feature-director"
+                          className="text-blue-800 cursor-pointer inline">
+                          director's page search bar
+                        </Link>{" "}
                         if you want to search for directors instead.
                       </div>
                       <img
@@ -531,9 +542,11 @@ export default function Docs() {
                           Directors can be arranged in descending or ascending
                           order of their assigned score (1-10) based on the
                           user's interactions. Refer to{" "}
-                          <span className="text-blue-800 cursor-pointer">
+                          <Link
+                            to="/docs#curation-score"
+                            className="text-blue-800 cursor-pointer inline">
                             this section
-                          </span>{" "}
+                          </Link>{" "}
                           for more details on our directors scoring system.
                         </li>
                         <li className="">
@@ -543,9 +556,11 @@ export default function Docs() {
                           can be arranged in descending or ascending order of
                           the highest star they've received from the user for a
                           film (0-3). Refer to{" "}
-                          <span className="text-blue-800 cursor-pointer">
+                          <Link
+                            to="/docs#curation-stars"
+                            className="text-blue-800 cursor-pointer inline">
                             this section
-                          </span>{" "}
+                          </Link>{" "}
                           for more details on our films starring system.
                         </li>
                       </ul>
@@ -576,9 +591,11 @@ export default function Docs() {
                         typing to enter Search mode, and simply clear the search
                         bar to exit it. Note that you can only search for
                         directors with this search bar. Use the{" "}
-                        <span className="text-blue-800 cursor-pointer">
+                        <Link
+                          to="/docs#feature-film"
+                          className="text-blue-800 cursor-pointer inline">
                           film page's search bar
-                        </span>{" "}
+                        </Link>{" "}
                         if you want to search for films instead.
                       </div>
                     </div>
@@ -657,6 +674,49 @@ export default function Docs() {
                           of the Quick Search modal.
                         </li>
                       </ul>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Curation system - Origin*/}
+                <section className="flex flex-col p-5 gap-10 mb-20 font-light">
+                  <div className="uppercase flex flex-col gap-2">
+                    <div id="curation" className="docs-sectionCategory">
+                      Curation system
+                    </div>
+                    <div id="curation-origin" className="docs-sectionTitle">
+                      Origin Country
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-20">
+                    <div className="flex flex-col gap-2">
+                      <div className="docs-subtitle">Definition</div>
+                      <div className="">
+                        The <span className="italic">origin_country</span> field
+                        of each film is extracted from The Movies Database. The
+                        API does not provide a formal definition for this field.
+                        However, it generally refers to the primary country
+                        where a film is first released. Sometimes, there is a
+                        strong link between the origin country and the original
+                        language of the film. The origin country is to be
+                        distinguished from production countries.
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <div className="docs-subtitle">Why we use this field</div>
+                      <div className="">
+                        It is the closest indication of a film's 'nationality'
+                        available on TMDB, and often coincides with the
+                        nationality that the director identifies with (which is
+                        also not available on TMDB). The{" "}
+                        <span className="italic">production_countries</span>{" "}
+                        field often include too many countries that are not of
+                        equal significance. That being said, there are instances
+                        of <span className="italic">origin_country</span> that
+                        could be misleading that we thought the user should be
+                        aware of. This is something that we are currently
+                        working on improving.
+                      </div>
                     </div>
                   </div>
                 </section>
@@ -959,13 +1019,13 @@ export default function Docs() {
                       <div className="">
                         This scoring system is by no means perfect. If you have
                         any thoughts, we'd love to{" "}
-                        <span
-                          className="text-blue-800 cursor-pointer"
-                          onClick={() => {
-                            navigate("/contact")
-                          }}>
+                        <Link
+                          to="/contact"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-800 cursor-pointer">
                           hear more from you!
-                        </span>
+                        </Link>
                       </div>
                     </div>
                   </div>

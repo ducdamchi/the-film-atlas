@@ -142,7 +142,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .console-button {
-    @apply flex items-center gap-1 border-1 rounded-full max-h-[2.5rem];
+    @apply flex items-center gap-1 border-1 rounded-full max-h-[2.5rem] backdrop-blur-2xl;
   }
 
   .landing-main-img-container {
@@ -150,14 +150,14 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-main-img {
-    @apply max-h-[30rem] md:max-h-[40rem] aspect-2/3 object-cover scale-[1];
+    @apply max-h-screen object-cover scale-[1] brightness-80;
   }
 
   .landing-transparent-layer {
-    @apply border-0 border-red-500 absolute top-0 left-0 h-[10rem] w-full bg-linear-to-b from-black to-transparent;
+    @apply border-0 border-red-500 absolute top-0 left-0 h-[20rem] w-full bg-linear-to-b from-black to-transparent;
   }
   .landing-transparent-layer-bottom {
-    @apply border-0 border-red-500 absolute bottom-0 left-0 h-[5rem] w-full bg-gradient-to-t from-black/100 to-transparent;
+    @apply border-0 border-red-500 absolute bottom-0 left-0 h-[7rem] w-full bg-gradient-to-t from-black/100 to-transparent;
   }
 
   .landing-page-title {
@@ -165,7 +165,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-img-text-belowTitle {
-    @apply w-full flex mb-0 mt-1 text-sm md:text-base lg:text-lg font-extralight md:ml-5 lg:ml-7;
+    @apply flex mb-0 mt-1 text-sm md:text-base lg:text-lg font-extralight md:ml-5 lg:ml-7 rounded-lg backdrop-blur-2xl border-1 p-2;
   }
 
   .landing-img-text-container {
@@ -173,7 +173,7 @@ Red Rose, Cal Sans, Paytone One, Bungee Shade, Russo One, Black Ops One */
   }
 
   .landing-img-text-right {
-    @apply text-sm md:text-base lg:text-lg font-extralight mb-0 text-left md:mr-5 lg:mr-7 z-100 md:ml-5 lg:ml-7;
+    @apply text-sm md:text-base lg:text-lg font-extralight mb-0 text-left md:mr-5 lg:mr-7 z-100 md:ml-5 lg:ml-7 rounded-lg backdrop-blur-2xl border-1 p-2;
   }
 
   .landing-img-text-right-title {

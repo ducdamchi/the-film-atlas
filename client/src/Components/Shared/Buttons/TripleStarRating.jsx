@@ -9,8 +9,11 @@ export default function TripleStarRating({
 
   return (
     <div
-      className={` hover:bg-[var(--hover-bg-color)] transition-all duration-200 ease-out h-full group flex items-center justify-center`}
-      style={{ "--hover-bg-color": css.hoverBg, padding: css.buttonPadding }}>
+      className={` hover:bg-[var(--hover-bg-color)] transition-all duration-200 ease-out h-full group flex items-center justify-center `}
+      style={{
+        "--hover-bg-color": css.hoverBg,
+        padding: css.buttonPadding,
+      }}>
       <div
         className="console-button justify-center "
         style={{

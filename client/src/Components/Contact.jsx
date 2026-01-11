@@ -55,41 +55,41 @@ export default function Contact() {
           <div className="m-2 p-4">
             For all inquiries, please contact us using the form below.
           </div>
-          <div className="m-2 gap-1 border-5 border-black p-7 min-w-[20rem] w-[50%] max-w-[40rem]">
+          <div className="m-2 gap-1 border-2 rounded-lg border-black p-7 min-w-[20rem] w-[50%] max-w-[40rem]">
             <form onSubmit={onSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
-                <label htmlFor="name">Name</label>
+                {/* <label htmlFor="name">Name</label> */}
                 <input
                   type="text"
                   name="name"
                   id="name"
                   autoComplete="name"
-                  className="border-1 bg-zinc-100 p-2"
-                  placeholder="Enter your name"
+                  className="border-1 rounded-sm bg-zinc-100 p-2"
+                  placeholder="Your name"
                   required></input>
               </div>
               <div className="flex flex-col gap-1">
-                <label htmlFor="email">Email</label>
+                {/* <label htmlFor="email">Email</label> */}
                 <input
                   type="email"
                   name="email"
                   id="email"
                   autoComplete="email"
-                  className="border-1 bg-zinc-100 p-2"
-                  placeholder="Enter your email"
+                  className="border-1 rounded-sm bg-zinc-100 p-2"
+                  placeholder="Your email"
                   required></input>
               </div>
               <div className="flex flex-col gap-1">
-                <label htmlFor="message">Message</label>
+                {/* <label htmlFor="message">Message</label> */}
                 <textarea
                   name="message"
                   id="message"
-                  className="message-box border-1 bg-zinc-100 p-2"
-                  placeholder="Enter message"
+                  className="message-box border-1 rounded-sm bg-zinc-100 p-2"
+                  placeholder="Your message"
                   required></textarea>
               </div>
               <button
-                className="w-[20%] self-end border-1 bg-zinc-100 p-2 hover:text-stone-200 hover:bg-black transition-all ease-out duration-200"
+                className="w-[20%] self-end border-1 rounded-sm bg-zinc-100 p-2 hover:text-stone-200 hover:bg-black transition-all ease-out duration-200"
                 type="submit">
                 <div className="submit-button-text">Send</div>
               </button>

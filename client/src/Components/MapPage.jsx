@@ -576,7 +576,7 @@ export default function MapPage() {
     let timer
     if (belowMapRef.current) {
       if (showBelowMapContent) {
-        belowMapRef.current.style.top = "2rem"
+        belowMapRef.current.style.top = "7rem"
         timer = setTimeout(() => {}, 200)
       } else {
         if (isXlBreakpoint) {
@@ -729,15 +729,16 @@ export default function MapPage() {
         <div className="text-4xl mt-0 mb-2 flex items-center justify-center text-gray-300 w-full">
           {showBelowMapContent ? (
             <button
-              className="w-full flex items-center justify-center"
+              className="w-full flex items-center justify-center flex flex-col items-center hover:bg-gray-100 transition-all ease-out duration-200 rounded-t-4xl"
               onClick={() => {
                 setShowBelowMapContent(false)
               }}>
+              {/* <span className="text-xs uppercase">show map</span> */}
               <RiArrowDownWideLine />
             </button>
           ) : (
             <button
-              className="w-full flex items-center justify-center"
+              className="w-full flex items-center justify-center hover:bg-gray-100 transition-all ease-out duration-200 rounded-t-4xl"
               onClick={() => {
                 setShowBelowMapContent(true)
               }}>
