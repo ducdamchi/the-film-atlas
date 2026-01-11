@@ -755,7 +755,10 @@ export default function MapPage() {
         {(!popupInfo ||
           popupInfo.iso_a2 === null ||
           popupInfo.iso_a2 === undefined) && (
-          <div className="page-title-map font-heading">select region</div>
+          <div className="flex flex-col items-center justify-center">
+            <div className="page-title-map font-heading">select region</div>
+            <div>(click on a valid region on map to start)</div>
+          </div>
         )}
 
         <div className="flex flex-col items-center justify-center mt-5 w-[90%] min-w-[20rem] md:w-[35rem]">
