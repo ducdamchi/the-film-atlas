@@ -42,7 +42,7 @@ export default function Register() {
       .required("Confirm Password is required."),
   })
   return (
-    <div className="font-primary mt-10 auth-whole">
+    <div className="font-primary mt-10 auth-whole min-h-screen">
       <AuthBg />
 
       {searchModalOpen && (

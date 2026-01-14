@@ -17,7 +17,7 @@ export default function About() {
   }
   useCommandKey(toggleSearchModal, "k")
   return (
-    <div className="font-primary mt-20 mb-20">
+    <div className="font-primary mt-20 mb-20 min-h-screen">
       {searchModalOpen && (
         <QuickSearchModal
           searchModalOpen={searchModalOpen}
@@ -182,7 +182,7 @@ export default function About() {
               </span>
             </div>
           </section>
-          <section className="mt-20">
+          {/* <section className="mt-20">
             <div className="flex items-center justify-center gap-2">
               Developed by
               <a
@@ -193,7 +193,7 @@ export default function About() {
               </a>
               Duc Dam
             </div>
-          </section>
+          </section> */}
         </div>
       </div>
     </div>

@@ -41,7 +41,7 @@ export default function Contact() {
     }
   }
   return (
-    <div className="font-primary mt-20 mb-20">
+    <div className="font-primary mt-20 mb-20 min-h-screen">
       {searchModalOpen && (
         <QuickSearchModal
           searchModalOpen={searchModalOpen}
@@ -55,7 +55,7 @@ export default function Contact() {
           <div className="m-2 p-4">
             For all inquiries, please contact us using the form below.
           </div>
-          <div className="m-2 gap-1 border-2 rounded-lg border-black p-7 min-w-[20rem] w-[50%] max-w-[40rem]">
+          <div className="m-2 gap-1 border-1 rounded-lg border-black p-7 min-w-[20rem] w-[50%] max-w-[40rem] bg-[linear-gradient(-65deg,rgba(175,175,175,0.05)_20%,rgba(175,175,175,0.25)_100%)]">
             <form onSubmit={onSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
                 {/* <label htmlFor="name">Name</label> */}
@@ -64,8 +64,8 @@ export default function Contact() {
                   name="name"
                   id="name"
                   autoComplete="name"
-                  className="border-1 rounded-sm bg-zinc-100 p-2"
-                  placeholder="Your name"
+                  className="border-1 rounded-sm bg-white p-2"
+                  placeholder="Name"
                   required></input>
               </div>
               <div className="flex flex-col gap-1">
@@ -75,8 +75,8 @@ export default function Contact() {
                   name="email"
                   id="email"
                   autoComplete="email"
-                  className="border-1 rounded-sm bg-zinc-100 p-2"
-                  placeholder="Your email"
+                  className="border-1 rounded-sm bg-white p-2"
+                  placeholder="Email"
                   required></input>
               </div>
               <div className="flex flex-col gap-1">
@@ -84,12 +84,12 @@ export default function Contact() {
                 <textarea
                   name="message"
                   id="message"
-                  className="message-box border-1 rounded-sm bg-zinc-100 p-2"
-                  placeholder="Your message"
+                  className="message-box border-1 rounded-sm bg-white p-2 min-h-[10rem]"
+                  placeholder="Message"
                   required></textarea>
               </div>
               <button
-                className="w-[20%] self-end border-1 rounded-sm bg-zinc-100 p-2 hover:text-stone-200 hover:bg-black transition-all ease-out duration-200"
+                className="w-[20%] self-end border-1 rounded-sm bg-white p-1 hover:text-stone-200 hover:bg-black transition-all ease-out duration-200"
                 type="submit">
                 <div className="submit-button-text">Send</div>
               </button>

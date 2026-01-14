@@ -18,6 +18,8 @@ import Contact from "./Components/Contact"
 import Docs from "./Components/Docs"
 
 import { AuthContext } from "./Utils/authContext"
+import Privacy from "./Components/Privacy"
+import Terms from "./Components/Terms"
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -89,7 +91,10 @@ function App() {
             <Route path="/person/:job/:tmdbId" element={<PersonLanding />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LogIn />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
           </Routes>
+          <Footer />
         </HashRouter>
       </AuthContext.Provider>
     </>

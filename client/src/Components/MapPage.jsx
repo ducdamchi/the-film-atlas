@@ -575,14 +575,14 @@ export default function MapPage() {
   useEffect(() => {
     let timer
     if (belowMapRef.current) {
-      if (showBelowMapContent) {
-        belowMapRef.current.style.top = "7rem"
+      if (!showBelowMapContent) {
+        belowMapRef.current.style.top = "-5rem"
         timer = setTimeout(() => {}, 200)
       } else {
         if (isXlBreakpoint) {
-          belowMapRef.current.style.top = "42rem"
+          belowMapRef.current.style.top = "-48rem"
         } else {
-          belowMapRef.current.style.top = "30rem"
+          belowMapRef.current.style.top = "-25rem"
         }
       }
     }
@@ -724,7 +724,7 @@ export default function MapPage() {
 
       {/* Entire page below map */}
       <div
-        className="absolute flex flex-col items-center w-full bg-white z-90 top-[30rem] min-h-[40rem] xl:top-[42rem] xl:min-h-[55rem] rounded-t-4xl transition-all ease-in-out duration-500 drop-shadow-xl"
+        className="relative flex flex-col items-center w-full bg-white z-90 min-h-[40rem] xl:min-h-[55rem] rounded-t-4xl transition-all ease-in-out duration-500 shadow-[25px_-8px_30px_rgba(0,0,0,0.15)] [clip-path:inset(-100%_-100%_0_-100%)]"
         ref={belowMapRef}>
         <div className="text-4xl mt-0 mb-2 flex items-center justify-center text-gray-300 w-full">
           {showBelowMapContent ? (

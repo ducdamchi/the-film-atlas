@@ -40,17 +40,17 @@ export default function Docs() {
   useCommandKey(toggleSearchModal, "k")
   return (
     <MathJaxContext>
-      <div className="font-primary mt-20 mb-20">
+      <div className="font-primary mt-20 mb-20 min-h-screen h-auto relative">
         {searchModalOpen && (
           <QuickSearchModal
             searchModalOpen={searchModalOpen}
             setSearchModalOpen={setSearchModalOpen}
           />
         )}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center relative w-screen h-auto">
           <NavBar />
 
-          <div className="">
+          <div className="relative">
             <button
               onClick={() => {
                 if (screenWidth < 1024) {
@@ -170,7 +170,7 @@ export default function Docs() {
             )}
           </div>
 
-          <div className="w-screen lg:w-[calc(100vw-18rem)] xl:lg:w-[calc(100vw-36rem)] lg:absolute lg:left-[18rem]">
+          <div className="w-screen lg:w-[calc(100vw-18rem)] xl:w-[calc(100vw-36rem)] lg:ml-[18rem]">
             <div className="font-heading page-title mb-10">DOCUMENTATION</div>
 
             <div className="flex items-center justify-center ">
@@ -1458,7 +1458,7 @@ export default function Docs() {
                           The Movies Database
                         </div>
                       </a>{" "}
-                      <div className="">For a powerful API.</div>
+                      <div className="">For the API.</div>
                       <a
                         href="https://www.themoviedb.org/?language=en-US"
                         target="_blank"
@@ -1481,7 +1481,7 @@ export default function Docs() {
                           Map Libre
                         </div>
                       </a>{" "}
-                      <div className="">For a wonderful mapping library.</div>
+                      <div className="">For the mapping library.</div>
                       <a
                         href="https://maplibre.org/"
                         target="_blank"
@@ -1504,7 +1504,7 @@ export default function Docs() {
                           Map Tiler
                         </div>
                       </a>{" "}
-                      <div className="">For a beautiful map layout.</div>
+                      <div className="">For the map layout.</div>
                       <a
                         href="https://www.maptiler.com/"
                         target="_blank"

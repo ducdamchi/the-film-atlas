@@ -163,7 +163,7 @@ export default function Films() {
   }, [sortBy, sortDirection, queryString, numStars])
 
   return (
-    <div className="font-primary mt-20">
+    <div className="font-primary mt-20 min-h-screen">
       {/* {isLoading && <LoadingPage />} */}
       {/* Quick Search Modal */}
       {searchModalOpen && (

@@ -48,7 +48,7 @@ export default function LogIn() {
     password: Yup.string().required("Password is required."),
   })
   return (
-    <div className="font-primary auth-whole mt-10">
+    <div className="font-primary auth-whole mt-10 min-h-screen">
       <AuthBg />
 
       {searchModalOpen && (

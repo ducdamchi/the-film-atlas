@@ -30,6 +30,8 @@ export default function NavBar() {
   const settingsBorderBottom = useRef(null)
   const settingsBorderRight = useRef(null)
   const navigate = useNavigate()
+  const [screenWidth, setScreenWidth] = useState(null)
+  const [mobileMenu, setMobileMenu] = useState(null)
 
   //unit: rem
   const navbarHeight = 4.5
@@ -169,145 +171,170 @@ export default function NavBar() {
     )
   }, [settingsOpened])
 
+  /* Dynamically obtain screen width of window */
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth)
+    }
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (screenWidth >= 1024) {
+      setMobileMenu(false)
+      setMenuOpened(false)
+    } else {
+      setMobileMenu(true)
+    }
+  }, [screenWidth])
+
   return (
     <div
       className={`fixed top-0 left-0 font-primary flex items-center justify-between w-screen p-0 md:p-3 md:pl-[2rem] md:pr-[2rem] bg-black text-stone-200 border-[#b8d5e5] z-400`}
       style={{ height: `${navbarHeight}rem` }}>
       {/* LEFT SIDE */}
       <div className="flex items-center justify-center gap-3 lg:gap-5 min-w-[12rem] ml-4">
-        {/* MOBILE - APP NAME */}
-        <div className="lg:hidden h-full flex items-center justify-center pt-0 z-30">
-          <button className="mr-2">
-            {menuOpened.isOpened ? (
-              <MdClose
-                className="text-xl mb-[2px]"
-                onClick={() =>
-                  setMenuOpened({
-                    isOpened: false,
-                    isNeutral: false,
-                  })
-                }
-              />
-            ) : (
-              <MdMenu
-                className="text-xl mb-[2px]"
-                onClick={() =>
-                  setMenuOpened({
-                    isOpened: true,
-                    isNeutral: false,
-                  })
-                }
-              />
-            )}
-          </button>
-          <span
-            onClick={() => {
-              navigate("/about")
-            }}
-            className="font-logo text-base uppercase font-black flex items-center justify-center p-1 cursor-pointer">
-            The Film Atlas
-          </span>
-          <button
-            className="flex items-center justify-center ml-2 p-[5px] pl-[10px] pr-[10px] rounded-full bg-stone-200 text-stone-900 cursor-pointer"
-            onClick={() => {
-              setSearchModalOpen(true)
-            }}>
-            <BiSearchAlt2 className="text-[10px]" />
-          </button>
-        </div>
+        {mobileMenu && (
+          <>
+            {/* MOBILE - APP NAME */}
+            <div className="lg:hidden h-full flex items-center justify-center pt-0 z-30">
+              <button className="mr-2">
+                {menuOpened.isOpened ? (
+                  <MdClose
+                    className="text-xl mb-[2px]"
+                    onClick={() =>
+                      setMenuOpened({
+                        isOpened: false,
+                        isNeutral: false,
+                      })
+                    }
+                  />
+                ) : (
+                  <MdMenu
+                    className="text-xl mb-[2px]"
+                    onClick={() =>
+                      setMenuOpened({
+                        isOpened: true,
+                        isNeutral: false,
+                      })
+                    }
+                  />
+                )}
+              </button>
+              <span
+                onClick={() => {
+                  navigate("/about")
+                }}
+                className="font-logo text-base uppercase font-black flex items-center justify-center p-1 cursor-pointer">
+                The Film Atlas
+              </span>
+              <button
+                className="flex items-center justify-center ml-2 p-[5px] pl-[10px] pr-[10px] rounded-full bg-stone-200 text-stone-900 cursor-pointer"
+                onClick={() => {
+                  setSearchModalOpen(true)
+                }}>
+                <BiSearchAlt2 className="text-[10px]" />
+              </button>
+            </div>
 
-        {/* MOBILE - HAMBURGER MENU CONTENT */}
-        <div
-          className={`hidden absolute z-20 left-0 bg-black border-[#b8d5e5] w-[50vw] pl-5 pb-5 pt- transition-all ease-out duration-200 font-light z-100 md:pl-12`}
-          style={{
-            height: `${menuHeight}rem`,
-            top: `${navbarHeight - navbarBorderWidth}rem`,
-          }}
-          ref={menuRef}>
-          <ul className="flex flex-col gap-2 text-sm">
-            <CustomLink
-              to="/map"
-              exact={false}
-              onClick={() => {
-                setMenuOpened({ isOpened: false, isNeutral: true })
-                setSettingsOpened({ isOpened: false, isNeutral: true })
-              }}>
-              MAP
-            </CustomLink>
-            <CustomLink
-              to="/films"
-              exact={false}
-              onClick={() => {
-                setMenuOpened({ isOpened: false, isNeutral: true })
-                setSettingsOpened({
-                  isOpened: false,
-                  isNeutral: true,
-                })
-              }}>
-              FILMS
-            </CustomLink>
-            <CustomLink
-              to="/directors"
-              exact={false}
-              onClick={() => {
-                setMenuOpened({ isOpened: false, isNeutral: true })
-                setSettingsOpened({ isOpened: false, isNeutral: true })
-              }}>
-              DIRECTORS
-            </CustomLink>
-            <CustomLink
-              to="/about"
-              exact={false}
-              onClick={() => {
-                setMenuOpened({ isOpened: false, isNeutral: true })
+            {/* MOBILE - HAMBURGER MENU CONTENT */}
+            <div
+              className={`hidden absolute z-20 left-0 bg-black border-[#b8d5e5] w-[50vw] pl-5 pb-5 pt- transition-all ease-out duration-200 font-light z-100 md:pl-12`}
+              style={{
+                height: `${menuHeight}rem`,
+                top: `${navbarHeight - navbarBorderWidth}rem`,
+              }}
+              ref={menuRef}>
+              <ul className="flex flex-col gap-2 text-sm">
+                <CustomLink
+                  to="/map"
+                  exact={false}
+                  onClick={() => {
+                    setMenuOpened({ isOpened: false, isNeutral: true })
+                    setSettingsOpened({ isOpened: false, isNeutral: true })
+                  }}>
+                  MAP
+                </CustomLink>
+                <CustomLink
+                  to="/films"
+                  exact={false}
+                  onClick={() => {
+                    setMenuOpened({ isOpened: false, isNeutral: true })
+                    setSettingsOpened({
+                      isOpened: false,
+                      isNeutral: true,
+                    })
+                  }}>
+                  FILMS
+                </CustomLink>
+                <CustomLink
+                  to="/directors"
+                  exact={false}
+                  onClick={() => {
+                    setMenuOpened({ isOpened: false, isNeutral: true })
+                    setSettingsOpened({ isOpened: false, isNeutral: true })
+                  }}>
+                  DIRECTORS
+                </CustomLink>
+                <CustomLink
+                  to="/about"
+                  exact={false}
+                  onClick={() => {
+                    setMenuOpened({ isOpened: false, isNeutral: true })
 
-                setSettingsOpened({
-                  isOpened: false,
-                  isNeutral: true,
-                })
-              }}>
-              ABOUT
-            </CustomLink>
-            <CustomLink
-              to="/contact"
-              exact={false}
-              onClick={() => {
-                setMenuOpened({ isOpened: false, isNeutral: true })
+                    setSettingsOpened({
+                      isOpened: false,
+                      isNeutral: true,
+                    })
+                  }}>
+                  ABOUT
+                </CustomLink>
+                <CustomLink
+                  to="/contact"
+                  exact={false}
+                  onClick={() => {
+                    setMenuOpened({ isOpened: false, isNeutral: true })
 
-                setSettingsOpened({
-                  isOpened: false,
-                  isNeutral: true,
-                })
-              }}>
-              CONTACT
-            </CustomLink>
-            <CustomLink
-              to="/docs"
-              exact={false}
-              onClick={() => {
-                setMenuOpened({ isOpened: false, isNeutral: true })
-                setSettingsOpened({ isOpened: false, isNeutral: true })
-              }}>
-              DOCS
-            </CustomLink>
-          </ul>
-        </div>
-        <div
-          className={`hidden absolute left-0 bg-[#d5e5b8] z-20 transition-all ease-out duration-400`}
-          style={{
-            height: `${borderWidth}rem`,
-            width: `calc(50vw + ${borderWidth}rem)`,
-            top: `${navbarHeight + menuHeight - navbarBorderWidth}rem`,
-          }}
-          ref={menuBorderBottom}></div>
-        <div
-          className="hidden absolute w-[0.4rem] h-[6rem] left-[50vw] top-[3rem] bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
-          style={{
-            height: `${menuHeight}rem`,
-            width: `${borderWidth}rem`,
-            top: `${navbarHeight - navbarBorderWidth}rem`,
-          }}
-          ref={menuBorderRight}></div>
+                    setSettingsOpened({
+                      isOpened: false,
+                      isNeutral: true,
+                    })
+                  }}>
+                  CONTACT
+                </CustomLink>
+                <CustomLink
+                  to="/docs"
+                  exact={false}
+                  onClick={() => {
+                    setMenuOpened({ isOpened: false, isNeutral: true })
+                    setSettingsOpened({ isOpened: false, isNeutral: true })
+                  }}>
+                  DOCS
+                </CustomLink>
+              </ul>
+            </div>
+            <div
+              className={`hidden absolute left-0 bg-[#d5e5b8] z-20 transition-all ease-out duration-400`}
+              style={{
+                height: `${borderWidth}rem`,
+                width: `calc(50vw + ${borderWidth}rem)`,
+                top: `${navbarHeight + menuHeight - navbarBorderWidth}rem`,
+              }}
+              ref={menuBorderBottom}></div>
+            <div
+              className="hidden absolute w-[0.4rem] h-[6rem] left-[50vw] top-[3rem] bg-[#e5b8d5] z-20 transition-all ease-out duration-400"
+              style={{
+                height: `${menuHeight}rem`,
+                width: `${borderWidth}rem`,
+                top: `${navbarHeight - navbarBorderWidth}rem`,
+              }}
+              ref={menuBorderRight}></div>
+          </>
+        )}
 
         {/* LAPTOP - APP NAME*/}
         <div className="hidden lg:flex h-full items-center justify-center">
